@@ -1,1 +1,1 @@
-web: gunicorn Smart_FP.wsgi --log-file
+web: gunicorn Smart_FP.wsgi --log-file -
