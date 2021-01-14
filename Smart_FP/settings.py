@@ -13,7 +13,7 @@ SECRET_KEY = '_9t4h)m56nsf58*rrp(*p((2_dmv*h@j1fo$y$cs2zv!ty%n2c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["smartfinder234.herokuapp.com", "127.0.0.1:8000"]
+ALLOWED_HOSTS = ["*"]
 
 AUTH_USER_MODEL = "core.customUser"
 # Application definition
@@ -134,6 +134,7 @@ STATIC_ROOT = BASE_DIR / 'assets'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTHENTICATION_BACKENDS = ['core.EmailBackEnd.EmailBackEnd']
+
 
 
 import dj_database_url
