@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title> Smart | {% block title %}  {% endblock title %} </title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script><meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
+
+
+    <link rel="stylesheet" href="{% static 'vendor/simple-line-icons/css/simple-line-icons.css' %}">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+  
+    <link rel="stylesheet" href="{% static 'device-mockups/device-mockups.min.css' %}">
+  
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+  
+    <link rel="icon" href="{% static 'favicons/favicon2.ico'  %}">
+  
+    <link href="{% static 'csss/bootstrap.min.css'  %}" rel="stylesheet">
+  
+    <link href="{% static 'csss/mdb.min.css' %}" rel="stylesheet">
+  
+    <link href="{% static 'csss/style.min.css' %}" rel="stylesheet">
+  
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+
+    
+    <script src="https://use.typekit.net/hoy3lrg.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+    <link rel = 'stylesheet' href = "{% static 'mainn.css' %}">
+    <script type = "text/js" href = "{% static 'mainn.js' %}"> </script>
+</head>
+
+<body>
+<!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar" style = "background-color:rgb(25, 23, 41); font-family:Helvetica, Arial, sans-serif">
+    <div class="container"> 
+        <!-- Brand -->
+        <a class="navbar-brand" href="{% url 'smart_home' %}" target="_blank">
+        <strong style = "color:rgb(226, 226, 64)">Smart Finder</strong>
+        </a>
+    
+        <!-- Collapse -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item mr-2">
+            <a class="nav-link" href="{% url 'smart_home' %}"> Homeboard
+                <span class="sr-only"></span>
+            </a>
+            </li>
+        </ul>
+    
+        <!-- Right -->
+        <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">Logout </i></a>
+            </li>
+        </ul>
+        </div>
+    </div>
+    </nav>
+<!-- Navbar -->
+<br><br><br><br><br><br><br><br><br><br>
+
+  {% block content %}
+
+  {% endblock content %}
+
+  {% block custom_js %} 
+  
+  {% endblock custom_js %}
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+{% extends 'user_templates/base.html' %}
+
+{% block title %}
+    Update profile
+{% endblock title %}
+
+
+{% block content %}<br><br><br><br><br><br><br>
+{% if request.user.account_type == "2" %}
+    <div class = "container mb-5">
+        <div class = "row">
+            <div class = "col-lg-10 col-md-10 col-sm-12 co-xs-12">
+                <div class = "card">
+                    <div class = "card-header">
+                        <h5> <b> PROFILE INFO UPDATE </b> </h5>
+                    </div>
+                    <div class = "card-body">
+                        <form method = "POST" action = "{% url 'update_profile_buyer_save' %}" enctype="multipart/form-data"> {% csrf_token %}
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "email"> <b> EMAIL </b> </label>
+                                <div class = "col-md-6 col-sm-6">
+                                    <input type = "text" class = "form-control form-control-lg" id = "email" name = "email" value = "{{buyer.admin.email}}" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "username"> <b> USERNAME </b> </label>
+                                <div class = "col-md-6 col-sm-6">
+                                    <input type = "text" class = "form-control form-control-lg" id = "username" name = "username" value = "{{buyer.admin.username}}" required>
+                                    <input type = "hidden" value = {{buyer.admin.id}} name = "user_id">
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "image"> <b> PROFILE IMAGE </b> </label>
+                                <div class = "col-lg-6 col-md-6 col-sm-6">
+                                    <div class ="row">
+                                        <div class = "col-md-1 col-sm-3">
+                                            <img class = "rounded-circle inline" style = "height:50px; width:50px;"src = "{{buyer.image}}">
+                                        </div>
+                                        <div class = "col-md-5 col-sm-3">
+                                            <input type = "file" class = "form-control-file form-control-lg" id = "image" name = "image">
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row">
+                                {% if messages %}
+                                    <div class = "col-12">
+                                    {% for message in messages %}
+                                        {% if message.tags == 'error' %}
+                                        <div class = "alert alert-danger mb-2 mt-2 text-dark">
+                                            {{message}}
+                                        </div>
+                                        {% endif %}
+                                        {% if message.tags == 'success' %}
+                                        <div class = "alert alert-success mb-2 mt-2 text-dark">
+                                            {{message}}
+                                        </div>
+                                        {% endif %}
+                                    {%endfor %}
+                                    </div>              
+                                {% endif %}
+                            </div>
+                            <button type = "submit" style = "border-radius:20px; width:100%;" class = "btn btn-transparent" data-toggle="tooltip" data-placement="bottom" title="You can always come back to update your profile"> 
+                                <b>Update Info </b><i class= "fas fa-info ml-2"> </i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<br><br>
+{% endblock content %}
+

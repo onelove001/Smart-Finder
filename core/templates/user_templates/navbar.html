@@ -1,0 +1,100 @@
+<style>    
+  * {
+ box-sizing: border-box;
+}
+
+/* Style the search field */
+form.example input[type=text] {
+ padding: 10px;
+ font-size: 17px;
+ border: 1px solid grey;
+ float: left;
+ width: 75%;
+ background:transparent;
+}
+
+/* Style the submit button */
+form.example button {
+ float: left;
+ width:25%;
+ padding: 10px;
+ background: transparent;
+ color: rgb(208, 199, 199);
+ font-size: 17px;
+ border: 1px solid grey;
+ border-left: none; /* Prevent double borders */
+ cursor: pointer;
+}
+
+form.example button:hover {
+ background: #d0e6fa;
+}
+
+/* Clear floats */
+form.example::after {
+ content: "";
+ clear: both;
+ display: table;
+
+ }
+
+ </style>
+
+<!-- Navbar -->
+ <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="{% url 'smart_home' %}" target="_blank">
+      <strong style = "color:rgb(226, 226, 64)">Smart Finder</strong>
+    </a>
+
+    <!-- Collapse -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- Left -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="{% url 'smart_home' %}"> Homeboard
+            <span class="sr-only"></span>
+          </a>
+        </li>
+        <li class="nav-item mr-2">
+          <a class="nav-link" href="{% url 'seller_page' %}">Become a seller
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"> Explore
+          </a>
+        </li>
+      </ul>
+
+      <!-- Right -->
+      <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item mr-3">
+          <form class="example mr-3" action="{% url 'search' %}" method = "POST">{% csrf_token %}
+            <div style = "width:300px;">
+              <input type="text" placeholder="Smart Search.." name="search">
+              <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+          </form>
+        </li>
+        <li class="nav-item mr-3">
+          <a href="{% url 'user_profile' %}" class="nav-link border border-light rounded waves-effect waves-light">
+            User <i class="fas fa-user ml-1 mr-2"></i> 
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout_user' %}">Logout </i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Navbar -->

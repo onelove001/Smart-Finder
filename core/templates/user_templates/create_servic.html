@@ -1,0 +1,300 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title> Smart | ServiceCreate </title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="{% static 'vendor/simple-line-icons/css/simple-line-icons.css' %}">
+
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'device-mockups/device-mockups.min.css' %}">
+
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+
+  <link rel="icon" href="{% static 'favicons/favicon2.ico'  %}">
+
+  <link href="{% static 'csss/bootstrap.min.css'  %}" rel="stylesheet">
+
+  <link href="{% static 'csss/mdb.min.css' %}" rel="stylesheet">
+
+  <link href="{% static 'csss/style.min.css' %}" rel="stylesheet">
+
+  <link href="{% static 'style.css' %}" rel="stylesheet">
+
+
+<!-- Navbar -->
+ <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar mb-5">
+    <div class="container">
+  
+      <!-- Brand -->
+      <a class="navbar-brand" href="{% url 'smart_home' %}" target="_blank">
+        <strong style = "color:rgb(226, 226, 64)">Smart Finder</strong>
+      </a>
+  
+      <!-- Collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Links -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="{% url 'smart_home' %}"> Homeboard
+              <span class="sr-only"></span>
+            </a>
+          </li>
+        </ul>
+  
+        <!-- Right -->
+        <ul class="navbar-nav nav-flex-icons">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">Logout </i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+ </nav>
+<!-- Navbar -->
+
+<br><br><br><br><br>
+<!-- section form -->
+  <section class = "mt-5 mb-5">
+    <div class = "container">
+      <form action = "{% url 'create_service_save' %}" method = "POST" enctype="multipart/form-data"> {% csrf_token %}
+        <!-- Person information  -->
+        <div id = "personal">
+          <h1> <b class = "mb-2"> Create Service </b> </h1>
+          <p class = "text-muted"> Tell us a bit about the service you want to render. This service will appear on your public profile, <br> so that potential buyers can get to know you better. </p>
+          <hr>
+              
+          <div class = "form-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for = "owner"> <b> User Owner </b> </label>
+            <div class="md-form my-0 col-8">
+              <input name = "owner" id = "owner" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" value = {{request.user.username}} disabled>
+              <input name = "owner_id" type = "hidden" value = "{{request.user.id}}">
+            </div>
+          </div>
+          <br>
+
+          <div class = "form-group row mt-4">
+              <label class = "col-4 col-form-label col-form-label-lg" for = "title"> <b> Service Title </b> </label>
+              <div class="md-form my-0 col-8">
+                <input name = "title" id = "title" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" placeholder="Enter service title">
+              </div>
+          </div>
+          <br>
+
+          <div class = "form-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for = "charge"> <b> Charge </b> </label>
+            <div class="md-form my-0 col-8">
+              <input name = "charge" id = "charge" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" placeholder="Enter charge">
+            </div>
+          </div>
+          <br>
+
+          <div class = "form-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for = "cat"> <b> Category </b> </label>
+            <div class="md-form my-0 col-8">
+              <select class = "form-control form-control-lg mr-sm-1" name = "cat" id="cat" style = "width:100%;">
+                {% for cat in categories %}
+                  <option value = {{cat.id}}> {{cat.category_title}} </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <br>
+
+          <div class = "form-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for = "sub_cat"> <b> Sub Category </b> </label>
+            <div class="md-form my-0 col-8">
+              <select class = "form-control form-control-lg mr-sm-1" name = "sub_cat" id="cat" style = "width:100%;">
+                {% for cat in sub_categories %}
+                  <option value = {{cat.id}}> {{cat}} </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <br>
+
+          <div class = "form-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for = "plan"> <b> Plan </b> </label>
+            <div class="md-form my-0 col-8">
+              <select class = "form-control form-control-lg mr-sm-1" name = "plan" id="plan" style = "width:100%;">
+                {% for plan in plans %}
+                  <option value = {{plan.id}}> {{plan.plan_name}} </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <br>
+
+          <div class = "form-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for = "description"> <b> Description </b> </label>
+            <div class="md-form my-0 col-8">
+              <textarea rows = 6 name = "description" id = "description" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text"> </textarea>
+            </div>
+          </div>
+          <br>
+
+          <div class = "form-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for = "function"> <b> Function </b> </label>
+            <div class="md-form my-0 col-8">
+              <textarea rows = 6 name = "function" id = "function" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text"> </textarea>
+            </div>
+          </div>
+          <br>
+
+          <div class="input-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for="image1">  <b> Main Image </b> </label>
+            <div class = "col-8">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="image1" name = "image1">
+                <label class="custom-file-label" for="image1">Select image</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for="image2">  <b> Service Image2 </b> </label>
+            <div class = "col-8">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="image2" name = "image2">
+                <label class="custom-file-label" for="image2">Select image</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group row mt-4">
+            <label class = "col-4 col-form-label col-form-label-lg" for="image3">  <b> Service Image3 </b> </label>
+            <div class = "col-8">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="image3" name = "image3">
+                <label class="custom-file-label" for="image">Select image</label>
+              </div>
+            </div>
+          </div>
+
+          <br><hr><br>
+          <div class = "form-group row">
+            {% if messages %}
+                <div class = "col-12">
+                  {% for message in messages %}
+                      {% if message.tags == 'error' %}
+                      <div class = "alert alert-danger mb-2 mt-2" style = "border-radius:2px; width:100%;">
+                          {{message}}
+                      </div>
+                      {% endif %}
+                      {% if message.tags == 'success' %}
+                      <div class = "alert alert-success mb-2 mt-2" style = "border-radius:2px; width:100%;">
+                          {{message}}
+                      </div>
+                      {% endif %}
+                  {%endfor %}
+                </div>              
+            {% endif %}
+          </div>
+          <div class = "form-group row">
+            <div class = "col-12">
+              <button type = "submit" style = "border-radius:20px; width:100%;" class = "btn btn-transparent"> 
+                  <b>Create Service</b> <i class= "fas fa-user-plus ml-2"> </i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <br><br><br><br><br>
+    </div>
+  </section>
+<!-- section form -->
+
+      
+<!-- Footer -->
+  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+    <div class="container">
+       <!-- Social icons -->
+    <div class="pb-4">
+      <br>
+      <a href="https://www.facebook.com/mdbootstrap" target="_blank">
+        <i class="fab fa-facebook-f mr-3"></i>
+      </a>
+
+      <a href="https://twitter.com/MDBootstrap" target="_blank">
+        <i class="fab fa-twitter mr-3"></i>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=7MUISDJ5ZZ4" target="_blank">
+        <i class="fab fa-youtube mr-3"></i>
+      </a>
+
+      <a href="https://plus.google.com/u/0/b/107863090883699620484" target="_blank">
+        <i class="fab fa-google-plus-g mr-3"></i>
+      </a>
+
+      <a href="https://dribbble.com/mdbootstrap" target="_blank">
+        <i class="fab fa-dribbble mr-3"></i>
+      </a>
+
+      <a href="https://pinterest.com/mdbootstrap" target="_blank">
+        <i class="fab fa-pinterest mr-3"></i>
+      </a>
+
+      <a href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">
+        <i class="fab fa-github mr-3"></i>
+      </a>
+
+      <a href="http://codepen.io/mdbootstrap/" target="_blank">
+        <i class="fab fa-codepen mr-3"></i>
+      </a>
+    </div>
+    <!-- Social icons -->
+
+      <p>&copy; SmartFinder 2020. All Rights Reserved.</p>
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <a href="#">Privacy</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">Terms</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">FAQ</a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+<!--/.Footer-->
+
+<!-- JQuery -->  
+<script type="text/javascript" src="{% static 'jss/jquery-3.4.1.min.js' %}"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="{% static 'jss/popper.min.js' %}"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="{% static 'jss/bootstrap.min.js' %}"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'jss/mdb.min.js' %}"></script>
+<!-- Initializations -->
+<script type="text/javascript">
+  // Animations initialization
+  new WOW().init();
+</script>
+
+</body>
+
+</html>

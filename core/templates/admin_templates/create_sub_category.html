@@ -1,0 +1,57 @@
+{% extends 'admin_templates/base.html' %}
+{% load static %}
+
+{% block title %} Admin #sub_category+ {% endblock title %}
+
+{% block page_title %} Admin Add Sub Category {% endblock page_title %}
+
+{% block main_content %}
+  <section class="content">
+    <div class="container-fluid">
+      <div class = "row">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"> Add Sub Category </h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" method = "POST" action = "{% url 'create_sub_category_save' %}"> {% csrf_token %}
+                <div class="card-body">
+                
+                  <div class="form-group">
+                    <label for="category_id"> Category Title</label>
+                    <select name = "category_id" class = "form-control" id = "category_id"> 
+                        {% for cat in categories %}
+                            <option value = {{cat.id}}> {{cat.category_title}} </option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="title"> Sub Category Title</label>
+                    <input type="text" class="form-control" id="title" placeholder="enter title" name = "title" required>
+                  </div>       
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </div>
+                {% if messages %}
+                    <div class = "col-12">
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class = 'alert alert-danger' style = "margin-top:7px;"> {{ message }} </div>
+                        {% elif message.tags == 'success' %}
+                            <div class = 'alert alert-success' style = "margin-top:7px"> {{ message }}</div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock main_content %}

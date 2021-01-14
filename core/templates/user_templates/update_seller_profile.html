@@ -1,0 +1,174 @@
+{% extends 'user_templates/base.html' %}
+
+{% block title %}
+    Update profile
+{% endblock title %}
+
+
+{% block content %}<br><br><br><br><br><br><br>
+{% if request.user.account_type == "3" %}
+    <div class = "container mb-5">
+        <div class = "row">
+            <div class = "col-lg-12 col-md-12 col-sm-12 co-xs-12">
+                <div class = "card">
+                    <div class = "card-header">
+                        <h5> <b> Update Your Profile </b> </h5>
+                    </div>
+                    <div class = "card-body">
+                        <form method = "POST" action = "{% url 'update_profile_seller_save' %}" enctype="multipart/form-data"> {% csrf_token %}
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "email"> <b> Email </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <input type = "text" class = "form-control form-control-lg" id = "email" name = "email" value = "{{seller.admin.email}} - (can't be altered)" disabled>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "firstname"> <b> First name </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <input type = "text" class = "form-control form-control-lg" id = "firstname" name = "firstname" value = "{{seller.admin.first_name}}" required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "lastname"> <b> Last name </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <input type = "text" class = "form-control form-control-lg" id = "lastname" name = "lastname" value = "{{seller.admin.last_name}}" required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "shortname"> <b> Short name </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <input type = "text" class = "form-control form-control-lg" id = "shortname" name = "shortname" value = "{{seller.short_name}}" required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "username"> <b> Username </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <input type = "text" class = "form-control form-control-lg" id = "username" name = "username" value = "{{seller.admin.username}}" required>
+                                    <input type = "hidden" name = "user_id" value = {{seller.admin.id}}>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "description"> <b> Description </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <textarea rows="4" class = "form-control form-control-lg" id = "description" name = "description" value = "{{seller.description}}"> {{seller.description}} </textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "address"> <b> Address </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <input type = "text" class = "form-control form-control-lg" id = "address" name = "address" value = "{{seller.address}}" required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "phone"> <b> Cell phone </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <input type = "text" class = "form-control form-control-lg" id = "phone" name = "phone" value = "{{seller.phone_number}}" required>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "cat"> <b> Category </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <select class = "form-control form-control-lg" id = "cat" name = "cat" disabled>
+                                        {% for cat in categories %}
+                                            <option value = {{cat.id}} {% if seller.category.id == cat.id %} selected {% endif %}> {{cat.category_title}} - (can't be altered)</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "sub_cat"> <b> Sub category </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <select class = "form-control form-control-lg" id = "sub_cat" name = "sub_cat" disabled>
+                                        {% for cat in sub_categories %}
+                                            <option value = {{cat.id}} {% if seller.sub_category.id == cat.id %} selected {% endif %}> {{cat}} - (can't be altered)</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "level"> <b> Xperience Level </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <select class = "form-control form-control-lg" id = "level" name = "level">
+                                        {% for level in levels %}
+                                            <option value = {{level.id}} {% if seller.experience_level.id == level.id %} selected {% endif %}> {{level.level}} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "lang"> <b> Language </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <select class = "form-control form-control-lg" id = "lang" name = "lang">
+                                        {% for lang in languages %}
+                                            <option value = {{lang.id}} {% if seller.language.id == lang.id %} selected {% endif %}> {{lang.language_name}} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "gender"> <b> Gender </b> </label>
+                                <div class = "col-md-6 col-sm-6 md-form my-0">
+                                    <select class = "form-control form-control-lg" id = "gender" name = "gender">
+                                        <option {% if seller.gedner == 'Male' %} selected {% endif %}> Male </option>
+                                        <option {% if seller.gender == 'Female' %} selected {% endif %}> Female </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row mt-4">
+                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "image"> <b> Profile Image </b> </label>
+                                <div class = "col-lg-6 col-md-6 col-sm-6">
+                                    <div class ="row">
+                                        <div class = "col-md-1 col-sm-3">
+                                            <img class = "rounded-circle inline" style = "height:50px; width:50px;"src = "{{seller.image}}" name = "image">
+                                        </div>
+                                        <div class = "col-md-5 col-sm-3">
+                                            <input type = "file" class = "form-control-file form-control-lg" id = "image" name = "image">
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <br>
+                            <div class = "form-group row">
+                                {% if messages %}
+                                    <div class = "col-12">
+                                    {% for message in messages %}
+                                        {% if message.tags == 'error' %}
+                                        <div class = "alert alert-danger mb-2 mt-2 text-dark">
+                                            {{message}}
+                                        </div>
+                                        {% endif %}
+                                        {% if message.tags == 'success' %}
+                                        <div class = "alert alert-success mb-2 mt-2 text-dark">
+                                            {{message}}
+                                        </div>
+                                        {% endif %}
+                                    {%endfor %}
+                                    </div>              
+                                {% endif %}
+                            </div>
+                            <button type = "submit" style = "border-radius:20px; width:100%;" class = "btn btn-transparent" data-toggle="tooltip" data-placement="bottom" title="You can always come back to update your profile"> 
+                                <b>Update Info </b><i class= "fas fa-info ml-2"> </i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<br><br>
+{% endblock content %}
+

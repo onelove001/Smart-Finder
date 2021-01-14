@@ -1,0 +1,880 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title> Smart-Finder</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'vendor/simple-line-icons/css/simple-line-icons.css' %}">
+
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  
+  <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+  <!-- Plugin CSS -->
+  <link rel="stylesheet" href="{% static 'device-mockups/device-mockups.min.css' %}">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/new-age.min.css' %}" rel="stylesheet">
+  <link rel="icon" href="{% static 'favicons/favicon2.ico'  %}">
+  <!-- Font Awesome -->
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'csss/bootstrap.min.css'  %}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="{% static 'csss/mdb.min.css' %}" rel="stylesheet">
+
+  <!-- Your custom styles (optional) -->
+  
+  <link href="{% static 'csss/style.min.css' %}" rel="stylesheet">
+  <link href="{% static 'style.css' %}" rel="stylesheet">
+  <style type="text/css">
+
+    html,
+    body,
+    header,
+    .carousel {
+      height: 50vh;
+    }
+
+    @media (max-width: 740px) {
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+  </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top"> Smart Finder </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#people"> People </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#features">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">News Letter</a>
+          </li>
+          <li class = "nav-item">
+            <a class = "nav-link js-scroll-trigger" type="" data-toggle="modal" data-target="#signUp_Modal">
+              Join Smart
+            </a>
+          </li>
+          <li class = "nav-item">
+            <a class = "nav-link js-scroll-trigger" type="" data-toggle="modal" data-target="#Login_modal">
+              Login Smart
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel" style = "height:900px;">
+
+    <!--Indicators-->
+    <ol class="carousel-indicators">
+      <li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
+      <li data-target="#carousel-example-1z" data-slide-to="1"></li>
+      <li data-target="#carousel-example-1z" data-slide-to="3"></li>
+      <li data-target="#carousel-example-1z" data-slide-to="4"></li>
+    </ol>
+    <!--/.Indicators-->
+
+    <!--Slides-->
+    <div class="carousel-inner" role="listbox">
+
+      <!--First slide-->
+      <div class="carousel-item active">
+        <div class="view" style="background-image: url(../../../media/backGrounds/background6.jpg); background-repeat: no-repeat; background-size: cover;">
+
+          <!-- Mask & flexbox options-->
+          <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+
+            <!-- Content -->
+            <div class="text-center white-text mx-5 mt-5 wow fadeIn">
+              <h2 class="mb-2">
+                <strong><b> FIND YOURSELF A PERFECT SELLER </b></strong>
+              </h2><br>
+              <p class = "h6"> YOUR BEST OPTION IS WAITING <i class = "ml-2 fas fa-phone"> </i> </p><hr>
+
+              <p class="mb-4 d-none d-md-block">
+                <form class = "form-group" method = "POST" action = "{% url 'search' %}"> {% csrf_token %}
+                    <input style="width:100%; height:50px;" type = "search" name = "search_carousel" class = "form-control" required placeholder=" Filter by searching... "><br>
+                    <button style= "width:100%;color:transparent;" type = "submit" href="#" class="btn btn-outline-white btn-lg mt-3"> Find Me! <i class="fas fa-search ml-2"> </i> </button>
+                </form>
+              </p>
+            </div>
+            <!-- Content -->
+
+          </div>
+          <!-- Mask & flexbox options-->
+
+        </div>
+      </div>
+      <!--/First slide-->
+
+      <!--Second slide-->
+      <div class="carousel-item">
+        <div class="view" style="background-image: url(../../../media/backGrounds/pic17.jpg); background-repeat: no-repeat; background-size: cover;">
+
+          <!-- Mask & flexbox options-->
+          <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+
+            <!-- Content -->
+            <div class="text-center white-text mx-5 mt-5 wow fadeIn">
+              <h2 class="mb-2">
+                <strong><b> FIND YOURSELF A PERFECT SELLER </b></strong>
+              </h2><br>
+              <p class = "h6"> YOUR BEST OPTION IS WAITING <i class = "ml-2 fas fa-phone"> </i> </p><hr>
+
+              <p class="mb-4 d-none d-md-block">
+                <form class = "form-group" method = "POST" action = "{% url 'search' %}">{% csrf_token %}
+                    <input style="width:100%; height:50px;" type = "search" name = "search_carousel" class = "form-control" required placeholder=" Filter by searching..."><br>
+                    <button style= "width:100%;" type = "submit" href="#" class="btn btn-outline-white btn-lg mt-3"> Am Waiting! <i class="fas fa-search ml-2"> </i> </button>
+                </form>
+              </p>
+            </div>
+            <!-- Content -->
+
+          </div>
+          <!-- Mask & flexbox options-->
+
+        </div>
+      </div>
+      <!--/Second slide-->
+      
+      <!--Third slide-->
+      <div class="carousel-item">
+        <div class="view" style="background-image: url(../../../media/backGrounds/pic15.jpg); background-repeat: no-repeat; background-size: cover;">
+
+          <!-- Mask & flexbox options-->
+          <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+
+            <!-- Content -->
+            <div class="text-center white-text mx-5 mt-5 wow fadeIn">
+              <h2 class="mb-2">
+                <strong><b> FIND YOURSELF A PERFECT SELLER </b></strong>
+              </h2><br>
+              <p class = "h6"> YOUR BEST OPTION IS WAITING <i class = "ml-2 fas fa-phone"> </i> </p><hr>
+
+              <p class="mb-4 d-none d-md-block">
+                <form class = "form-group" method = "POST" action = "{% url 'search' %}">{% csrf_token %}
+                    <input style="width:100%; height:50px;" type = "search" name = "search_carousel" class = "form-control" required placeholder=" Filter by searching..."><br>
+                    <button style= "width:100%;" type = "submit" href="#" class="btn btn-outline-white btn-lg mt-3"> Find Me! <i class="fas fa-search ml-2"> </i> </button>
+                </form>
+              </p>
+            </div>
+            <!-- Content -->
+
+          </div>
+          <!-- Mask & flexbox options-->
+
+        </div>
+      </div>
+      <!--/Third slide-->
+
+      <!--Fourth slide-->
+      <div class="carousel-item">
+        <div class="view" style="background-image: url(../../../media/backGrounds/pic6.jpg); background-repeat: no-repeat; background-size: cover;">
+
+          <!-- Mask & flexbox options-->
+          <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+
+            <!-- Content -->
+            <div class="text-center white-text mx-5 mt-5 wow fadeIn">
+                <h2 class="mb-2">
+                  <strong><b> FIND YOURSELF A PERFECT FREELANCER </b></strong>
+                </h2><br>
+  
+                <p class = "h6"> YOUR BEST OPTION IS WAITING <i class = "ml-2 fas fa-phone"> </i> </p><hr>
+  
+                <p class="mb-4 d-none d-md-block">
+                  <form class = "form-group" method = "POST" action = "{% url 'search' %}">{% csrf_token %}
+                      <input style="width:100%; height:50px;" type = "search" name = "search_carousel" class = "form-control" required placeholder=" Filter by searching... "><br>
+                      <button style= "width:100%;" type = "submit" href="#" class="btn btn-outline-white btn-lg mt-3"> Am Waiting! <i class="fas fa-search ml-2"> </i> </button>
+                  </form>
+                </p>
+            </div>
+            <!-- Content -->
+
+          </div>
+          <!-- Mask & flexbox options-->
+
+        </div>
+      </div>
+      <!--/Fourth slide-->
+    </div>
+    <!--/.Slides-->
+
+    <!--Controls-->
+    <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+    <!--/.Controls-->
+
+  </div>
+  <!--/.Carousel Wrapper-->
+
+  <main id = 'features'>
+      <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mb-1">
+
+      <!-- Navbar brand -->
+      <span class="navbar-brand">Categories:</span>
+
+      <!-- Collapse button -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+          {% for cat in categories %}
+          <li class="nav-item"> <a class="nav-link" href="#"> {{ cat.category_title }} </a> </li>
+          {% endfor %}
+
+        </ul>
+        <!-- Links -->
+
+        <form class="form-inline">
+          <div class="md-form my-0">
+            <input style = "padding:5px 0px 10px 0px;" class=" form-control mr-sm-1" type="text" placeholder="Search..." aria-label="Search">
+            <button class = "btn btn-outline-white"> <i class = "fas fa-search"></i> </button> 
+          </div>
+        </form>
+      </div>  
+      </div>
+      <!-- Collapsible content -->
+
+    </nav>
+    <!--/.Navbar-->
+
+    <!--Section: Features v.3-->
+    <div class="container">
+      <section class="text-center mb-1">
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+          {% for service in pages %}
+            <!--Grid column-->
+            <div class="col-lg-3 col-md-6 mb-4">
+  
+              <!--Card-->
+              <div class="card">
+  
+                <!--Card image-->
+                <div class="view overlay">
+                  <img src="{{service.image1}}" class="card-img-top"
+                    alt="" style = "width:100%; height:160px;">
+                  <a>
+                    <div class="mask rgba-white-slight"></div>
+                  </a>
+                </div>
+                <!--Card image-->
+  
+                <!--Card content-->
+                <div class="card-body text-center">
+                  <!--Category & Title-->
+                  <a href="" class="grey-text">
+                    <h5>{{service.category.category_title}}</h5>
+                  </a>
+                  <h5>
+                    <strong>
+                      <a href="" class="dark-grey-text">{{service.title}}<br> 
+                        <span class="badge badge-pill danger-color">new seller</span>
+                      </a>
+                    </strong>
+                  </h5>
+  
+                  <h4 class="font-weight-bold blue-text">
+                    <strong>{{service.charge}}$</strong>
+                  </h4>
+  
+                </div>
+                <!--Card content-->
+  
+              </div>
+              <!--Card-->
+  
+            </div>
+            <!--Grid column-->
+          {% endfor %}
+  
+        </div>
+        <!--Grid row-->
+  
+      </section>
+      <!--Section: Features v.3-->
+
+    <!--Pagination-->
+      <nav class="d-flex justify-content-center wow fadeIn">
+      <ul class="pagination pg-blue">
+
+        <!--Arrow left-->
+        {% if pages.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{pages.previous_page_number}}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+        {% endif %}
+
+        {% for page in pages.paginator.page_range %}
+          {% if pages.number == page %}
+            <li class="page-item active">
+              <a class="page-link" href="?page={{page}}">{{ page }}
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item active">
+              <a class="page-link" href="?page={{page}}">{{ page }}
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if pages.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{pages.next_page_number}}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+      </nav>
+    </div>
+    <!--Pagination-->
+  </main>
+
+  <section class="cta" id = "contact">
+    <div class="cta-content">
+      <div class="container">
+        <div class = "row">
+          <div class = "col-6">
+            <h3 class = "text-white"><b> JOIN OUR NEWS LETTER </b> <i class = "fas fa-envelope"> </i></h3> <br>
+            <h3 class = "text-white"><b> STAY UPDATED! </b> </h3> <br>
+            <a data-toggle="modal" data-target="#signUp_Modal" class="btn btn-outline btn-xl js-scroll-trigger btn-block">Let's Get Started!</a>
+            <br><br>
+            <form class="form-inline">
+              <div class="md-form my-0">
+                <input style = "padding:5px 0px 10px 0px; width:365px;" class=" form-control form-control-lg mr-sm-1" type="email" placeholder="Email Address">
+                <button class = "btn btn-outline-white" type = "submit"><i class = "fas fa-envelope"></i> submit </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>  
+      </div>
+    </div>
+    <div class="overlay"></div>
+  </section>
+
+<!-- people -->
+  <section class="text-center" style = "background-color: bisque;" id = "people">
+    <div class= "container">
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card image-->
+            <div class="view overlay">
+              <img src="../../../media/backGrounds/pic1.jpg" style = "widows: 100px; height:400px;" class="card-img-top"
+                alt="">
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <hr>
+            <!--Card image-->
+
+            <!--Card content-->
+            <div class="card-body text-center">
+              <h4 class = "text-primary"> Am a programmer</h4>
+              Lorel Ipsum takes the rope and cool off with it start working with GOWIDE now
+              met with ogwide and met with very good one in the town join me in making money
+            </div>
+            <!--Card content-->
+
+          </div>
+          <!--Card-->
+
+        </div>
+        <!--Grid column-->
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card image-->
+            <div class="view overlay">
+              <img src="../../../media/backGrounds/pic4.jpg" style = "widows: 100px; height:400px;" class="card-img-top"
+                alt="">
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <hr>
+            <!--Card image-->
+
+            <!--Card content-->
+            <div class="card-body text-center">
+              <h4 class = "text-primary"> Am into business </h4>
+              Lorel Ipsum takes the rope and cool off with it start working with GOWIDE now
+              met with ogwide and met with very good one in the town join me in making money
+            </div>
+            <!--Card content-->
+
+          </div>
+          <!--Card-->
+
+        </div>
+        <!--Grid column-->
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card image-->
+            <div class="view overlay">
+              <img src="../../../media/backGrounds/pic3.jpg" style = "widows: 100px; height:400px;" class="card-img-top"
+                alt="">
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <hr>
+            <!--Card image-->
+
+            <!--Card content-->
+            <div class="card-body text-center">
+              <h4 class = "text-primary"> Am into graphics design </h4>
+              Lorel Ipsum takes the rope and cool off with it start working with GOWIDE now
+              met with ogwide and met with very good one in the town join me in making money
+            </div>
+            <!--Card content-->
+
+          </div>
+          <!--Card-->
+
+        </div>
+        <!--Grid column-->
+      </div>
+      <div class="header-content mx-auto">
+        <a data-toggle="modal" data-target="#signUp_Modal" class="btn btn-outline btn-xl js-scroll-trigger btn-block"><b class = "text-dark"> Start Now for Free! </b></a>
+      </div>
+    </div>
+  </section>
+<!-- people  -->
+
+  <!-- Modal Sign Up -->
+  <div class="modal fade" id="signUp_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLongTitle"> Sign Up SmartFinder </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <form method = "" action = ""> -->
+            <div class="input-group mb-3" id = "id_span_email">
+              <input type="email" class="form-control" placeholder="Email" name = "email" id = "id_email" required>
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3" id = "id_span_username">
+              <input type="text" class="form-control" placeholder="username" name = "username" id = "id_username" required>
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-user"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="Password" name = "password" id = "id_password" required>
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block" id= "id_submit_button">Sign Up</button>
+              </div>
+            </div>
+          <!-- </form> -->
+          <hr>
+          <div class = "row">
+            <div class = "col-12">
+              <p class="mb-1 mt-2" >
+                <span class = "text-muted mr-2 h6"> Already have an account? </span> <a data-toggle="modal" data-target="#Login_modal" id = "login_button" href="#"> Log In</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Sign In -->
+  <div class="modal fade" id="Login_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="exampleModalLongTitle"> Sign In SmartFinder</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'login_user' %}" method="post"> {% csrf_token %}
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" placeholder="Email" name = "email" id ="login_email">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"> </span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="Password" name = "password" id = "login_password">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <button type="submit" id = "sign_in_button" class="btn btn-primary btn-block">Sign In</button>
+              </div>
+            </div>
+          </form>
+          <hr>
+          <div class = "row">
+            <div class = "col-6">
+              <p class="mb-1 mt-2">
+                <a href="#" class = "text-danger">Forgot Password?</a>
+              </p>
+            </div>
+            <div class = "col-6">
+              <p class="mb-1 mt-2" >
+                <a data-toggle="modal" data-target="#signUp_Modal" href="#" id = "sign_up_button"> Create Smart Account</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+       <!-- Social icons -->
+    <div class="pb-4">
+      <a href="https://www.facebook.com/mdbootstrap" target="_blank">
+        <i class="fab fa-facebook-f mr-3"></i>
+      </a>
+
+      <a href="https://twitter.com/MDBootstrap" target="_blank">
+        <i class="fab fa-twitter mr-3"></i>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=7MUISDJ5ZZ4" target="_blank">
+        <i class="fab fa-youtube mr-3"></i>
+      </a>
+
+      <a href="https://plus.google.com/u/0/b/107863090883699620484" target="_blank">
+        <i class="fab fa-google-plus-g mr-3"></i>
+      </a>
+
+      <a href="https://dribbble.com/mdbootstrap" target="_blank">
+        <i class="fab fa-dribbble mr-3"></i>
+      </a>
+
+      <a href="https://pinterest.com/mdbootstrap" target="_blank">
+        <i class="fab fa-pinterest mr-3"></i>
+      </a>
+
+      <a href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">
+        <i class="fab fa-github mr-3"></i>
+      </a>
+
+      <a href="http://codepen.io/mdbootstrap/" target="_blank">
+        <i class="fab fa-codepen mr-3"></i>
+      </a>
+    </div>
+    <!-- Social icons -->
+
+      <p>&copy; SmartFinder 2020. All Rights Reserved.</p>
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <a href="#">Privacy</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">Terms</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">FAQ</a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="{% static 'js/new-age.min.js' %}"></script>
+
+</body>
+</html>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
+<script src = "{% static 'js/sweetalert2.all.min.js' %}"> </script>
+<script type = "text/javascript">
+  $(document).ready(function(){
+
+    $("#login_button").click(function(){
+        $("#signUp_Modal").modal('hide');
+        $("#Login_modal").modal('hide');    
+    });
+
+    $("#sign_up_button").click(function(){
+      $("#Login_modal").modal('hide');
+      $("#signUp_Modal").modal('hide');
+    });
+
+    
+    $("#id_email").keyup(function(){
+      var email = $(this).val();
+      if (email!="") {
+
+        $.ajax({
+          url:"{% url 'check_email' %}",
+          type:"POST",
+          data:{email:email}
+
+          })
+        .done(function(response){
+          console.log(response)
+          if(response == 'True'){
+
+            $(".email_error").remove();
+            $("<span class = 'email_error' style='padding:5px; color:red; font-weight:normal; font-family:helvetica;'> Email Not Available </span>").insertAfter("#id_span_email")
+         
+          } else {
+
+            $(".email_error").remove();
+            $("<span class = 'email_error' style='padding:5px; color:green; font-weight:normal; font-family:helvetica;'> Email Available </span>").insertAfter("#id_span_email")
+          }
+
+        })
+        .fail(function(){
+          console.log("Failed")
+        })
+      } else {
+        $(".email_error").remove();
+      }
+
+    });
+
+    // =============== username check ==============
+
+    $("#id_username").keyup(function(){
+      var username = $(this).val();
+      if (username!=""){
+        $.ajax({
+          url:"{% url 'check_username' %}",
+          type:"POST",
+          data:{username:username}
+
+        })
+        .done(function(response){
+          console.log(response)
+          if(response == 'True'){
+
+            $(".username_error").remove();
+            $("<span class = 'username_error mt-2' style='padding:5px; color:red; font-weight:normal; font-family:helvetica;'> Username Not Available </span>").insertAfter("#id_span_username")
+        
+          } else {
+
+            $(".username_error").remove();
+            $("<span class = 'username_error mt-2' style='padding:5px; color:green; font-weight:normal; font-family:helvetica;'> Username Available </span>").insertAfter("#id_span_username")
+          }
+
+        })
+        .fail(function(){
+          console.log("Failed")
+        })
+
+    } else {
+      $(".username_error").remove();
+    }
+
+    });
+
+    // =============== sign_up check ==============
+
+    $(document).on("click", "#id_submit_button", function(){
+
+      var username = $("#id_username").val();
+      var email = $("#id_email").val();  
+      var password = $("#id_password").val();  
+      if(username == "" || email == "" || password == ""){
+        Swal.fire({
+          title: 'Error!',
+          text: 'Please Ensure You Fill In All Fields',
+          icon: 'error',
+          footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
+        }) }
+      else {
+
+      $.ajax({
+          url:"{% url 'signup_user' %}",
+          type:"POST",
+          data:{username:username, email:email, password:password}
+      })
+      .done(function(response){
+        if (response == "True"){
+          Swal.fire({
+            title: 'Success!',
+            text: 'Smart Accout Created',
+            icon: 'success',
+            footer: "<h3><a href = '{% url 'landing_page' %}'> Log Me In Now </a></h3>"
+          })
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: 'Account Creation Failed',
+            icon: 'error',
+            footer: "<h3> <a href = '{% url 'landing_page' %}'> Why do i have this issue </a></h3>"
+          });
+        }
+          
+      })
+      .fail(function(){
+        Swal.fire({
+          title: 'Error!',
+          text: 'Please Ensure You Fill All Fields',
+          icon: 'error',
+          footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
+        });
+      })
+     }
+    });
+
+    // =============== login check ==============
+
+    $(document).on("click", "#sign_in_button", function(){
+
+    var email = $("#login_email").val();  
+    var password = $("#login_password").val();  
+
+    if(email == "" || password == ""){
+      Swal.fire({
+        title: 'Error!',
+        text: 'Please Ensure You Fill In All Fields',
+        icon: 'error',
+        footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
+      }) }
+    else {
+
+    $.ajax({
+        url:"{% url 'login_user' %}",
+        type:"POST",
+        data:{email:email, password:password}
+    })
+    .done(function(response){
+        if(response == "False"){
+        Swal.fire({
+        title: 'Error!',
+        text: 'Incorrect Email or Password',
+        icon: 'error',
+        footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
+      });
+     }
+    })
+    .fail(function(){
+      Swal.fire({
+        title: 'Error!',
+        text: 'Incorrect Email or Password',
+        icon: 'error',
+        footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
+      });
+    })
+    }
+    });
+
+  });
+</script>
