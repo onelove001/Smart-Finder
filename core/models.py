@@ -140,3 +140,7 @@ class Service(models.Model):
 
 
 
+# class Reviews(models.Model):
+#     id = models.AutoField(primary_key = True)
+#     seller_id = models.ForeignKey(Seller, on_delete = models.CASCADE)
+#     review_content = models.TextField()

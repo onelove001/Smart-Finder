@@ -112,7 +112,7 @@
           <div class = "form-group row mt-4">
             <label class = "col-4 col-form-label col-form-label-lg" for = "cat"> <b> Category </b> </label>
             <div class="md-form my-0 col-8">
-              <select class = "form-control form-control-lg mr-sm-1" name = "cat" id="cat" style = "width:100%;">
+              <select class = "form-control form-control-lg mr-sm-1" name = "cat" id="cat_id" style = "width:100%;">
                 {% for cat in categories %}
                   <option value = {{cat.id}}> {{cat.category_title}} </option>
                 {% endfor %}
@@ -124,7 +124,7 @@
           <div class = "form-group row mt-4">
             <label class = "col-4 col-form-label col-form-label-lg" for = "sub_cat"> <b> Sub Category </b> </label>
             <div class="md-form my-0 col-8">
-              <select class = "form-control form-control-lg mr-sm-1" name = "sub_cat" id="cat" style = "width:100%;">
+              <select class = "form-control form-control-lg mr-sm-1" name = "sub_cat" id="sub_cat_id" style = "width:100%;">
                 {% for cat in sub_categories %}
                   <option value = {{cat.id}}> {{cat}} </option>
                 {% endfor %}
@@ -231,35 +231,35 @@
        <!-- Social icons -->
     <div class="pb-4">
       <br>
-      <a href="https://www.facebook.com/mdbootstrap" target="_blank">
+      <a href="" target="_blank">
         <i class="fab fa-facebook-f mr-3"></i>
       </a>
 
-      <a href="https://twitter.com/MDBootstrap" target="_blank">
+      <a href="" target="_blank">
         <i class="fab fa-twitter mr-3"></i>
       </a>
 
-      <a href="https://www.youtube.com/watch?v=7MUISDJ5ZZ4" target="_blank">
+      <a href="" target="_blank">
         <i class="fab fa-youtube mr-3"></i>
       </a>
 
-      <a href="https://plus.google.com/u/0/b/107863090883699620484" target="_blank">
+      <a href="" target="_blank">
         <i class="fab fa-google-plus-g mr-3"></i>
       </a>
 
-      <a href="https://dribbble.com/mdbootstrap" target="_blank">
+      <a href="" target="_blank">
         <i class="fab fa-dribbble mr-3"></i>
       </a>
 
-      <a href="https://pinterest.com/mdbootstrap" target="_blank">
+      <a href="" target="_blank">
         <i class="fab fa-pinterest mr-3"></i>
       </a>
 
-      <a href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">
+      <a href="" target="_blank">
         <i class="fab fa-github mr-3"></i>
       </a>
 
-      <a href="http://codepen.io/mdbootstrap/" target="_blank">
+      <a href="" target="_blank">
         <i class="fab fa-codepen mr-3"></i>
       </a>
     </div>
@@ -293,6 +293,50 @@
 <script type="text/javascript">
   // Animations initialization
   new WOW().init();
+</script>
+
+<script type = "text/javascript">
+  $(document).ready(function(){
+    $("#cat_id").change(function(){
+        sub_categories();
+      });
+
+      function sub_categories(){
+        var category = $("#cat_id").val();
+
+        $.ajax({
+
+          url:"{% url 'fetch_subcategories' %}",
+          type:"POST",
+          data:{category:category}
+
+        })
+        .done(function(response){
+            var json_data = JSON.parse(response)
+            if(json_data == "False"){
+              var div_data = "<option> No data found for category selected! </option>";
+              $('#sub_cat_id').html(div_data)
+              alert("No Data Found")
+            } else {
+            console.log(json_data)
+            var div_data = "";
+            for (key in json_data){
+                div_data+="<option value = '"+json_data[key]['id']+"'> "+ json_data[key]['id']+": "+json_data[key]['sub_category_title']+"</option> ";
+            }
+            
+            $('#sub_cat_id').html(div_data)
+          }
+        })
+
+        .fail(function(){
+            var div_data = "<option> No Sub Categories Found </option>";
+            $('#sub_cat_id').html(div_data)
+            alert("No Sub Categories Found")
+        })
+        
+      }
+
+  })
 </script>
 
 </body>
