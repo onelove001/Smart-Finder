@@ -19,3 +19,7 @@ admin.site.register(Xperienece_level)
 admin.site.register(Label_choice)
 admin.site.register(Seller)
 admin.site.register(Service)
+admin.site.register(star_rating)
+admin.site.register(Reviews)
+admin.site.register(Order)
+

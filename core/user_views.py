@@ -10,14 +10,39 @@ import json
 
 
 
+
 def smart_home(request):
     categories = Category.objects.all()
-    services = Service.objects.all()
-    paginate = Paginator(services, 8)
-    p = request.GET.get("page")
-    pages = paginate.get_page(p)
+    buyers_count = Buyer.objects.all().count()
+    sellers_count = Seller.objects.all().count()
+    services_count = Service.objects.all().count()
+    categories_count = Category.objects.all().count()
+    all_members = customUser.objects.all().count()
 
-    return render(request, 'user_templates/home_page.html', {"services":services, "pages":pages, "categories":categories})
+
+    # paginate = Paginator(services, 8)
+    # p = request.GET.get("page")
+    # pages = paginate.get_page(p)
+
+    context = {
+        "categories":categories,
+        "categories_count":categories_count,
+        "sellers_count":sellers_count,
+        "buyers_count":buyers_count,
+        "services_count":services_count,
+        "all_members":all_members,
+    }
+
+    return render(request, 'user_templates/home_content.html', context)
+
+
+def freelancers_page(request, category_idd):
+    categories = Category.objects.all()
+    services = Service.objects.filter(category = category_idd)
+    serv = Service.objects.filter(category = category_idd).count()
+
+    context = {"categories":categories, "services":services, "serv":serv}
+    return render(request, 'user_templates/freelancers.html', context)
 
 
 
@@ -111,9 +136,21 @@ def user_profile(request):
     if request.user.account_type == '3':
         user = customUser.objects.get(id = request.user.id)
         seller = Seller.objects.get(admin = user.id)
-        context = {"seller":seller}
+        try:
+            buyers = []
+            service_co = Service.objects.filter(owner = seller.id, ordered = "ordered")
+            for serv in service_co:
+                orders = Order.objects.filter(service_ordered = serv.id)
+                for s in orders:
+                    buyers.append(s)
+                    
+            service_count = len(buyers)
+            context = {"seller":seller, "service_count":service_count, "buyers":buyers}
 
-    return render(request, "user_templates/user_profile.html", context)
+        except:
+            context = {"seller":seller}
+
+    return render(request, "user_templates/dashboard.html", context)
 
 
 
@@ -283,7 +320,14 @@ def create_service_save(request):
 
 def seller_profile_detail(request, service_id):
     service = Service.objects.get(id = service_id)
-    return render(request, "user_templates/seller_profile_detail.html", {"service":service})
+    ratings = star_rating.objects.all()
+    reviews = Reviews.objects.filter(seller_id = service.owner.id).count()
+    reviewss = Reviews.objects.filter(seller_id = service.owner.id)
+    empty = []
+    if len(reviewss) == 0:
+        empty = []
+
+    return render(request, "user_templates/seller_profile_detail.html", {"service":service, "ratings":ratings, "reviews":reviews, "reviewss":reviewss, "empty":empty})
 
 
 
@@ -315,5 +359,49 @@ def search(request):
         return HttpResponse('Not a valid request')
 
 
+@csrf_exempt
+def user_review_save(request):
+    if request.method == "POST":
+        user = request.POST.get('user')
+        review = request.POST.get('review')
+        rate = request.POST.get('rate')
+
+        user_obj = customUser.objects.get(id = user)
+        seller = Seller.objects.get(admin = user_obj.id)
+        rate_obj = star_rating.objects.get(id = rate)
+
+        try:
+            review_obj = Reviews(seller_id = seller, rating = rate_obj, review_content = review)
+            review_obj.save()
+            return HttpResponse("True")
+
+        except:
+            return HttpResponse("False")
+    return HttpResponse("<h2> Cannot process this request </h2>")
 
 
+
+def user_service_order(request):
+    if request.method == "POST":
+        service_id = request.POST.get("service_id")
+        service_obj = Service.objects.get(id = service_id)
+        user = request.user.id
+        user_obj = customUser.objects.get(id = user)
+
+        try:
+        
+            order = Order(user_order = user_obj, service_ordered = service_obj, status = "ordered")
+            order.save()
+            order_obj = Order.objects.filter(user_order = user_obj).first()
+            service_obj.orders = order_obj
+            service_obj.ordered = "ordered"
+            service_obj.save()
+
+            messages.success(request, " Service ordered successfully! ")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+        except:
+            messages.error(request, " Error processing this order ")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+    return HttpResponse(" <h2> This request cannot be processed </h2> ")

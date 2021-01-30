@@ -46,12 +46,27 @@ def create_label_choice(request):
     return render(request, "admin_templates/create_label_choice.html", {})
 
 
-def create_service_admin(request):
-    return render(request, "admin_templates/create_service.html", {})
+def create_rating(request):
+    return render(request, "admin_templates/create_stars.html", {})
 
 
 def create_plan(request):
     return render(request, "admin_templates/create_plan.html", {})
+
+
+def review_seller_admin(request):
+    sellers = Seller.objects.all()
+    ratings = star_rating.objects.all()
+    return render(request, "admin_templates/review_seller_admin.html", {"sellers":sellers, "ratings":ratings})
+
+
+def create_service_admin(request):
+    sellers = Seller.objects.all()
+    categories = Category.objects.all()
+    sub_categories = SubCategory.objects.all()
+    plans = Plan.objects.all()
+    return render(request, "admin_templates/create_service.html", {"sellers":sellers, "categories":categories, "sub_categories":sub_categories, "plans":plans})
+
 
 
 def create_plan_save(request):
@@ -244,9 +259,14 @@ def create_sub_category_save(request):
 def create_category_save(request):
     if request.method == "POST":
         title = request.POST.get('title')
+        category_image = request.FILES['cat_image']
+
+        fs = FileSystemStorage()
+        category_image_save = fs.save(category_image.name, category_image)
+        image_url = fs.url(category_image_save)
 
         try:
-            category = Category(category_title = title)
+            category = Category(category_title = title, image = image_url)
             category.save()
             messages.success(request, " Category Created ")
             return redirect("create_category")
@@ -256,6 +276,7 @@ def create_category_save(request):
             return redirect("create_category")
     
     return HttpResponse(" <h2> Invalid Request </h2>")
+
 
 
 @csrf_exempt
@@ -281,20 +302,88 @@ def check_username(request):
 
 def create_service_admin_save(request):
     if request.method == "POST":
-        pass
+        seller_id = request.POST.get("seller_id")
+        title = request.POST.get("title")
+        charge = request.POST.get("charge")
+        function = request.POST.get("function")
+        cat_id = request.POST.get("cat_id")
+        sub_cat_id = request.POST.get("sub_cat_id")
+        plan = request.POST.get("plan")
+        description = request.POST.get("description")
+        image1 = request.FILES["image1"]
+        image2 = request.FILES["image2"]
+        image3 = request.FILES["image3"]
+
+        fs = FileSystemStorage()
+        profile_image1_save = fs.save(image1.name, image1)
+        profile_image2_save = fs.save(image2.name, image2)
+        profile_image3_save = fs.save(image3.name, image3)
+
+        image1_url = fs.url(profile_image1_save)
+        image2_url = fs.url(profile_image2_save)
+        image3_url = fs.url(profile_image3_save)
+        
+        cat_obj = Category.objects.get(id = cat_id)
+        plan_obj = Plan.objects.get(id = plan)
+        sub_cat_obj = SubCategory.objects.get(id = sub_cat_id)
+        user= customUser.objects.get(id = seller_id)
+        seller = Seller.objects.get(admin = user.id)
+        
+        try:
+            service = Service(owner=seller, description=description, charge=charge, title=title, function=function, plan = plan_obj, category=cat_obj, sub_category=sub_cat_obj, image1=image1_url, image2=image2_url, image3=image3_url)
+            service.save()
+            messages.success(request, "Service Created Successfully")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+        except:
+            messages.error(request, "Failed To Create Service")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+    return HttpResponse("Request cannot be processed")
 
 
 
+def create_rating_save(request):
+    if request.method == "POST":
+        star = request.POST.get('rating')
+
+        try:
+            rating_save = star_rating(rating_star = star)
+            rating_save.save()
+            messages.success(request, "Rating Created Successfully")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+        except:
+            messages.error(request, "Failed To Create Rating")
+            return redirect(request.META.get("HTTP_REFERER"))
+    
+    return HttpResponse('<h2> This process is not allowed </h2>')
 
 
 
+def review_seller_admin_save(request):
+    if request.method == "POST":
+        seller_id = request.POST.get('seller_id')
+        star_id = request.POST.get('star_id')
+        content = request.POST.get('content')
+
+        print("#######", star_id)
+
+        user = customUser.objects.get(id = seller_id)
+        seller_obj = Seller.objects.get(admin = user.id)
+        star_obj = star_rating.objects.get(id = star_id)
 
 
+        try:
+            review = Reviews(seller_id = seller_obj, rating = star_obj, review_content = content)
+            review.save()
+            messages.success(request, "Review added success")
+            return redirect(request.META.get("HTTP_REFERER"))
 
-
-
-
-
-
+        except:
+            messages.error(request, "Failed To Add Review")
+            return redirect(request.META.get("HTTP_REFERER"))
+    
+    return HttpResponse('<h2> This process is not allowed </h2>')
 
 

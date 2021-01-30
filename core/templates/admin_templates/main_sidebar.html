@@ -108,6 +108,20 @@
                   <p> Add Plan </p>
                 </a>
               </li>
+              <li class="nav-item">
+                {% url 'create_rating' as create_rating %}
+                <a href="{{ create_rating }}" class="nav-link {% if request.path == create_rating %} active {% endif %}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Add Star Ratings </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                {% url 'review_seller_admin' as review_seller %}
+                <a href="{{ review_seller }}" class="nav-link {% if request.path == review_seller %} active {% endif %}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p> Review a seller </p>
+                </a>
+              </li>
             </ul>
           </li>
         </ul>

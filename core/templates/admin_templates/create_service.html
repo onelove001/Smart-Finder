@@ -1,0 +1,178 @@
+{% extends 'admin_templates/base.html' %}
+{% load static %}
+
+{% block title %} Create {% endblock title %}
+
+{% block page_title %} Create Service {% endblock page_title %}
+
+{% block main_content %}
+  <section class="content">
+    <div class="container-fluid">
+      <div class = "row">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"> Create Service </h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" method = "POST" action = "{% url 'create_service_admin_save' %}" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="card-body">
+
+                  <div class="form-group">
+                    <label for="seller_id">seller_id & name</label>
+                    <select name = "seller_id" id = "seller_id" class = "form-control">
+                        {% for seller in sellers %}
+                        <option value = {{seller.admin.id}}> {{ seller.admin.username }} </option>
+                        {% endfor %}
+                    </select>
+                  </div>
+    
+                  <div class="form-group">
+                    <label for="title"> Title </label>
+                    <input type="text" class="form-control" id="title" placeholder="enter title" name = "title">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="charge">Charge</label>
+                    <input type="text" class="form-control" id="charge" placeholder="enter charge" name = "charge">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea type="text" class="form-control" id="description" placeholder="description" name = "description"> </textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="function">Function</label>
+                    <textarea type="text" class="form-control" id="function" placeholder="enter function" name = "function"> </textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="cat_id">Category</label>
+                    <select name = "cat_id" id = "cat_id" class = "form-control">
+                      {% for cat in categories %}
+                        <option value = {{cat.id}}> {{ cat.category_title }} </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="sub_cat_id">Subcategory</label>
+                    <select name = "sub_cat_id" id = "sub_cat_id" class = "form-control">
+                      {% for cat in sub_categories %}
+                        <option value = {{cat.id}}> {{ cat }} </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="plan">Plan</label>
+                    <select name = "plan" id = "plan" class = "form-control">
+                      {% for plan in plans %}
+                        <option value = {{plan.id}}> {{ plan.plan_name }} </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="image"> Main Image</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="image1" name = "image1">
+                        <label class="custom-file-label" for="image1">Choose image</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="image"> Main Image2 </label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="image2" name = "image2">
+                        <label class="custom-file-label" for="image2">Choose image</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="image"> Main Image3 </label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="image3" name = "image3">
+                        <label class="custom-file-label" for="image3">Choose image</label>
+                      </div>
+                    </div>
+                  </div>
+
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </div>
+                {% if messages %}
+                    <div class = "col-12">
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class = 'alert alert-danger' style = "margin-top:7px;"> {{ message }} </div>
+                        {% elif message.tags == 'success' %}
+                            <div class = 'alert alert-success' style = "margin-top:7px"> {{ message }}</div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock main_content %}
+
+{% block custom_js %}
+<script type = "text/javascript">
+    $(document).ready(function(){
+      $("#cat_id").change(function(){
+          sub_categories();
+        });
+  
+        function sub_categories(){
+          var category = $("#cat_id").val();
+  
+          $.ajax({
+  
+            url:"{% url 'fetch_subcategories' %}",
+            type:"POST",
+            data:{category:category}
+  
+          })
+          .done(function(response){
+              var json_data = JSON.parse(response)
+              if(json_data == "False"){
+                var div_data = "<option> No data found for category selected! </option>";
+                $('#sub_cat_id').html(div_data)
+                alert("No Data Found");
+              } else {
+              console.log(json_data)
+              var div_data = "";
+              for (key in json_data){
+                  div_data+="<option value = '"+json_data[key]['id']+"'> "+ json_data[key]['id']+": "+json_data[key]['sub_category_title']+"</option> ";
+              }
+              
+              $('#sub_cat_id').html(div_data)
+            }
+          })
+  
+          .fail(function(){
+              var div_data = "<option> No Sub Categories Found </option>";
+              $('#sub_cat_id').html(div_data)
+              alert("No Sub Categories Found")
+          })
+          
+        }
+  
+    })
+</script>
+
+{% endblock custom_js %}

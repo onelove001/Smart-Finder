@@ -1,0 +1,68 @@
+{% extends 'admin_templates/base.html' %}
+{% load static %}
+
+{% block title %} ReviewSeller {% endblock title %}
+
+{% block page_title %} Review a Seller {% endblock page_title %}
+
+{% block main_content %}
+  <section class="content">
+    <div class="container-fluid">
+      <div class = "row">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"> Review Seller </h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" method = "POST" action = "{% url 'review_seller_admin_save' %}"> {% csrf_token %}
+                <div class="card-body">
+
+                  <div class="form-group">
+                    <label for="seller_id">Seller name</label>
+                    <select name = "seller_id" id = "seller_id" class = "form-control">
+                        {% for seller in sellers %}
+                        <option value = {{seller.admin.id}}> {{ seller.admin.username }} </option>
+                        {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="star_id">Ratings</label>
+                    <select name = "star_id" id = "star_id" class = "form-control">
+                        {% for star in ratings %}
+                            <option value = {{star.id}}> {{ star.rating_star }} </option>
+                        {% endfor %}
+                    </select>
+                  </div>
+    
+                  <div class="form-group">
+                    <label for="content"> Review Content </label>
+                    <textarea type="text" class="form-control" id="content" placeholder="enter content" name = "content"> </textarea>
+                  </div>
+
+                 
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </div>
+                {% if messages %}
+                    <div class = "col-12">
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class = 'alert alert-danger' style = "margin-top:7px;"> {{ message }} </div>
+                        {% elif message.tags == 'success' %}
+                            <div class = 'alert alert-success' style = "margin-top:7px"> {{ message }}</div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock main_content %}

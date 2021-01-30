@@ -55,6 +55,12 @@ urlpatterns = [
     path('create_label_choice_save', create_label_choice_save, name = 'create_label_choice_save'),
     path('create_plan', create_plan, name = 'create_plan'),
     path('create_plan_save', create_plan_save, name = 'create_plan_save'),
+    path('create_rating', create_rating, name = 'create_rating'),
+    path('create_rating_save', create_rating_save, name = 'create_rating_save'),
+    path('review_seller_admin', review_seller_admin, name = 'review_seller_admin'),
+    path('review_seller_admin_save', review_seller_admin_save, name = 'review_seller_admin_save'),
+
+
 
     # =================/ User Urls /=============== #
     path('seller_page', seller_page, name = 'seller_page'),
@@ -71,6 +77,10 @@ urlpatterns = [
     path('fetch_subcategories', fetch_subcategories, name = 'fetch_subcategories'),
     path('get_category/<str:category_id>', get_category, name = 'get_category'),
     path('search', search, name = 'search'),
+    path('user_review_save', user_review_save, name = 'user_review_save'),
+    path('user_service_order', user_service_order, name = 'user_service_order'),
+    path('freelancers_page/<str:category_idd>', freelancers_page, name = 'freelancers_page'),
+
 
     # =================/ Chat Urls /=============== #
     # path('chat', chat_index, name = "chat_index"),

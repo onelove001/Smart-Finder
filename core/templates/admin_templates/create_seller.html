@@ -87,7 +87,7 @@
 
                   <div class="form-group">
                     <label for="category">Category</label>
-                    <select name = "category" id = "category" class = "form-control">
+                    <select name = "category" id = "cat_id" class = "form-control">
                       {% for cat in categories %}
                         <option value = {{cat.id}}> {{ cat.category_title }} </option>
                       {% endfor %}
@@ -96,7 +96,7 @@
 
                   <div class="form-group">
                     <label for="subcategory">Subcategory</label>
-                    <select name = "subcategory" id = "subcategory" class = "form-control">
+                    <select name = "subcategory" id = "sub_cat_id" class = "form-control">
                       {% for cat in sub_categories %}
                         <option value = {{cat.id}}> {{ cat }} </option>
                       {% endfor %}
@@ -144,6 +144,11 @@
 {% block custom_js %} 
   <script>
     $(document).ready(function(){
+
+      // Category change check
+      $("#cat_id").change(function(){
+        sub_categories();
+      });
       // =============== email check ==============
 
       $("#id_email").keyup(function(){
@@ -212,6 +217,41 @@
       }
 
         });
+
+      function sub_categories(){
+        var category = $("#cat_id").val();
+
+        $.ajax({
+
+          url:"{% url 'fetch_subcategories' %}",
+          type:"POST",
+          data:{category:category}
+
+        })
+        .done(function(response){
+            var json_data = JSON.parse(response)
+            if(json_data == "False"){
+              var div_data = "<option> No data found for category selected! </option>";
+              $('#sub_cat_id').html(div_data)
+              alert("No Data Found")
+            } else {
+            console.log(json_data)
+            var div_data = "";
+            for (key in json_data){
+                div_data+="<option value = '"+json_data[key]['id']+"'> "+ json_data[key]['id']+": "+json_data[key]['sub_category_title']+"</option> ";
+            }
+            
+            $('#sub_cat_id').html(div_data)
+          }
+        })
+
+        .fail(function(){
+            var div_data = "<option> No Sub Categories Found </option>";
+            $('#sub_cat_id').html(div_data)
+            alert("No Sub Categories Found")
+        })
+        
+      }
 
     });
   </script>

@@ -1,0 +1,351 @@
+{% extends 'user_templates/base2.html' %}
+{% load static %}
+
+{% block app_title %}
+    Home
+{% endblock app_title %}
+
+{% block content %}
+
+
+<!-- Intro Banner
+================================================== -->
+<div class="intro-banner dark-overlay big-padding">
+	
+	<!-- Transparent Header Spacer -->
+	<div class="transparent-header-spacer"></div>
+
+	<div class="container">
+		
+		<!-- Intro Headline -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="banner-headline-alt">
+					<h3>Don't Just Dream, Do</h3>
+					<span>Find the best jobs in the digital industry</span>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Search Bar -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="intro-banner-search-form margin-top-95">
+
+					<!-- Search Field -->
+					<div class="intro-search-field with-autocomplete">
+						<label for="autocomplete-input" class="field-title ripple-effect">Take me to?</label>
+						<div class="input-with-icon">
+							<input id="autocomplete-input" type="text" placeholder="Online Job">
+							<i class="icon-material-outline-location-on"></i>
+						</div>
+					</div>
+
+					<!-- Search Field -->
+					<div class="intro-search-field">
+						<select class="selectpicker" data-size="7" title="All Categories" >
+							{% for cat in categories %}
+								<option> <a href = "#">{{ cat.category_title }}</a> </option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<!-- Button -->
+					<div class="intro-search-button">
+						<button class="button ripple-effect" onclick="window.location.href='jobs-list-layout-1.html'">Search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Stats -->
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="intro-stats margin-top-45 hide-under-992px">
+					<li>
+						<strong class="counter">{{services_count}}</strong>
+						<span>Services</span>
+					</li>
+					<li>
+						<strong class="counter">{{categories_count}}</strong>
+						<span>Categories</span>
+					</li>
+					<li>
+						<strong class="counter">{{buyers_count}}</strong>
+						<span> Employers</span>
+					</li>
+					<li>
+						<strong class="counter">{{sellers_count}}</strong>
+						<span>Freelancers</span>
+					</li>
+				</ul>	
+			</div>
+		</div>
+
+	</div>
+	
+	<!-- Video Container -->
+	<div class="video-container" data-background-image="{% static 'images2/home-video-background-poster.jpg' %}">
+		<video loop autoplay muted>
+			<source src="{% static 'images2/home-video-background.mp4' %}" type="video/mp4">
+		</video>
+	</div>
+
+</div>
+<!-- banner end  -->
+
+
+
+<!-- Main Content
+================================================== -->
+
+<!-- Category Boxes -->
+<!-- Popular Job Categories -->
+<div class="section margin-top-65 margin-bottom-30">
+	<div class="container">
+		<div class="row">
+			<!-- Section Headline -->
+			<div class="col-xl-12">
+				<div class="section-headline centered margin-top-0 margin-bottom-45">
+					<h3> Popular Categories </h3>
+				</div>
+			</div>
+            {% for cat in categories %}
+                <div class="col-xl-3 col-md-6">
+                    <!-- Photo Box -->
+                    <a href="{% url 'freelancers_page' cat.id %}" class="photo-box small" data-background-image={{cat.image}}>
+                        <div class="photo-box-content">
+                            <h2 style = "color:rgb(255, 251, 247);"><b> {{cat.category_title}} </b> </h2> <hr style = "border-radius: 2px; color:rgb(255, 251, 246);"><br>
+                            <span style = "margin-right:4px;"> <b>{{cat.get_number_of_services}} Services</b></span>
+                            <span> <b>{{cat.get_number_of_sellers}} Freelancers </b></span>
+                        </div>
+                    </a>
+                </div>
+			{% endfor %}
+        </div>
+	</div>
+</div>
+<!-- Popular Job Categories ends -->
+
+
+
+<!-- How it works -->
+<div class="section gray padding-top-65 padding-bottom-65 margin-top-65">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-xl-12">
+				<!-- Section Headline -->
+				<div class="section-headline centered margin-top-0 margin-bottom-5">
+					<h3>How It Works?</h3>
+				</div>
+			</div>
+			
+			<div class="col-xl-4 col-md-4">
+				<!-- Icon Box -->
+				<div class="icon-box with-line">
+					<!-- Icon -->
+					<div class="icon-box-circle">
+						<div class="icon-box-circle-inner">
+							<i class="icon-line-awesome-lock"></i>
+							<div class="icon-box-check"><i class="icon-material-outline-check"></i></div>
+						</div>
+					</div>
+					<h3>Create an Account</h3>
+					<p>Lorel Ipsum takes the rope and cool off with it start working with now
+                        town join me in making money.
+                    </p>
+				</div>
+			</div>
+
+			<div class="col-xl-4 col-md-4">
+				<!-- Icon Box -->
+				<div class="icon-box with-line">
+					<!-- Icon -->
+					<div class="icon-box-circle">
+						<div class="icon-box-circle-inner">
+							<i class="icon-line-awesome-legal"></i>
+							<div class="icon-box-check"><i class="icon-material-outline-check"></i></div>
+						</div>
+					</div>
+					<h3> Find a seller </h3>
+					<p>Lorel Ipsum takes the rope and cool off with it start working with now
+                       town join me in making money.
+                    </p>
+				</div>
+			</div>
+
+			<div class="col-xl-4 col-md-4">
+				<!-- Icon Box -->
+				<div class="icon-box">
+					<!-- Icon -->
+					<div class="icon-box-circle">
+						<div class="icon-box-circle-inner">
+							<i class=" icon-line-awesome-trophy"></i>
+							<div class="icon-box-check"><i class="icon-material-outline-check"></i></div>
+						</div>
+					</div>
+					<h3>Choose the best</h3>
+					<p>Lorel Ipsum takes the rope and cool off with it start working with now
+                        town join me in making money.
+                    </p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- how it works / End -->
+
+
+
+<!-- Testimonials -->
+<div class="section gray padding-top-65 padding-bottom-55">
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-12">
+				<!-- Section Headline -->
+				<div class="section-headline centered margin-top-0 margin-bottom-5">
+					<h3>Testimonials</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Categories Carousel -->
+	<div class="fullwidth-carousel-container margin-top-20">
+		<div class="testimonial-carousel testimonials">
+
+			<!-- Item -->
+			<div class="fw-carousel-review">
+				<div class="testimonial-box">
+					<div class="testimonial-avatar">
+						<img src="../../media/backGrounds/user-avatar-small-02.jpg" alt="">
+					</div>
+					<div class="testimonial-author">
+						<h4>Sindy Forest</h4>
+						 <span>Freelancer</span>
+					</div>
+					<div class="testimonial">Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</div>
+				</div>
+			</div>
+
+			<!-- Item -->
+			<div class="fw-carousel-review">
+				<div class="testimonial-box">
+					<div class="testimonial-avatar">
+						<img src="../../media/backGrounds/user-avatar-small-01.jpg" alt="">
+					</div>
+					<div class="testimonial-author">
+						<h4>Tom Smith</h4>
+						 <span>Freelancer</span>
+					</div>
+					<div class="testimonial">Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</div>
+				</div>
+			</div>
+
+			<!-- Item -->
+			<div class="fw-carousel-review">
+				<div class="testimonial-box">
+					<div class="testimonial-avatar">
+						<img src="../../media/backGrounds/user-avatar-small-03.jpg" alt="">
+					</div>
+					<div class="testimonial-author">
+						<h4>David Peterson</h4>
+						 <span>Freelancer</span>
+					</div>
+					<div class="testimonial">Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</div>
+				</div>
+			</div>
+
+			<!-- Item -->
+			<div class="fw-carousel-review">
+				<div class="testimonial-box">
+					<div class="testimonial-avatar">
+						<img src="../../media/backGrounds/user-avatar-small-02.jpg" alt="">
+					</div>
+					<div class="testimonial-author">
+						<h4>Marcin Kowalski</h4>
+						 <span>Freelancer</span>
+					</div>
+					<div class="testimonial">Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. Dramatically maintain clicks-and-mortar solutions without functional solutions.</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- Categories Carousel / End -->
+
+</div>
+<!-- Testimonials / End -->
+
+
+
+<!-- Counters -->
+<div class="section padding-top-70 padding-bottom-75">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-xl-12">
+				<div class="counters-container">
+					
+					<!-- Counter -->
+					<div class="single-counter">
+						<i class="icon-line-awesome-suitcase"></i>
+						<div class="counter-inner">
+							<h3><span class="counter"> {{ services_count }}</span></h3>
+							<span class="counter-title">Jobs Posted</span>
+						</div>
+					</div>
+
+					<!-- Counter -->
+					<div class="single-counter">
+						<i class="icon-line-awesome-legal"></i>
+						<div class="counter-inner">
+							<h3><span class="counter"> {{ sellers_count }}</span></h3>
+							<span class="counter-title"> Freelancers </span>
+						</div>
+					</div>
+
+					<!-- Counter -->
+					<div class="single-counter">
+						<i class="icon-line-awesome-user"></i>
+						<div class="counter-inner">
+							<h3><span class="counter"> {{ all_members }}</span></h3>
+							<span class="counter-title">All Members</span>
+						</div>
+					</div>
+
+					<!-- Counter -->
+					<div class="single-counter">
+						<i class="icon-line-awesome-trophy"></i>
+						<div class="counter-inner">
+							<h3><span class="counter">100</span>%</h3>
+							<span class="counter-title">Satisfaction Rate</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Counters / End -->
+
+
+<!-- Main Content
+================================================== ends -->
+{% endblock content %}
+
+
+
+{% block custom_js %}
+
+<script>
+    $(document).ready(function(){
+        console.log(" Ready ")
+    });
+</script>
+
+{% endblock custom_js %}

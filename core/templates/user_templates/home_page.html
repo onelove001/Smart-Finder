@@ -235,7 +235,7 @@
                 <!--Card image-->
                 <div class="view overlay">
                   <img src="{{service.image1}}" class="card-img-top"
-                    alt="" style = "width:100%; height:160px;">
+                    alt="" style = "width:100%; height:120px;">
                   <a href = "{% url 'seller_profile_detail' service.id %}">
                     <div class="mask rgba-white-slight"></div>
                   </a>
@@ -246,19 +246,19 @@
                 <div class="card-body text-center">
                   <!--Category & Title-->
                   <a href="{% url 'seller_profile_detail' service.id %}" class="grey-text">
-                    <h5>{{service.category.category_title}}</h5>
+                    <h6>{{service.category.category_title}}</h6>
                   </a>
-                  <h5>
+                  <p>
                     <strong>
-                      <a href="{% url 'seller_profile_detail' service.id %}" class="dark-grey-text">{{service.title}}<br> 
+                      <a href="{% url 'seller_profile_detail' service.id %}" class="dark-grey-text">{{service.title}} |<small class = "badge badge-success"> {{service.get_number_orders}} </small>|<br> 
                         <span class="badge badge-pill danger-color">new seller</span>
                       </a>
                     </strong>
-                  </h5>
+                  </p>
 
-                  <h4 class="font-weight-bold blue-text">
+                  <p class="font-weight-bold blue-text">
                     <strong>{{service.charge}}$</strong>
-                  </h4>
+                  </p>
 
                 </div>
                 <!--Card content-->

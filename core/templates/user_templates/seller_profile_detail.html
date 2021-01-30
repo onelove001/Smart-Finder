@@ -8,14 +8,15 @@
 <br><br><br>
 
 <!-- navbar: -->
-  <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary" id="mainNav">
     <div class="container">
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav">
+        <!-- Left -->
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item mr-3">
             <a class="nav-link js-scroll-trigger waves-effect" href="#Service"> About the service </a>
           </li>
@@ -23,13 +24,28 @@
             <a class="nav-link js-scroll-trigger waves-effect" href="#Seller">About the seller</a>
           </li>
         </ul>
+        <!-- Right -->
+        <ul class="navbar-nav nav-flex-icons">
+            {% if request.user.username == service.owner.admin.username %}
+            <li class="nav-item mr-3">
+                <a class="nav-link border border-light rounded waves-effect waves-light" href="#reviewss"> See all Reviews  <span class = "badge badge-primary ml-1"> {{reviews}} </span> </a>
+            </li>
+            {% else %}
+            <li class="nav-item mr-4">
+                <a class="nav-link border border-light rounded waves-effect waves-light" data-toggle="modal" data-target="#Review_modal"> Rate & Review <i class = "fas fa-star"> </i> </a>
+            </li>
+
+            <li class="nav-item mr-3">
+                <a class="nav-link border border-light rounded waves-effect waves-light" href="#reviewss"> See all Reviews  <span class = "badge badge-primary ml-1"> {{reviews}} </span> </a>
+            </li>
+            {% endif %}
+        </ul>
       </div>
     </div>
   </nav>
+<br><br><br><hr><br>
 
-<br><br><br><br>
-
-<!-- section: Service   -->
+<!-- section: Service  -->
 <section class = "container mb-5" id = "Service">
     <div class = "row">
         <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -83,18 +99,50 @@
                             <img src = "{{service.image3}}" style = "width:98%; height:300px;">
                         </div><hr> 
                     </div>
-                    
-                    <hr>
-                    {% if service.owner.admin.username != request.user.username %}
-                        <a href =  "{% url 'room_index' service.owner.admin.id %}"  class = "btn btn-outline-success mt-5 waves-effect" style = "width:100%;"> <b> Contact Me! <i class = "fas fa-arrow-circle-right"> </i></b> </a>
-                    {% endif %}
                 </div>
+                <hr><br>
+                <div class = "container">
+                    <div class = "row">
+                        <div class = "col-2"> </div>
+                        {% if service.owner.admin.username != request.user.username %}
+                            <div class = "col-4">
+                                <a href = "{% url 'room_index' service.owner.admin.id %}" class = "btn btn-outline-success mt-2 mr-2 waves-effect" style = "width:100%; border-radius:100px;"> <b> Contact Me now! <i class = "fas fa-arrow-circle-right"> </i></b> </a>
+                            </div>
+                            <div class = "col-4">
+                                <form method="post" action = "{% url 'user_service_order' %}"> {% csrf_token %}
+                                    <input type = "hidden" name = "service_id" value = "{{service.id}}">
+                                    <button type = "submit" class = "btn btn-outline-info mt-2" style = "width:100%; border-radius:100px;"> <b> Order this service! </b> </button>
+                                </form>
+                            </div>
+                        {% endif %}
+                        <div class = "col-12">
+                            {% if messages %}
+                                <div class = "form-group row">
+                                <div style = "width:100%;">
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                    <div class = "alert alert-danger mb-2 mt-2 text-dark">
+                                        {{message}}
+                                    </div>
+                                    {% endif %}
+                                    {% if message.tags == 'success' %}
+                                    <div class = "alert alert-success mb-2 mt-2 text-dark">
+                                        {{message}}
+                                    </div>
+                                    {% endif %}
+                                {%endfor %}
+                                </div>
+                                </div>              
+                            {% endif %}
+                        </div>
+                    </div>
+                </div><br>
             </div>
         </div>
     </div>
 </section>
 
-<br>
+<br><hr><br>
 
 <!-- section: Seller  -->
 <section class = "container mt-5 mb-5" id = "Seller">
@@ -140,13 +188,153 @@
                     </div> 
                     <hr>
                     {% if service.owner.admin.username != request.user.username %}
-                        <a href = "{% url 'room_index' service.owner.admin.id %}" class = "btn btn-outline-success mt-2 waves-effect" style = "width:100%;"> <b> Contact Me! <i class = "fas fa-arrow-circle-right"> </i></b> </a>
+                    <a href =  "{% url 'room_index' service.owner.admin.id %}"  class = "btn btn-outline-success mt-5 waves-effect" style = "width:100%;"> <b> Contact Me! <i class = "fas fa-arrow-circle-right"> </i></b> </a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </section>
+<!-- < section: Seller ></section:> -->
+
+
+  <!-- Modal Review -->
+  <div class="modal fade" id="Review_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <marquee>
+          <h5 class="modal-title text-center border-right" id="exampleModalLongTitle"> Write Your Review For <span class = "text-success">| {{service.owner.admin.username }} |</span> </h5>
+          <h5 class = "modal-title text-center"> Also give your star RATING </h5>
+        </marquee>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <form method = "POST" action = "{% url 'user_review_save' %}"> -->
+            <div class = "container">
+                <div class="input-group mb-4">
+                    <input type="text" class="form-control"  name = "username" id = "id_username" disabled value="{{service.owner.admin.username}}">
+                    <input type = "hidden" value= "{{service.owner.admin.id}}" name = 'user' id = "user_id">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for = "review_id"> <b>Review Content</b> </label>
+                    <textarea  class="form-control" placeholder="" name = "review" id = "review_id" required> </textarea>
+                </div>
+
+                <div clss = "form-group mb-4">
+                    <label for = "rate_id"> <b>Rate By Star</b> </label>
+                    <select class = "form-control" name = 'rate' id = "rate_id">
+                        {% for rate in ratings %}
+                        <option value = {{rate.id}}> {{rate.rating_star}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <div class="form-group row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-block" id= "id_submit_button"> Submit Review </button>
+                </div>
+                </div>
+            </div>
+          <!-- </form> -->
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <modal review -->
+<br><hr><br>
+
+  <!--section: reviews  -->
+  <section class = 'mt-5 mb-5' id = 'reviewss'>
+    <div class = 'container'>
+        <div class = "card">
+            <div class = "card-header card-title" style="background-color: rgb(226, 224, 213);">
+                <h4> Reviews </h4>
+            </div>
+            <div class = "card-body" style = "background-color: bisque;">
+                <div class = "row">
+                    <div class = "col-1"> </div>
+                    <div class = "col-10">
+                        <div class = "card-body">
+                            {% if reviews == 0 %}
+                                <h2 class = "text-danger border-buttom"> This seller has no reviews </h2>
+                            {% else %}
+
+                                {% for review in reviewss %}
+                                    <p class = 'h4 text-success mb-4'> {{ review.rating }} star </p>
+                                    <p class = "text-justified"> {{review.review_content}} </p>
+                                    <hr> <br>
+                                {% endfor %}
+
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+  <!-- reviews  -->
+
+<br><hr><br>
 
 
 {% endblock content %}
+
+{% block custom_js %}
+    <script>
+    $(document).ready(function(){
+        $(document).on("click", "#id_submit_button", function(){
+            var user = $("#user_id").val();
+            var review = $("#review_id").val(); 
+            var rate = $("#rate_id").val();
+            if(review == ""){
+            Swal.fire({
+                title: 'Error!',
+                text: 'Please Ensure You Fill In All Fields',
+                icon: 'error',
+            })}
+            else {
+
+            $.ajax({
+                url:"{% url 'user_review_save' %}",
+                type:"POST",
+                data:{review:review, user:user, rate:rate}
+            })
+            .done(function(response){
+            if (response == "True"){
+                Swal.fire({
+                title: 'Success!',
+                text: 'Review Submitted',
+                icon: 'success',
+                })
+            } else {
+                Swal.fire({
+                title: 'Error!',
+                text: 'Review Failed',
+                icon: 'error',
+                });
+            }
+                
+            })
+            .fail(function(){
+            Swal.fire({
+                title: 'Error!',
+                text: 'Please Ensure You Fill All Fields',
+                icon: 'error',
+            });
+            })
+            }
+        });
+    });
+    </script>
+{% endblock custom_js %}

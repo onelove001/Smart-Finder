@@ -1,0 +1,80 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<title> Smart | {% block app_title %}   {% endblock app_title %}</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- CSS, LINKS, ...
+================================================== -->
+
+<link rel="icon" href="{% static 'favicons/favicon2.ico'  %}">
+<link rel="stylesheet" href="{% static 'css2/style.css' %}">
+<link rel="stylesheet" href="{% static 'css2/colors/blue.css' %}">
+
+</head>
+<body>
+
+<!-- Wrapper -->
+<div id="wrapper">    
+
+{% include 'user_templates/header3.html' %}
+
+{% block content %}
+
+{% endblock content %}
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Scripts
+================================================== -->
+<script src="{% static 'js2/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js2/jquery-migrate-3.1.0.min.html' %}" ></script>
+<script src="{% static 'js2/mmenu.min.js' %}"></script>
+<script src="{% static 'js2/tippy.all.min.js' %}"></script>
+<script src="{% static 'js2/simplebar.min.js' %} "></script>
+<script src="{% static 'js2/bootstrap-slider.min.js' %}"></script>
+<script src="{% static 'js2/bootstrap-select.min.js' %}"></script>
+<script src="{% static 'js2/snackbar.js' %}"></script>
+<script src="{% static 'js2/clipboard.min.js' %}" ></script>
+<script src="{% static 'js2/counterup.min.js' %}"></script>
+<script src="{% static 'js2/magnific-popup.min.js' %}"></script>
+<script src="{% static 'js2/slick.min.js' %}"></script>
+<script src="{% static 'js2/custom.js' %}"></script>
+
+<!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+    // Snackbar for user status switcher
+    $('#snackbar-user-status label').click(function() { 
+        Snackbar.show({
+            text: 'Your status has been changed!',
+            pos: 'bottom-center',
+            showAction: false,
+            actionText: "Dismiss",
+            duration: 3000,
+            textColor: '#fff',
+            backgroundColor: '#383838'
+        }); 
+    }); 
+    </script>
+    
+    <!-- Leaflet // Docs: https://leafletjs.com/ -->
+    <script src="{% static 'js2/leaflet.min.js' %}"></script>
+    
+    <!-- Leaflet Geocoder + Search Autocomplete // Docs: https://github.com/perliedman/leaflet-control-geocoder -->
+    <script src="{% static 'js2/leaflet-autocomplete.js' %}"></script>
+    <script src="{% static 'js2/leaflet-control-geocoder.js' %}"></script>
+    
+ </body>
+    
+<!-- Mirrored from www.vasterad.com/themes/hireo/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Jan 2021 10:30:55 GMT -->
+{% block custom_js %}
+
+{% endblock custom_js %}
+</html>

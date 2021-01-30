@@ -83,6 +83,26 @@
                                 <p class = "strong mb-2"> <i class = "fas fa-user-check mr-2"> </i> MEMBER SINCE  </p>
                                 <small class = "h6"> <b>{{ seller.created }} </b></small>
                             </div>
+                            <div class = "mb-5">
+                                <p class = "strong mb-2"> <i class = "fas fa-user-check mr-2"> </i> ORDERS IN QUE:  </p>
+                                <small class = "h6"> <b> {{service_count}} </b></small>
+                            </div>
+                            <div class = "mb-5">
+                                <div class = "card">
+                                    <div class = "card-header card-title h5"> Your Buyers </div>
+                                    <div class = "card-body">
+                                        <ul style = "list-style-type:none;">
+                                        {% for t in buyers %}
+                                            <li>
+                                                <a href="#" class="nav-link border border-light rounded waves-effect waves-light">
+                                                    {{t}} <i class="fas fa-user ml-1 mr-2"></i> 
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div> 
                         <hr>
                         <a href = "{% url 'create_service_service' %}" class = "btn btn-outline-transparent mt-2 waves-effect" style = "width:100%;"> <b> Create Service <i class = "fas fa-arrow-circle-right"> </i></b> </a>
