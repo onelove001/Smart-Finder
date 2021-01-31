@@ -21,5 +21,5 @@ admin.site.register(Seller)
 admin.site.register(Service)
 admin.site.register(star_rating)
 admin.site.register(Reviews)
-admin.site.register(order)
+admin.site.register(Order)
 

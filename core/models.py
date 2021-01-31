@@ -208,7 +208,7 @@ class Reviews(models.Model):
 
 
 
-class order(models.Model):
+class Order(models.Model):
 
     id = models.AutoField(primary_key = True)
     user_order = models.ForeignKey(customUser, on_delete = models.CASCADE)
