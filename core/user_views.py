@@ -181,16 +181,12 @@ def update_profile_buyer(request):
 def update_profile_seller_save(request):
     if request.method == "POST":
         user_id = request.POST.get("user_id")
-        username = request.POST.get("username")
         firstname = request.POST.get("firstname")
         lastname = request.POST.get("lastname")
         shortname = request.POST.get("shortname")
         address = request.POST.get("address")
         description = request.POST.get("description")
         phone = request.POST.get("phone")
-        level = request.POST.get("level")
-        lang = request.POST.get("lang")
-        gender = request.POST.get("gender")
 
         if request.FILES.get('image', False):
             profile_image = request.FILES['image']
@@ -201,11 +197,7 @@ def update_profile_seller_save(request):
             image_url = None
 
         try:
-            lang_obj = Language.objects.get(id = lang)
-            level_obj = Xperienece_level.objects.get(id= level)
-
             user = customUser.objects.get(id = user_id)
-            user.username = username
             user.first_name = firstname
             user.last_name = lastname
             user.save()
@@ -215,9 +207,6 @@ def update_profile_seller_save(request):
             seller.short_name = shortname
             seller.address = address
             seller.description = description
-            seller.language = lang_obj
-            seller.experience_level = level_obj
-            seller.gender = gender
             if image_url != None:
                 seller.image = image_url
             seller.save()
@@ -235,7 +224,7 @@ def update_profile_seller_save(request):
 def update_profile_buyer_save(request):
     if request.method == "POST":
         user_id = request.POST.get("user_id")
-        username = request.POST.get("username")
+        shortname = request.POST.get("shortname")
 
         if request.FILES.get('image', False):
             profile_image = request.FILES['image']
@@ -246,10 +235,9 @@ def update_profile_buyer_save(request):
             image_url = None
         try:
             user = customUser.objects.get(id = user_id)
-            user.username = username
-            user.save()
 
             buyer = Buyer.objects.get(admin = user.id)
+            buyer.short_name = shortname
             if image_url != None:
                 buyer.image = image_url
             buyer.save()
@@ -280,7 +268,6 @@ def create_service_save(request):
         owner_id = request.POST.get("owner_id")
         title = request.POST.get("title")
         charge = request.POST.get("charge")
-        function = request.POST.get("function")
         cat = request.POST.get("cat")
         sub_cat = request.POST.get("sub_cat")
         plan = request.POST.get("plan")
@@ -305,7 +292,7 @@ def create_service_save(request):
         seller = Seller.objects.get(admin = user.id)
         
         try:
-            service = Service(owner=seller, description=description, charge=charge, title=title, function=function, plan = plan_obj, category=cat_obj, sub_category=sub_cat_obj, image1=image1_url, image2=image2_url, image3=image3_url)
+            service = Service(owner=seller, description=description, charge=charge, title=title,  plan = plan_obj, category=cat_obj, sub_category=sub_cat_obj, image1=image1_url, image2=image2_url, image3=image3_url)
             service.save()
             messages.success(request, "Service Created Successfully")
             return redirect(request.META.get("HTTP_REFERER"))

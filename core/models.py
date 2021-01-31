@@ -63,6 +63,9 @@ class Buyer(models.Model):
     def __str__(self):
         return f"{self.admin.email} - buyer"
 
+    def return_time(self):
+        return self.created.strftime("%d/%m/%Y")
+
 
 
 class Category(models.Model):
@@ -145,6 +148,9 @@ class Seller(models.Model):
     def __str__(self):
         return f"{self.admin.email} - seller"
 
+
+    def return_time(self):
+        return self.created.strftime("%d/%m/%Y")
     
 
 

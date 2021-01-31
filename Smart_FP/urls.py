@@ -64,7 +64,7 @@ urlpatterns = [
 
     # =================/ User Urls /=============== #
     path('seller_page', seller_page, name = 'seller_page'),
-    path('user_profile', user_profile, name = 'user_profile'),
+    path('dashboard', user_profile, name = 'user_profile'),
     path('become_seller', become_seller, name = 'become_seller'),
     path('become_seller_save', become_seller_save, name = 'become_seller_save'),
     path('update_profile_seller', update_profile_seller, name = 'update_profile_seller'),

@@ -1,78 +1,160 @@
-{% extends 'user_templates/base.html' %}
+{% extends 'user_templates/base3.html' %}
 
 {% block title %}
-    Update profile
+    Settings
 {% endblock title %}
 
 
-{% block content %}<br><br><br><br><br><br><br>
+{% block content %}
+
 {% if request.user.account_type == "2" %}
-    <div class = "container mb-5">
-        <div class = "row">
-            <div class = "col-lg-10 col-md-10 col-sm-12 co-xs-12">
-                <div class = "card">
-                    <div class = "card-header">
-                        <h5> <b> PROFILE INFO UPDATE </b> </h5>
-                    </div>
-                    <div class = "card-body">
-                        <form method = "POST" action = "{% url 'update_profile_buyer_save' %}" enctype="multipart/form-data"> {% csrf_token %}
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "email"> <b> EMAIL </b> </label>
-                                <div class = "col-md-6 col-sm-6">
-                                    <input type = "text" class = "form-control form-control-lg" id = "email" name = "email" value = "{{buyer.admin.email}}" disabled>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "username"> <b> USERNAME </b> </label>
-                                <div class = "col-md-6 col-sm-6">
-                                    <input type = "text" class = "form-control form-control-lg" id = "username" name = "username" value = "{{buyer.admin.username}}" required>
-                                    <input type = "hidden" value = {{buyer.admin.id}} name = "user_id">
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "image"> <b> PROFILE IMAGE </b> </label>
-                                <div class = "col-lg-6 col-md-6 col-sm-6">
-                                    <div class ="row">
-                                        <div class = "col-md-1 col-sm-3">
-                                            <img class = "rounded-circle inline" style = "height:50px; width:50px;"src = "{{buyer.image}}">
-                                        </div>
-                                        <div class = "col-md-5 col-sm-3">
-                                            <input type = "file" class = "form-control-file form-control-lg" id = "image" name = "image">
-                                        </div>
-                                    </div>  
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row">
-                                {% if messages %}
-                                    <div class = "col-12">
-                                    {% for message in messages %}
-                                        {% if message.tags == 'error' %}
-                                        <div class = "alert alert-danger mb-2 mt-2 text-dark">
-                                            {{message}}
-                                        </div>
-                                        {% endif %}
-                                        {% if message.tags == 'success' %}
-                                        <div class = "alert alert-success mb-2 mt-2 text-dark">
-                                            {{message}}
-                                        </div>
-                                        {% endif %}
-                                    {%endfor %}
-                                    </div>              
-                                {% endif %}
-                            </div>
-                            <button type = "submit" style = "border-radius:20px; width:100%;" class = "btn btn-transparent" data-toggle="tooltip" data-placement="bottom" title="You can always come back to update your profile"> 
-                                <b>Update Info </b><i class= "fas fa-info ml-2"> </i>
-                            </button>
-                        </form>
-                    </div>
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+		{% include 'user_templates/buyer_sidebar.html' %}
+
+        <!-- Dashboard Content
+        ================================================== -->
+        <div class="dashboard-content-container" data-simplebar>
+            <div class="dashboard-content-inner" >
+                
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Settings</h3>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" class="dark">
+                        <ul>
+                            <li><a href="{% url 'smart_home' %}">Home</a></li>
+                            <li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+                            <li>Settings</li>
+                        </ul>
+                    </nav>
                 </div>
+        
+                <!-- Row -->
+                <form class="row" method = "POST" action = "{% url 'update_profile_buyer_save' %}" enctype="multipart/form-data"> 
+                {% csrf_token %}
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-account-circle"></i> My Account Info </h3>
+                            </div>
+
+                            <div class="content with-padding padding-bottom-0">
+
+                                <div class="row">
+
+                                    <div class="col-auto">
+                                        <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
+                                            <img class="profile-pic" src="{{ buyer.image }}" alt="" />
+                                            <div class="upload-button"></div>
+                                            <input class="file-upload" type="file" name = "image" accept="image/*"/>
+                                        </div>
+                                        <div>
+                                            <h4> <b>Joined since: {{ buyer.return_time }} </b></h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="row">
+
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5> Username </h5>
+                                                    <input type="text" class="with-border" value="{{buyer.admin.username}}" disabled>
+                                                    <input type = "hidden" value = {{buyer.admin.id}} name = "user_id">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>Shortname</h5>
+                                                    <input type="text" class="with-border" value="{{buyer.short_name}}" name="shortname">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <!-- Account Type -->
+                                                <div class="submit-field">
+                                                    <h5>Account Type</h5>
+                                                    <div class="account-type">
+                                                    {% if request.user.account_type == '2'%}
+                                                        <div>
+                                                            <input type="radio" name="account-type-radio" id="employer-radio" class="account-type-radio" checked/>
+                                                            <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
+                                                        </div>
+                                                    {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>Email</h5>
+                                                    <input type="text" class="with-border" value="{{ buyer.admin.email}}" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class = "row">
+                        {% if messages %}
+                            <div class = "col-xl-12">
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <div class = "alert alert-danger mt-4 ml-3 text-dark" style = "width:100%;">
+                                            {{message}}
+                                        </div>
+                                    {% endif %}
+                                    {% if message.tags == 'success' %}
+                                        <div class = "alert alert-success ml-3 mt-4 text-dark" style = "width:100%;">
+                                            {{message}}
+                                        </div>
+                                    {% endif %}
+                                {%endfor %}
+                            </div>              
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Button -->
+                    <div class="col-xl-12">
+                        <button type = "submit" class="button ripple-effect big margin-top-30">Save Changes</button>
+                    </div>
+
+                </form>
+                <!-- Row / End -->
+
+                {% include 'user_templates/footer_dashboard.html'%}
+
             </div>
         </div>
-    </div>
+        <!-- Dashboard Content / End -->
+
+	
+	</div>
+	<!-- Dashboard Container / End -->
+
 {% endif %}
-<br><br>
+
 {% endblock content %}
 
+
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+{% endblock custom_js %}

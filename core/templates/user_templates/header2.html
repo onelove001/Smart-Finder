@@ -37,18 +37,22 @@
 							<li><a href="{% url 'user_profile' %}">Dashboard</a>
 								<ul class="dropdown-nav">
 									<li><a href="{% url 'seller_page' %}">Become a seller</a></li>
-									<li><a href="dashboard-messages.html">Messages</a></li>
-									<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
-									<li><a href="dashboard-settings.html">Settings</a></li>
+									<li><a href="#">Messages</a></li>
+									<li><a href="#">Post a Job</a></li>
+									{% if request.user.account_type == '3' %}
+									<li><a href="{% url 'update_profile_seller' %}">Settings</a></li>
+									{% elif request.user.account_type == '2' %}
+									<li><a href="{% url 'update_profile_buyer' %}">Settings</a></li>
+									{% endif %}
 								</ul>
 							</li>
 	
-							<li><a href="">Explore</a>
+							<li><a href="#">Explore</a>
 								<ul class="dropdown-nav">
-									<li><a href="pages-blog.html">Blog</a></li>
-									<li><a href="pages-pricing-plans.html">Guide</a></li>
-									<li><a href="pages-checkout-page.html">News Page</a></li>
-									<li><a href="pages-contact.html">Contact Us</a></li>
+									<li><a href="#">Blog</a></li>
+									<li><a href="#">Guide</a></li>
+									<li><a href="#">News Page</a></li>
+									<li><a href="#">Contact Us</a></li>
 								</ul>
 							</li>
 	
@@ -247,8 +251,15 @@
 							</div>
 							
 							<ul class="user-menu-small-nav">
-								<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-								<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
+								<li><a href="{% url 'user_profile' %}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
+								
+								{% if request.user.account_type == '2' %}
+								<li><a href="{% url 'update_profile_buyer' %}"><i class="icon-material-outline-settings"></i> Settings</a></li>
+								
+								{% elif request.user.account_type == '3' %}
+								<li><a href="{% url 'update_profile_seller' %}"><i class="icon-material-outline-settings"></i> Settings</a></li>
+								
+								{% endif %}
 								<li><a href="{% url 'logout_user' %}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 							</ul>
 	

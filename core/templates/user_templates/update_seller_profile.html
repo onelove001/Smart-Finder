@@ -1,174 +1,243 @@
-{% extends 'user_templates/base.html' %}
+{% extends 'user_templates/base3.html' %}
+{% load static %}
 
 {% block title %}
-    Update profile
+    Settings
 {% endblock title %}
 
 
-{% block content %}<br><br><br><br><br><br><br>
+{% block content %}
+
 {% if request.user.account_type == "3" %}
-    <div class = "container mb-5">
-        <div class = "row">
-            <div class = "col-lg-12 col-md-12 col-sm-12 co-xs-12">
-                <div class = "card">
-                    <div class = "card-header">
-                        <h5> <b> Update Your Profile </b> </h5>
-                    </div>
-                    <div class = "card-body">
-                        <form method = "POST" action = "{% url 'update_profile_seller_save' %}" enctype="multipart/form-data"> {% csrf_token %}
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "email"> <b> Email </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <input type = "text" class = "form-control form-control-lg" id = "email" name = "email" value = "{{seller.admin.email}} - (can't be altered)" disabled>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "firstname"> <b> First name </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <input type = "text" class = "form-control form-control-lg" id = "firstname" name = "firstname" value = "{{seller.admin.first_name}}" required>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "lastname"> <b> Last name </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <input type = "text" class = "form-control form-control-lg" id = "lastname" name = "lastname" value = "{{seller.admin.last_name}}" required>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "shortname"> <b> Short name </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <input type = "text" class = "form-control form-control-lg" id = "shortname" name = "shortname" value = "{{seller.short_name}}" required>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "username"> <b> Username </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <input type = "text" class = "form-control form-control-lg" id = "username" name = "username" value = "{{seller.admin.username}}" required>
-                                    <input type = "hidden" name = "user_id" value = {{seller.admin.id}}>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "description"> <b> Description </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <textarea rows="4" class = "form-control form-control-lg" id = "description" name = "description" value = "{{seller.description}}"> {{seller.description}} </textarea>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "address"> <b> Address </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <input type = "text" class = "form-control form-control-lg" id = "address" name = "address" value = "{{seller.address}}" required>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "phone"> <b> Cell phone </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <input type = "text" class = "form-control form-control-lg" id = "phone" name = "phone" value = "{{seller.phone_number}}" required>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "cat"> <b> Category </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <select class = "form-control form-control-lg" id = "cat" name = "cat" disabled>
-                                        {% for cat in categories %}
-                                            <option value = {{cat.id}} {% if seller.category.id == cat.id %} selected {% endif %}> {{cat.category_title}} - (can't be altered)</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "sub_cat"> <b> Sub category </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <select class = "form-control form-control-lg" id = "sub_cat" name = "sub_cat" disabled>
-                                        {% for cat in sub_categories %}
-                                            <option value = {{cat.id}} {% if seller.sub_category.id == cat.id %} selected {% endif %}> {{cat}} - (can't be altered)</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "level"> <b> Xperience Level </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <select class = "form-control form-control-lg" id = "level" name = "level">
-                                        {% for level in levels %}
-                                            <option value = {{level.id}} {% if seller.experience_level.id == level.id %} selected {% endif %}> {{level.level}} </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "lang"> <b> Language </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <select class = "form-control form-control-lg" id = "lang" name = "lang">
-                                        {% for lang in languages %}
-                                            <option value = {{lang.id}} {% if seller.language.id == lang.id %} selected {% endif %}> {{lang.language_name}} </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "gender"> <b> Gender </b> </label>
-                                <div class = "col-md-6 col-sm-6 md-form my-0">
-                                    <select class = "form-control form-control-lg" id = "gender" name = "gender">
-                                        <option {% if seller.gedner == 'Male' %} selected {% endif %}> Male </option>
-                                        <option {% if seller.gender == 'Female' %} selected {% endif %}> Female </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row mt-4">
-                                <label class = "col-md-4 col-sm-6 col-form-label col-form-label-lg" for = "image"> <b> Profile Image </b> </label>
-                                <div class = "col-lg-6 col-md-6 col-sm-6">
-                                    <div class ="row">
-                                        <div class = "col-md-1 col-sm-3">
-                                            <img class = "rounded-circle inline" style = "height:50px; width:50px;"src = "{{seller.image}}" name = "image">
-                                        </div>
-                                        <div class = "col-md-5 col-sm-3">
-                                            <input type = "file" class = "form-control-file form-control-lg" id = "image" name = "image">
-                                        </div>
-                                    </div>  
-                                </div>
-                            </div>
-                            <br>
-                            <div class = "form-group row">
-                                {% if messages %}
-                                    <div class = "col-12">
-                                    {% for message in messages %}
-                                        {% if message.tags == 'error' %}
-                                        <div class = "alert alert-danger mb-2 mt-2 text-dark">
-                                            {{message}}
-                                        </div>
-                                        {% endif %}
-                                        {% if message.tags == 'success' %}
-                                        <div class = "alert alert-success mb-2 mt-2 text-dark">
-                                            {{message}}
-                                        </div>
-                                        {% endif %}
-                                    {%endfor %}
-                                    </div>              
-                                {% endif %}
-                            </div>
-                            <button type = "submit" style = "border-radius:20px; width:100%;" class = "btn btn-transparent" data-toggle="tooltip" data-placement="bottom" title="You can always come back to update your profile"> 
-                                <b>Update Info </b><i class= "fas fa-info ml-2"> </i>
-                            </button>
-                        </form>
-                    </div>
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+        {% include 'user_templates/seller_sidebar.html' %}
+
+
+        <!-- Dashboard Content
+        ================================================== -->
+        <div class="dashboard-content-container" data-simplebar>
+            <div class="dashboard-content-inner" >
+                
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Settings</h3>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" class="dark">
+                        <ul>
+                            <li><a href="{% url 'smart_home' %}">Home</a></li>
+                            <li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+                            <li>Settings</li>
+                        </ul>
+                    </nav>
                 </div>
+        
+                <!-- Row -->
+                <form class="row" method = "POST" action = "{% url 'update_profile_seller_save' %}" enctype="multipart/form-data"> 
+                {% csrf_token %}
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-account-circle"></i> My Account Info</h3>
+                            </div>
+
+                            <div class="content with-padding padding-bottom-0">
+
+                                <div class="row">
+
+                                    <div class="col-auto">
+                                        <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
+                                            <img class="profile-pic" src="{{ seller.image }}" alt="" />
+                                            <div class="upload-button"></div>
+                                            <input class="file-upload" type="file" name = "image" accept="image/*"/>
+                                        </div>
+                                        <div>
+                                            <h4> <b>Joined since: {{ seller.return_time }} </b></h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="row">
+
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>Username</h5>
+                                                    <input type="text" class="with-border" value="{{seller.admin.username}}" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>Shortname</h5>
+                                                    <input type="text" class="with-border" value="{{seller.short_name}}" name = "shortname">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <!-- Account Type -->
+                                                <div class="submit-field">
+                                                    <h5>Account Type</h5>
+                                                    <div class="account-type">
+                                                    {% if request.user.account_type == '3'%}
+                                                        <div>
+                                                            <input type="radio" name="account-type-radio" id="freelancer-radio" class="account-type-radio" checked/>
+                                                            <label for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer </label>
+                                                        </div>
+                                                    {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <div class="submit-field">
+                                                    <h5>Email</h5>
+                                                    <input type="text" class="with-border" value="{{ seller.admin.email }}" disabled>
+                                                    <input type = "hidden" name = "user_id" value = "{{ seller.admin.id }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-face"></i> More Info</h3>
+                            </div>
+
+                            <div class="content">
+                                <ul class="fields-ul">
+                                <li>
+                                    <div class="row">
+
+                                        <div class="col-xl-6">
+                                            <div class="submit-field">
+                                                <h5>Firstname</h5>
+                                                <input type="text" class="with-border" value="{{seller.admin.first_name}}" name = "firstname">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="submit-field">
+                                                <h5>Lastname</h5>
+                                                <input type="text" class="with-border" value="{{seller.admin.last_name}}" name = "lastname">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="submit-field">
+                                                <h5>Occupation</h5>
+                                                <input type="text" class="with-border" value="{{seller.category.category_title}}" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="submit-field">
+                                                <h5>Address</h5>
+                                                <input type="text" class="with-border" value="{{seller.address}}" name = "address">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="submit-field">
+                                                <h5>Cell Number</h5>
+                                                <input type="text" class="with-border" value="{{seller.phone_number}}" name = "phone">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="submit-field">
+                                                <h5>Level</h5>
+                                                <input type="text" class="with-border" value="{{ seller.experience_level.level}}" name = "level" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class = "row">
+
+                                        <div class="col-xl-12">
+                                            <div class="submit-field">
+                                                <h5>Update Your Description</h5>
+                                                <input type="text" class="with-border" name = "description">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-12">
+                                            <div class="submit-field">
+                                                <h5>Description</h5>
+                                                <textarea cols="30" rows="3" class="with-border" value = {{seller.description}} > {{ seller.description }} </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class = "row">
+                        {% if messages %}
+                            <div class = "col-xl-12">
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <div class = "alert alert-danger mt-4 ml-3 text-dark" style = "width:100%;">
+                                            {{message}}
+                                        </div>
+                                    {% endif %}
+                                    {% if message.tags == 'success' %}
+                                        <div class = "alert alert-success ml-3 mt-4 text-dark" style = "width:100%;">
+                                            {{message}}
+                                        </div>
+                                    {% endif %}
+                                {%endfor %}
+                            </div>              
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Button -->
+                    <div class="col-xl-12">
+                        <button type = "submit" class="button ripple-effect big margin-top-30">Save Changes</button>
+                    </div>
+
+                </form>
+                <!-- Row / End -->
+
+                {% include 'user_templates/footer_dashboard.html'%}
+
             </div>
         </div>
-    </div>
+        <!-- Dashboard Content / End -->
+
+	
+	</div>
+	<!-- Dashboard Container / End -->
+
 {% endif %}
-<br><br>
+
 {% endblock content %}
 
+
+
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+{% endblock custom_js %}

@@ -115,7 +115,7 @@
                     <!-- Photo Box -->
                     <a href="{% url 'freelancers_page' cat.id %}" class="photo-box small" data-background-image={{cat.image}}>
                         <div class="photo-box-content">
-                            <h2 style = "color:rgb(255, 251, 247);"><b> {{cat.category_title}} </b> </h2> <hr style = "border-radius: 2px; color:rgb(255, 251, 246);"><br>
+                            <h3> {{cat.category_title}} </h3> <hr style = "border-radius: 2px; color:rgb(255, 251, 246);"><br>
                             <span style = "margin-right:4px;"> <b>{{cat.get_number_of_services}} Services</b></span>
                             <span> <b>{{cat.get_number_of_sellers}} Freelancers </b></span>
                         </div>
