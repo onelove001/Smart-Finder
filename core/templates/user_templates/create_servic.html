@@ -121,9 +121,9 @@
 
                     <div class = "col-xl-12">
 
-                      <h3> Upload Images that will best describe your service </h3> <hr>
+                      <h5><b> Upload Images that best describes your service </b></h5> <hr>
                        
-                      <div class="col-xl-4">
+                      <!-- <div class="col-xl-4">
                         <div class="custom-file">
                           <input type="file" class="custom-file-input" id="image1" name = "image1">
                           <label class="custom-file-label" for="image1">Select image</label>
@@ -144,20 +144,38 @@
                           <input type="file" class="custom-file-input" id="image3" name = "image3">
                           <label class="custom-file-label" for="image3">Select image</label>
                         </div>
-                      </div>
+                      </div> -->
 
 
-                        <!-- <div class = "col-xl-4">
+                        <div class = "col-xl-4">
                           <div class = "submit-field">
                             <div class="uploadButton margin-top-30">
-                              <input class="uploadButton-input" type="file" id="upload2" name = "image2" />
-                              <label class="uploadButton-button ripple-effect" for="upload2">Upload Image 2</label>
-                              <span class="uploadButton-file-name">Images that will be helpful in describing your project</span>
+                              <input class="uploadButton-input" type="file" id="upload1" name = "image1" />
+                              <label class="uploadButton-button ripple-effect" for = "upload1">Upload Image 1</label>
+                              <span class="uploadButton-file-name"> This will be the Main Image </span>
                             </div>
                           </div>
                         </div>
-                        -->
 
+                        <div class = "col-xl-4">
+                          <div class = "submit-field">
+                            <div class="uploadButton margin-top-30">
+                              <input class="uploadButton-input" type="file" name = "image2" />
+                              <label class="uploadButton-button ripple-effect">Upload Image 2</label>
+                              <span class="uploadButton-file-name">Auxiliary Image</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class = "col-xl-4">
+                          <div class = "submit-field">
+                            <div class="uploadButton margin-top-30">
+                              <input class="uploadButton-input" type="file" name = "image3" />
+                              <label class="uploadButton-button ripple-effect" >Upload Image 3</label>
+                              <span class="uploadButton-file-name"> Auxiliary Image</span>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -253,13 +271,3 @@
 </script>
 
 {% endblock custom_js %}
-
-<!-- <div class="input-group row mt-4">
-  <label class = "col-4 col-form-label col-form-label-lg" for="image1">  <b> Main Image </b> </label>
-  <div class = "col-8">
-    <div class="custom-file">
-      <input type="file" class="custom-file-input" id="image1" name = "image1">
-      <label class="custom-file-label" for="image1">Select image</label>
-    </div>
-  </div>
-</div> -->

@@ -12,17 +12,37 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def landing_page(request):
+    
     categories = Category.objects.all()
+    buyers_count = Buyer.objects.all().count()
+    sellers_count = Seller.objects.all().count()
+    services_count = Service.objects.all().count()
     services = Service.objects.all()
-    paginate = Paginator(services, 8)
+    categories_count = Category.objects.all().count()
+    all_members = customUser.objects.all().count()
+
+
+    paginate = Paginator(services, 4)
     p = request.GET.get("page")
     pages = paginate.get_page(p)
 
-    return render(request, 'core_templates/landing_page.html', {"services":services, "pages":pages, "categories":categories})
+    context = {
+        "categories":categories,
+        "categories_count":categories_count,
+        "sellers_count":sellers_count,
+        "buyers_count":buyers_count,
+        "services_count":services_count,
+        "all_members":all_members,
+        "services":services,
+        "pages":pages,
+
+    }
+
+    return render(request, 'core_templates/landing_page2.html', context)
 
 
 
-@csrf_exempt
+
 def login_user(request):
     if request.method == "POST":
         email = request.POST.get("email")
