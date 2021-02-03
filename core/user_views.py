@@ -20,10 +20,6 @@ def smart_home(request):
     all_members = customUser.objects.all().count()
 
 
-    # paginate = Paginator(services, 8)
-    # p = request.GET.get("page")
-    # pages = paginate.get_page(p)
-
     context = {
         "categories":categories,
         "categories_count":categories_count,
@@ -40,8 +36,13 @@ def freelancers_page(request, category_idd):
     categories = Category.objects.all()
     services = Service.objects.filter(category = category_idd)
     serv = Service.objects.filter(category = category_idd).count()
+    freelancers = Seller.objects.filter(category = category_idd).count()
 
-    context = {"categories":categories, "services":services, "serv":serv}
+    paginate = Paginator(services, 2)
+    p = request.GET.get("page")
+    pages = paginate.get_page(p)
+
+    context = {"categories":categories, "services":services, "serv":serv, "freelancers":freelancers, "pages":pages}
     return render(request, 'user_templates/freelancers.html', context)
 
 
@@ -136,6 +137,12 @@ def user_profile(request):
     if request.user.account_type == '3':
         user = customUser.objects.get(id = request.user.id)
         seller = Seller.objects.get(admin = user.id)
+        service = Service.objects.filter(owner = seller.id)
+        if service.exists():
+            empty = 1
+        else:
+            empty = 0
+    
         try:
             buyers = []
             service_co = Service.objects.filter(owner = seller.id, ordered = "ordered")
@@ -145,7 +152,7 @@ def user_profile(request):
                     buyers.append(s)
                     
             service_count = len(buyers)
-            context = {"seller":seller, "service_count":service_count, "buyers":buyers}
+            context = {"seller":seller, "service_count":service_count, "buyers":buyers, "empty":empty, "service":service}
 
         except:
             context = {"seller":seller}
@@ -252,7 +259,7 @@ def update_profile_buyer_save(request):
     return HttpResponse("Request cannot be processed")
 
 
-
+@login_required
 def create_service_(request):
     user = request.user.id
     categories = Category.objects.all()
@@ -305,16 +312,14 @@ def create_service_save(request):
 
 
 
-def seller_profile_detail(request, service_id):
+@login_required
+def service_detail(request, service_id):
     service = Service.objects.get(id = service_id)
     ratings = star_rating.objects.all()
     reviews = Reviews.objects.filter(seller_id = service.owner.id).count()
-    reviewss = Reviews.objects.filter(seller_id = service.owner.id)
-    empty = []
-    if len(reviewss) == 0:
-        empty = []
+    
 
-    return render(request, "user_templates/seller_profile_detail.html", {"service":service, "ratings":ratings, "reviews":reviews, "reviewss":reviewss, "empty":empty})
+    return render(request, "user_templates/service_detail.html", {"service":service, "ratings":ratings, "reviews":reviews})
 
 
 
@@ -329,6 +334,8 @@ def get_category(request, category_id):
     return render(request, 'user_templates/get_category_page.html', {"services":services, 'pages':pages, 'categories':categories})
 
 
+
+@login_required
 def search(request):
     if request.method == "POST":
         search = request.POST.get('search')
@@ -346,21 +353,26 @@ def search(request):
         return HttpResponse('Not a valid request')
 
 
-@csrf_exempt
+
 def user_review_save(request):
     if request.method == "POST":
-        user = request.POST.get('user')
+        seller = request.POST.get('user')
         review = request.POST.get('review')
         rate = request.POST.get('rate')
+        service = request.POST.get('service')
 
-        user_obj = customUser.objects.get(id = user)
-        seller = Seller.objects.get(admin = user_obj.id)
+        print(" ############### ", rate)
+
+        seller_obj = customUser.objects.get(id = seller)
+        service_obj = Service.objects.get(id = service)
+        user_obj = customUser.objects.get(id = request.user.id)
+        seller_id = Seller.objects.get(admin = seller_obj.id)
         rate_obj = star_rating.objects.get(id = rate)
 
         try:
-            review_obj = Reviews(seller_id = seller, rating = rate_obj, review_content = review)
+            review_obj = Reviews(seller_id = seller_id, service_id = service_obj, user_id = user_obj, rating = rate_obj, review_content = review)
             review_obj.save()
-            return HttpResponse("True")
+            return redirect(request.META.get("HTTP_REFERER"))
 
         except:
             return HttpResponse("False")
@@ -368,6 +380,7 @@ def user_review_save(request):
 
 
 
+@login_required
 def user_service_order(request):
     if request.method == "POST":
         service_id = request.POST.get("service_id")
@@ -392,3 +405,32 @@ def user_service_order(request):
             return redirect(request.META.get("HTTP_REFERER"))
 
     return HttpResponse(" <h2> This request cannot be processed </h2> ")
+
+
+
+def seller_profile(request, seller_id):
+    seller = Seller.objects.get(id = seller_id)
+    services = Service.objects.filter(owner = seller.id).count()
+    reviews = Reviews.objects.filter(seller_id = seller.id)
+    reviewss = Reviews.objects.filter(seller_id = seller.id).count()
+    
+    paginator = Paginator(reviews, 3)
+    p = request.GET.get("page")
+    pages = paginator.get_page(p)
+
+    context = { "seller":seller, "reviews":reviews, "pages":pages, "services":services, "reviewss":reviewss}
+    return render(request, "user_templates/seller_profile.html", context)
+
+
+
+def seller_reviews(request):
+    user_id = request.user.id
+    seller = Seller.objects.get(admin = user_id)
+    reviews = Reviews.objects.filter(seller_id = seller.id)
+    reviewss = Reviews.objects.filter(seller_id = seller.id).count()
+
+    paginator = Paginator(reviews, 2)
+    p = request.GET.get("page")
+    pages = paginator.get_page(p)
+
+    return render(request, "user_templates/seller_reviews.html", {"reviews":reviews, "pages":pages, "reviewss":reviewss})

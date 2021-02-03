@@ -80,9 +80,7 @@
                       <div class="submit-field">
                         <h5>Sub category</h5>
                         <select class = "form-control-lg with-border" title = "Select Subcategory" name = "sub_cat" id="sub_cat_id" required>
-                          {% for cat in sub_categories %}
-                            <option value = {{cat.id}}> {{cat}} </option>
-                          {% endfor %}
+                          
                         </select>
                       </div>
                     </div>
@@ -150,8 +148,8 @@
                         <div class = "col-xl-4">
                           <div class = "submit-field">
                             <div class="uploadButton margin-top-30">
-                              <input class="uploadButton-input" type="file" id="upload1" name = "image1" />
-                              <label class="uploadButton-button ripple-effect" for = "upload1">Upload Image 1</label>
+                              <input class="uploadButton-input" type="file" id="image1" name = "image1" />
+                              <label class="uploadButton-button ripple-effect" for = "image1">Upload Image 1</label>
                               <span class="uploadButton-file-name"> This will be the Main Image </span>
                             </div>
                           </div>
@@ -160,8 +158,8 @@
                         <div class = "col-xl-4">
                           <div class = "submit-field">
                             <div class="uploadButton margin-top-30">
-                              <input class="uploadButton-input" type="file" name = "image2" />
-                              <label class="uploadButton-button ripple-effect">Upload Image 2</label>
+                              <input class="uploadButton-input" type="file" name = "image2" id="image2" />
+                              <label class="uploadButton-button ripple-effect" for = "image2">Upload Image 2</label>
                               <span class="uploadButton-file-name">Auxiliary Image</span>
                             </div>
                           </div>
@@ -170,8 +168,8 @@
                         <div class = "col-xl-4">
                           <div class = "submit-field">
                             <div class="uploadButton margin-top-30">
-                              <input class="uploadButton-input" type="file" name = "image3" />
-                              <label class="uploadButton-button ripple-effect" >Upload Image 3</label>
+                              <input class="uploadButton-input" type="file" name = "image3" id="image3"/>
+                              <label class="uploadButton-button ripple-effect" for = "image3">Upload Image 3</label>
                               <span class="uploadButton-file-name"> Auxiliary Image</span>
                             </div>
                           </div>

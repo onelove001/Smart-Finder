@@ -60,6 +60,10 @@
 						<strong class="counter">{{serv}}</strong>
 						<span>Freelancing services</span>
 					</li>
+					<li>
+						<strong class="counter">{{freelancers}}</strong>
+						<span>Freelancers</span>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -214,8 +218,8 @@
 			<div class="tasks-list-container compact-list margin-top-35">
 				
 				<!-- Task -->
-				{% for service in services %}
-					<a href="#" class="task-listing">
+				{% for service in pages %}
+					<a href="{% url 'service_detail' service.id %}" class="task-listing">
 
 						<!-- Job Listing Details -->
 						<div class="task-listing-details">
@@ -244,7 +248,7 @@
 									<strong> ${{service.charge}} </strong>
 									<span>Fixed Charge</span>
 								</div>
-								<span class="button button-sliding-icon ripple-effect"> Order Now! <i class="icon-material-outline-arrow-right-alt"></i></span>
+								<span class="button button-sliding-icon ripple-effect"> Check This! <i class="icon-material-outline-arrow-right-alt"></i></span>
 							</div>
 						</div>
 					</a>
@@ -255,26 +259,45 @@
 			<!-- Tasks Container / End -->
 
 
-			<!-- Pagination -->
-			<div class="clearfix"></div>
-			<div class="row">
-				<div class="col-md-12">
-					<!-- Pagination -->
-					<div class="pagination-container margin-top-60 margin-bottom-60">
-						<nav class="pagination">
-							<ul>
-								<li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
-								<li><a href="#" class="ripple-effect">1</a></li>
-								<li><a href="#" class="current-page ripple-effect">2</a></li>
-								<li><a href="#" class="ripple-effect">3</a></li>
-								<li><a href="#" class="ripple-effect">4</a></li>
-								<li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
-							</ul>
-						</nav>
-					</div>
+		<!-- Pagination -->
+		<div class="clearfix"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<!-- Pagination -->
+				<div class="pagination-container margin-top-60 margin-bottom-60">
+					<nav class="pagination">
+						<ul>
+						{% if pages.has_previous %}
+						<li class="pagination-arrow">
+							<a href="?page={{pages.previous_page_number}}" class="ripple-effect">
+								<i class="icon-material-outline-keyboard-arrow-left"></i>
+							</a>
+						</li>
+						{% endif %}
+
+						{% for page in pages.paginator.page_range %}
+							{% if pages.number == page %}
+							<li><a href="?page={{page}}" class="current-page ripple-effect"> {{ page }}</a></li>
+
+							{% else %}
+							<li><a href="?page={{page}}" class="ripple-effect">{{page}}</a></li>
+							
+							{% endif %}
+						{% endfor %}
+						
+						{% if pages.has_next %}
+						<li class="pagination-arrow">
+							<a href="?page={{pages.next_page_number}}" class="ripple-effect">
+								<i class="icon-material-outline-keyboard-arrow-right"></i>
+							</a>
+						</li>
+						{% endif %}
+						</ul>
+					</nav>
 				</div>
 			</div>
-			<!-- Pagination / End -->
+		</div>
+		<!-- Pagination / End -->
 
 		</div>
 	</div>

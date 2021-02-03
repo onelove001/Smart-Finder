@@ -1,0 +1,233 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+    Freelancer
+{% endblock app_title %}
+
+
+{% block content %}
+
+
+<!-- Titlebar
+================================================== -->
+<div class="single-page-header freelancer-header" data-background-image="{% static 'images2/single-freelancer.jpg' %}">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="single-page-header-inner">
+					<div class="left-side">
+						<div class="header-image freelancer-avatar"><img src="{{seller.image}}" alt=""></div>
+						<div class="header-details">
+							<h3>{{ seller.admin.username }} <span>{{seller.category.category_title}} <br> {{seller.experience_level.level}}</span></h3>
+							<ul>
+								<li><div class="star-rating" data-rating="5.0"></div></li>
+                                <li><img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt=""> Nigeria</li>
+                                {% if seller.verified == 'yes' %}
+                                <li><div class="verified-badge-with-title">Verified</div></li>
+                                {% endif %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+	<div class="row">
+		
+		<!-- Content -->
+		<div class="col-xl-8 col-lg-8 content-right-offset">
+			
+			<!-- Page Content -->
+			<div class="single-page-section">
+                <h3 class="margin-bottom-25">About Me</h3>
+                <p> {{seller.description}} </p>
+			</div>
+
+			<!-- Page Content -->
+			<div class="single-page-section">
+                <h3 class="margin-bottom-25">Email Address</h3>
+                <p> {{seller.admin.email}} </p>
+			</div>
+
+			<!-- Page Content -->
+			<div class="single-page-section">
+                <h3 class="margin-bottom-25">Address</h3>
+                <p> {{seller.address}} </p>
+			</div>
+
+			<!-- Page Content -->
+			<div class="single-page-section">
+                <h3 class="margin-bottom-25">Cell Number</h3>
+                <p> {{seller.phone_number}} </p>
+			</div>
+
+			<!-- Boxed List -->
+			<div class="boxed-list margin-bottom-60">
+				<div class="boxed-list-headline">
+					<h3><i class="icon-material-outline-thumb-up"></i> Feedbacks | Reviews </h3>
+				</div>
+				<ul class="boxed-list-ul">
+                    {% if reviewss == 0 %}
+                        <li>
+                            <div class="boxed-list-item">
+                                <!-- Content -->
+                                <div class="item-content">
+                                    <h4> No Reviews </h4>
+                                    <div class="item-details margin-top-10">
+
+                                    </div>
+                                    <div class="item-description">
+                                        <p> This freelancer has no reveiws yet </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    {% else %}
+
+                        {% for review in pages %}
+                        <li>
+                            <div class="boxed-list-item">
+                                <!-- Content -->
+                                <div class="item-content">
+									<h4> {{review.service_id.title}} </h4>
+									
+                                    <div class="item-details margin-top-10">
+
+                                        <div class="star-rating" data-rating="{{ review.rating }}"></div>
+                                        <div class="detail-item"><i class="icon-material-outline-date-range"></i> {{ review.date_reviewed}} </div>
+                                    </div>
+                                    <div class="item-description">
+										<p>{{review.review_content}}. </p>
+										- <span> @{{ review.user_id.username }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    {% endif %}
+				</ul>
+
+				<!-- Pagination -->
+				<div class="clearfix"></div>
+				<div class="pagination-container margin-top-40 margin-bottom-20">
+					<nav class="pagination">
+						<ul>
+						{% if pages.has_previous %}
+						<li class="pagination-arrow">
+							<a href="?page={{pages.previous_page_number}}" class="ripple-effect">
+								<i class="icon-material-outline-keyboard-arrow-left"></i>
+							</a>
+						</li>
+						{% endif %}
+
+						{% for page in pages.paginator.page_range %}
+							{% if pages.number == page %}
+							<li><a href="?page={{page}}" class="current-page ripple-effect"> {{ page }}</a></li>
+
+							{% else %}
+							<li><a href="?page={{page}}" class="ripple-effect">{{page}}</a></li>
+							
+							{% endif %}
+						{% endfor %}
+						
+						{% if pages.has_next %}
+						<li class="pagination-arrow">
+							<a href="?page={{pages.next_page_number}}" class="ripple-effect">
+								<i class="icon-material-outline-keyboard-arrow-right"></i>
+							</a>
+						</li>
+						{% endif %}
+						</ul>
+					</nav>
+				</div>
+				<div class="clearfix"></div>
+                <!-- Pagination / End -->
+
+			</div>
+			<!-- Boxed List / End -->
+
+		</div>
+		
+
+		<!-- Sidebar -->
+		<div class="col-xl-4 col-lg-4">
+			<div class="sidebar-container">
+				
+				<!-- Profile Overview -->
+				<div class="profile-overview">
+					<div class="overview-item"><strong>Status</strong><span>Freelancer</span></div>
+					<!-- <div class="overview-item"><strong>53</strong><span>Jobs Done</span></div> -->
+					<div class="overview-item"><strong>{{services}}</strong><span>Services</span></div>
+					<div class="overview-item"><strong>{{reviewss}}</strong><span>Reviews</span></div>
+				</div>
+
+
+				<!-- Widget -->
+				<div class="sidebar-widget">
+					<h3>Skills</h3>
+					<div class="task-tags">
+						<span>iOS</span>
+						<span>Android</span>
+						<span>mobile apps</span>
+						<span>design</span>
+						<span>Python</span>
+						<span>Flask</span>
+						<span>PHP</span>
+						<span>WordPress</span>
+					</div>
+				</div>
+
+				<!-- Sidebar Widget -->
+				<div class="sidebar-widget">
+					<h3> Share</h3>
+
+					<!-- Copy URL -->
+					<div class="copy-url">
+						<input id="copy-url" type="text" value="" class="with-border">
+						<button class="copy-url-button ripple-effect" data-clipboard-target="#copy-url" title="Copy to Clipboard" data-tippy-placement="top"><i class="icon-material-outline-file-copy"></i></button>
+					</div>
+
+					<!-- Share Buttons -->
+					<div class="share-buttons margin-top-25">
+						<div class="share-buttons-trigger"><i class="icon-feather-share-2"></i></div>
+						<div class="share-buttons-content">
+							<span>Interesting? <strong>Share It!</strong></span>
+							<ul class="share-buttons-icons">
+								<li><a href="#" data-button-color="#3b5998" title="Share on Facebook" data-tippy-placement="top"><i class="icon-brand-facebook-f"></i></a></li>
+								<li><a href="#" data-button-color="#1da1f2" title="Share on Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
+								<li><a href="#" data-button-color="#dd4b39" title="Share on Google Plus" data-tippy-placement="top"><i class="icon-brand-google-plus-g"></i></a></li>
+								<li><a href="#" data-button-color="#0077b5" title="Share on LinkedIn" data-tippy-placement="top"><i class="icon-brand-linkedin-in"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+<!-- Spacer -->
+<div class="margin-top-15"></div>
+<!-- Spacer / End-->
+
+
+
+
+{% include 'user_templates/footer2.html' %}
+
+{% endblock content %}
+
+{% block custom_js %}
+  
+{% endblock custom_js %}

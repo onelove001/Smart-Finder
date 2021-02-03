@@ -1,0 +1,247 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+    Service
+{% endblock app_title %}
+
+
+{% block content %}
+
+<!-- Titlebar
+================================================== -->
+<div class="single-page-header" data-background-image="{% static 'images2/single-task.jpg' %}">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="single-page-header-inner">
+					<div class="left-side">
+						<div class="header-image"><a href="{% url 'seller_profile' service.owner.id %}"><img src="{{service.image1}}" alt=""></a></div>
+						<div class="header-image"><a href="{% url 'seller_profile' service.owner.id %}"><img src="{{service.image2}}" alt=""></a></div>
+						<div class="header-details">
+							<h3>{{ service.title }}</h3>
+							<h5> {{ service.plan }} plan</h5>
+							<!-- <h5><a href="{% url 'seller_profile' service.owner.id %}"><i class="icon-material-outline-business"></i> About the Seller </h5> -->
+							<ul>
+								<br>
+								<li> {{ service.category.category_title }} --></li>
+								<li> {{ service.sub_category }} --></li>
+								<li><a href="{% url 'seller_profile' service.owner.id %}"><i class="icon-material-outline-business"></i> About the Freelancer </a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="right-side">
+						<div class="salary-box">
+							<div class="salary-type">Service Budget</div>
+							<div class="salary-amount">${{ service.charge }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+	<div class="row">
+		
+		<!-- Content -->
+		<div class="col-xl-8 col-lg-8 content-right-offset margin-bottom-35" >	
+			<!-- Description -->
+			<div class="single-page-section">
+				<h3 class="margin-bottom-25">Service Description</h3>
+				<p> {{ service.description }}</p>
+			</div>
+
+			{% if service.owner.admin.username != request.user.username %}	
+			<!-- Dashboard Box| Rate freelancer -->
+			<div class="col-xl-12">
+				<div class="dashboard-box margin-top-0">
+
+					<!-- Headline -->
+					<div class="headline">
+						<h3><i class="icon-material-outline-face"></i> Rate this Freelancer ({{service.owner.admin.username}})</h3>
+					</div>
+
+					<div class="content">
+						<ul class="dashboard-box-list">
+							<li>
+								<div class="boxed-list-item">
+									<!-- Content -->
+									<div class="item-content">
+										<h4>{{ service.title }}</h4>
+										<span> ({{ service.category.category_title }}) </span>
+									</div>
+								</div>
+								<br><hr>
+								<a href="#small-dialog-2" class="popup-with-zoom-anim button ripple-effect margin-top-5 margin-bottom-10"><i class="icon-material-outline-thumb-up"></i> Rate and Leave a Review </a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- Dashboard Box| Rate freelancer / Ends -->
+			{% endif %}
+
+			<!-- Leave a Review for Freelancer Popup
+			================================================== -->
+			<div id="small-dialog-2" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+				<!--Tabs -->
+				<div class="sign-in-form">
+
+					<ul class="popup-tabs-nav">
+					</ul>
+
+					<div class="popup-tabs-container">
+
+						<!-- Tab -->
+						<div class="popup-tab-content" id="tab2">
+							
+							<!-- Welcome Text -->
+							<div class="welcome-text">
+								<h3>Leave a Review</h3>
+								<span>Rate <a href="{% url 'seller_profile' service.owner.admin.id %}">|{{ service.owner.admin.username }}|</a> for the project <a href="{% url 'service_detail' service.id %}">|{{ service.title }}|</a> </span>
+							</div>
+								
+							<!-- Form -->
+							<form id="leave-review-form" method="POST" action="{% url 'user_review_save' %}"> {% csrf_token %}
+								<input type = "hidden" value= "{{service.owner.admin.id}}" name = 'user' id = "user_id">
+								<input type = "hidden" value = "{{ service.id }}" id = "service_id" name = "service">
+								<div class="feedback-yes-no">
+									<strong>Your Rating</strong>
+									<div class="leave-rating">			
+										{% for rate in ratings %}
+											<input type="radio" class = "rate" name = "rate" id = "rating-radio-{{rate}}" value="{{rate.id}}" required> 
+											<label for= "rating-radio-{{rate}}" class="icon-material-outline-star"> {{ rate.rating_star }}</label> 
+										{% endfor %}			
+									</div><div class="clearfix"></div>
+								</div>
+
+								<textarea class="with-border" placeholder="Comment" name = "review" id = "review_id" cols="7"></textarea required>
+
+							</form>
+							
+							<!-- Button -->
+							<button class="button full-width button-sliding-icon ripple-effect" id= "id_submit_button" type="submit" form="leave-review-form">Leave a Review <i class="icon-material-outline-arrow-right-alt"></i></button>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- Leave a Review Popup / End -->
+			<div class="clearfix"></div>
+		</div>
+		
+		<!-- Sidebar -->
+		<div class="col-xl-4 col-lg-4">
+			<div class="sidebar-container">
+
+				<div class="countdown green margin-bottom-35">{{ service.created|timesince }} ago</div>
+
+				<div class="sidebar-widget">
+					<div class="bidding-widget">
+						{% if service.owner.admin.username != request.user.username %}	
+						<form method="POST" action = "{% url 'user_service_order' %}" class="bidding-inner"> {% csrf_token %}
+							<input type = "hidden" name = "service_id" value = "{{service.id}}">
+							<div class = "row">
+								{% if messages %}
+									<div class = "col-xl-12">
+										{% for message in messages %}
+											{% if message.tags == 'error' %}
+												<div class = "alert alert-danger mt-4 ml-3 text-dark" style = "width:100%;">
+													{{message}}
+												</div>
+											{% endif %}
+											{% if message.tags == 'success' %}
+												<div class = "alert alert-success ml-3 mt-4 text-dark" style = "width:100%;">
+													{{message}}
+												</div>
+											{% endif %}
+										{%endfor %}
+									</div>              
+								{% endif %}
+							</div>
+							<button id="snackbar-place-bid" class="button ripple-effect move-on-hover full-width margin-top-30"><span>Place an Order</span></button>
+						</form>
+						{% endif %}
+					</div>
+				</div>
+
+				<!-- Sidebar Widget -->
+				<div class="sidebar-widget">
+
+					<!-- Copy URL -->
+					<div class="copy-url">
+						<input id="copy-url" type="text" value="" class="with-border">
+						<button class="copy-url-button ripple-effect" data-clipboard-target="#copy-url" title="Copy to Clipboard" data-tippy-placement="top"><i class="icon-material-outline-file-copy"></i></button>
+					</div>
+
+					<!-- Share Buttons -->
+					<div class="share-buttons margin-top-25">
+						<div class="share-buttons-trigger"><i class="icon-feather-share-2"></i></div>
+						<div class="share-buttons-content">
+							<span>Interesting? <strong>Share It!</strong></span>
+							<ul class="share-buttons-icons">
+								<li><a href="#" data-button-color="#3b5998" title="Share on Facebook" data-tippy-placement="top"><i class="icon-brand-facebook-f"></i></a></li>
+								<li><a href="#" data-button-color="#1da1f2" title="Share on Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
+								<li><a href="#" data-button-color="#dd4b39" title="Share on Google Plus" data-tippy-placement="top"><i class="icon-brand-google-plus-g"></i></a></li>
+								<li><a href="#" data-button-color="#0077b5" title="Share on LinkedIn" data-tippy-placement="top"><i class="icon-brand-linkedin-in"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Spacer -->
+<div class="margin-top-15"></div>
+<!-- Spacer / End-->
+
+{% include 'user_templates/footer2.html' %}
+
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $(document).on("click", "#id_submit_button", function(){
+            var user = $("#user_id").val();
+            var review = $("#review_id").val(); 
+            var rate = $(".rate").val();
+            var service = $("#service_id").val();
+            if(review == ""){
+				alert(" Please ensure you fill all Fields! ")
+			} else {
+				alert(" Review Submitted ")
+			}
+
+        //     $.ajax({
+        //         url:"{% url 'user_review_save' %}",
+        //         type:"POST",
+        //         data:{review:review, user:user, rate:rate, service:service}
+        //     })
+        //     .done(function(response){
+        //     if (response == "True"){
+        //         alert(" Review Submitted! ")
+        //     } else {
+        //         alert(" Review Submission Failed ")
+        //     }
+                
+        //     })
+        //     .fail(function(){
+        //     alert(" Review Submission Failed ")
+        //     })
+        //     }
+		// 
+		});
+    });
+</script>
+{% endblock custom_js %}

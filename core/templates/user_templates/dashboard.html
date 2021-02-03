@@ -22,9 +22,14 @@
 				
 				<!-- Dashboard Headline -->
 				<div class="dashboard-headline">
-					<h3>Howdy, {{request.user.username}}!</h3>
+				{% if empty == 0 %}
+					<h3>Howdy {{request.user.username}}, freelancers welcomes you!</h3>
+					<span>We are so glad you could join us!</span>
+					<span>Create your first service now!</span>
+				{% else %}
+					<h3>Howdy, {{request.user.username}}! </h3>
 					<span>We are glad to see you again!</span>
-
+				{% endif %}
 					<!-- Breadcrumbs -->
 					<nav id="breadcrumbs" class="dark">
 						<ul>

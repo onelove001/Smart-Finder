@@ -91,6 +91,7 @@ def signup_user(request):
         return HttpResponse("False")
 
 
+
 def logout_user(request):
     logout(request)
     return redirect("landing_page")

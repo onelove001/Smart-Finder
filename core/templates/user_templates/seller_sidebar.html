@@ -24,8 +24,8 @@
                             {% url 'user_profile' as user_profile %}
                             <li class="{% if request.path == user_profile %} active {% endif %}"><a href="{{ user_profile }}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
                             <li><a href="#"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
-                            <li><a href="#"><i class="icon-material-outline-rate-review"></i> Reviews <span class="nav-tag">2</span></a></a></li>
                             {% if request.user.account_type == '3' %}
+                            <li><a href="{% url 'seller_reviews' %}"><i class="icon-material-outline-rate-review"></i> Reviews <span class="nav-tag">2</span></a></a></li>
                             <li><a href="{% url 'create_service_service' %}"><i class="icon-material-outline-rate-review"></i> Create Service </a></li>
                             <li><a href="#"><i class="icon-material-outline-rate-review"></i> Manage Services </a></li>
                             {% endif %}

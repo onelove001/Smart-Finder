@@ -56,8 +56,10 @@ def create_plan(request):
 
 def review_seller_admin(request):
     sellers = Seller.objects.all()
+    c_users = customUser.objects.all()
     ratings = star_rating.objects.all()
-    return render(request, "admin_templates/review_seller_admin.html", {"sellers":sellers, "ratings":ratings})
+    services = Service.objects.all()
+    return render(request, "admin_templates/review_seller_admin.html", {"services":services,"sellers":sellers, "ratings":ratings, "c_users":c_users})
 
 
 def create_service_admin(request):
@@ -364,18 +366,21 @@ def create_rating_save(request):
 def review_seller_admin_save(request):
     if request.method == "POST":
         seller_id = request.POST.get('seller_id')
+        service_id = request.POST.get('service_id')
         star_id = request.POST.get('star_id')
+        user_id = request.POST.get('user_id')
         content = request.POST.get('content')
 
-        print("#######", star_id)
 
         user = customUser.objects.get(id = seller_id)
+        service_idd = Service.objects.get(id = service_id)
+        user_idd = customUser.objects.get(id = user_id)
         seller_obj = Seller.objects.get(admin = user.id)
         star_obj = star_rating.objects.get(id = star_id)
 
 
         try:
-            review = Reviews(seller_id = seller_obj, rating = star_obj, review_content = content)
+            review = Reviews(seller_id = seller_obj, service_id = service_idd, user_id = user_idd, rating = star_obj, review_content = content)
             review.save()
             messages.success(request, "Review added success")
             return redirect(request.META.get("HTTP_REFERER"))

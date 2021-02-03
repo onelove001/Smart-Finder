@@ -173,7 +173,7 @@
 					<div class="categories-container">
 						{% for cat in categories %}
 							<!-- Category Box -->
-							<a href="jobs-grid-layout-full-page.html" class="category-box">
+							<a href="" class="category-box" id = "loginfirst2">
 								<div class="category-box-icon">
 									<i class="icon-line-awesome-file-code-o"></i>
 								</div>
@@ -206,14 +206,13 @@
 					<!-- Section Headline -->
 					<div class="section-headline margin-top-0 margin-bottom-35">
 						<h3>Featured Jobs</h3>
-						<a href="jobs-list-layout-full-page-map.html" class="headline-link"> Some Services</a>
 					</div>
 					
 					<!-- Jobs Container -->
 					<div class="listings-container compact-list-layout margin-top-35">
 						{% for service in pages %}
 						<!-- Job Listing -->
-						<a href="" class="job-listing with-apply-button">
+						<a href="" class="job-listing with-apply-button" id = "loginfirst">
 
 							<!-- Job Listing Details -->
 							<div class="job-listing-details">
@@ -647,7 +646,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12">
-					© 2019 <strong>Hireo</strong>. All Rights Reserved.
+					© 2021 <strong>SmartFinder</strong>. All Rights Reserved.
 				</div>
 			</div>
 		</div>
@@ -686,7 +685,8 @@
 				</div>
 					
 				<!-- Form -->
-				<form method="POST" id="login-form" action = "{% url 'login_user' %}"> {% csrf_token %}
+				<form method="POST" id="login-form" action = "{% url 'login_user' %}">
+					{% csrf_token %}
 					<div class="input-with-icon-left">
 						<i class="icon-material-baseline-mail-outline"></i>
 						<input type="text" class="input-text with-border" name="email" id="emailaddress" placeholder="Email Address" required/>
@@ -821,6 +821,14 @@ $('#snackbar-user-status label').click(function() {
 
 <script type = "text/javascript">
 	$(document).ready(function(){
+
+	 $(document).on("click", "#loginfirst", function(){
+		 alert(" You have to login to view this page ");
+	 });
+
+	 $(document).on("click", "#loginfirst2", function(){
+		 alert(" You have to login to view this page ");
+	 });
 	  
 	  $("#id_email").keyup(function(){
 		var email = $(this).val();

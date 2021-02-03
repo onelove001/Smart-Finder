@@ -30,6 +30,24 @@
                   </div>
 
                   <div class="form-group">
+                    <label for="user_id">Buyer name</label>
+                    <select name = "user_id" id = "user_id" class = "form-control">
+                        {% for user in c_users %}
+                          <option value = {{user.id}}> {{ user.username }} </option>
+                        {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="service_id">Service Title</label>
+                    <select name = "service_id" id = "service_id" class = "form-control">
+                        {% for service in services %}
+                          <option value = {{service.id}}> {{ service }} </option>
+                        {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group">
                     <label for="star_id">Ratings</label>
                     <select name = "star_id" id = "star_id" class = "form-control">
                         {% for star in ratings %}

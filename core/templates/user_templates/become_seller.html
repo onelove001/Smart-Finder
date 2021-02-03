@@ -1,389 +1,280 @@
+{% extends 'user_templates/base3.html' %}
+
 {% load static %}
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title> Smart | SellerCreate </title>
-
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="{% static 'vendor/simple-line-icons/css/simple-line-icons.css' %}">
-
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-
-  <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-
-  <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-
-  <link rel="stylesheet" href="{% static 'device-mockups/device-mockups.min.css' %}">
-
-  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
-
-  <link rel="icon" href="{% static 'favicons/favicon2.ico'  %}">
-
-  <link href="{% static 'csss/bootstrap.min.css'  %}" rel="stylesheet">
-
-  <link href="{% static 'csss/mdb.min.css' %}" rel="stylesheet">
-
-  <link href="{% static 'csss/style.min.css' %}" rel="stylesheet">
-
-  <link href="{% static 'style.css' %}" rel="stylesheet">
+{% block app_title %}
+    New Seller
+{% endblock app_title %}
 
 
-<!-- Navbar -->
- <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar mb-5">
-    <div class="container">
-  
-      <!-- Brand -->
-      <a class="navbar-brand" href="{% url 'smart_home' %}" target="_blank">
-        <strong style = "color:rgb(226, 226, 64)">Smart Finder</strong>
-      </a>
-  
-      <!-- Collapse -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <!-- Links -->
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-  
-        <!-- Left -->
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item mr-2">
-            <a class="nav-link" href="{% url 'smart_home' %}"> Homeboard
-              <span class="sr-only"></span>
-            </a>
-          </li>
-        </ul>
-  
-        <!-- Right -->
-        <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout_user' %}">Logout </i></a>
-          </li>
-        </ul>
-      </div>
-    </div>
- </nav>
-<!-- Navbar -->
-<br><br><br><br><br>
+{% block content %}
+
 
 {% if request.user.account_type == '3' %}
 
-  <div class = "container">
-    <div class = "row">
-      <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class = "card">
-          <div class = "card-header card-title bg-primary">
-            <h3> Hi, <b> @{{ request.user.username }}</b> </h3>
-          </div>
-          <div class = "card-body">
-            <br><br>
-              <h2 class = "text-danger" style = "font-family:Verdana, Geneva, Tahoma, sans-serif"> You are already operating a seller account..!  </h2>
-            <br><hr>
-            <a href = "{% url 'user_profile' %}" class = "btn btn-primary btn-block"> See My Profile <i class = "fas fa-user ml-2"> </i></a>
-          </div>
-        </div>
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+
+  {% include 'user_templates/seller_sidebar.html' %}
+
+  <!-- Dashboard Content
+  ================================================== -->
+  <div class="dashboard-content-container" data-simplebar>
+    <div class="dashboard-content-inner" >
+      
+      <!-- Dashboard Headline -->
+      <div class="dashboard-headline">
+        <h3>Sorry, {{request.user.username}}!</h3><br>
+        <span> You're Already Operating a Seller Account!</span> 
+        <a href="{% url 'user_profile' %}" class="headline-link">See My Profile</a>
+
+        <!-- Breadcrumbs -->
+        <nav id="breadcrumbs" class="dark">
+          <ul>
+            <li><a href="{% url 'smart_home' %}">Home</a></li>
+          </ul>
+        </nav>
       </div>
+   
+
+      {% include 'user_templates/footer_dashboard.html'%}
+
     </div>
   </div>
+  <!-- Dashboard Content / End -->
 
+</div>
+<!-- Dashboard Container / End -->
+
+  
 {% elif request.user.account_type == '2' %}
 
-<!-- section form -->
-  <section class = "mt-5 mb-5">
-    <div class = "container">
-      <form action = "{% url 'become_seller_save' %}" method = "POST" enctype="multipart/form-data"> {% csrf_token %}
-        <!-- Person information  -->
-        <div id = "personal">
-          <h1> <b class = "mb-2">PERSONAL INFORMATION </b> </h1>
-          <p class = "text-muted"> Tell us a bit about yourself. This information will appear on your public profile, <br> so that potential buyers can get to know you better. </p>
-          <hr>
-              
-          <div class = "form-group row mt-4">
-              <label class = "col-4 col-form-label col-form-label-lg" for = "firstname"> <b> First Name </b> </label>
-              <div class="md-form my-0 col-8">
-                <input name = "firstname" id = "firstname" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" placeholder="Enter first name">
-              </div>
-          </div>
-          <br>
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
 
-          <div class = "form-group row mt-4">
-              <label class = "col-4 col-form-label col-form-label-lg" for = "lastname"> <b> Last Name </b> </label>
-              <div class="md-form my-0 col-8">
-                <input name = "lastname" id = "lastname" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" placeholder="Last Name">
-              </div>
-          </div>
-          <br>
+		{% include 'user_templates/seller_sidebar.html' %}
 
-          <div class = "form-group row mt-4">
-              <label class = "col-4 col-form-label col-form-label-lg" for = "shortname"> <b> Short Name </b> </label>
-              <div class="md-form my-0 col-8">
-                <input name = "shortname" id = "shortname" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" placeholder="Short Name">
-              </div>
-          </div>
-          <br>
 
-          <div class = "form-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for = "cellphone"> <b> Cell Phone </b> </label>
-            <div class="md-form my-0 col-8">
-              <input name = "cellphone" id = "cellphone" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" placeholder="Cell Phone">
-            </div>
-          </div>
-          <br>
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+      <div class="dashboard-content-inner" >
+        
+        <!-- Dashboard Headline -->
+        <div class="dashboard-headline">
+          <h3>Become a Freelancer</h3>
 
-          <div class = "form-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for = "address"> <b> Address </b> </label>
-            <div class="md-form my-0 col-8">
-              <input name = "address" id = "address" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" placeholder="Residential Address">
-            </div>
-          </div>
-          <br>
-
-          <div class = "form-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for = "level"> <b> Experience Level </b> </label>
-            <div class="md-form my-0 col-8">
-              <select class = "form-control form-control-lg mr-sm-1" name = "level" id="level" style = "width:100%;">
-                {% for level in levels %}
-                  <option value = {{level.id}}> {{level.level}} </option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-          <br>
-
-          <div class = "form-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for = "cat_id"> <b> Category </b> </label>
-            <div class="md-form my-0 col-8">
-              <select class = "form-control form-control-lg mr-sm-1" name = "cat" id="cat_id" style = "width:100%;">
-                {% for cat in categories %}
-                  <option value = {{cat.id}}> {{cat.category_title}} </option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-          <br>
-
-          <div class = "form-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for = "sub_cat_id"> <b> Sub Category </b> </label>
-            <div class="md-form my-0 col-8">
-              <select class = "form-control form-control-lg mr-sm-1" name = "sub_cat" id="sub_cat_id" style = "width:100%;">
-                
-              </select>
-            </div>
-          </div>
-          <br>
-
-          <div class = "form-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for = "gender"> <b> Gender </b> </label>
-            <div class="md-form my-0 col-8">
-              <select class = "form-control form-control-lg mr-sm-1" name = "gender" id="gender" style = "width:100%;">
-                <option> Male </option>
-                <option> Female </option>
-              </select>
-            </div>
-          </div>
-          <br>
-
-          <div class = "form-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for = "lang"> <b> Language </b> </label>
-            <div class="md-form my-0 col-8">
-              <select class = "form-control form-control-lg mr-sm-1" name = "lang" id="lang" style = "width:100%;">
-                {% for lang in languages %}
-                  <option value = {{lang.id}}> {{lang.language_name }} </option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-          <br>
-
-          <div class = "form-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for = "description"> <b> Description </b> </label>
-            <div class="md-form my-0 col-8">
-              <textarea rows = 6 name = "description" id = "description" style = "padding:5px 0px 10px 0px; width:100%;" class=" form-control form-control-lg mr-sm-1" type="text" placeholder="Describe Yourself"> </textarea>
-            </div>
-          </div>
-          <br>
-
-          <div class="input-group row mt-4">
-            <label class = "col-4 col-form-label col-form-label-lg" for="image">  <b> Profile Image </b> </label>
-            <div class = "col-8">
-              <div class="custom-file">
-                <input type="file" class="custom-file-input" id="image" name = "image">
-                <label class="custom-file-label" for="image">Select image</label>
-              </div>
-            </div>
-          </div>
-
-          <br><hr><br>
-          <div class = "form-group row">
-            {% if messages %}
-                <div class = "col-12">
-                {% for message in messages %}
-                    {% if message.tags == 'error' %}
-                    <div class = "alert alert-danger mb-2 mt-2 text-light">
-                        {{message}}
-                    </div>
-                    {% endif %}
-                    {% if message.tags == 'success' %}
-                    <div class = "alert alert-success mb-2 mt-2 text-light">
-                        {{message}}
-                    </div>
-                    {% endif %}
-                {%endfor %}
-                </div>              
-            {% endif %}
-          </div>
-          <div class = "form-group row col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <button type = "submit" style = "border-radius:20px; width:100%;" class = "btn btn-transparent" data-toggle="tooltip" data-placement="bottom" title="You are leaving a buyer's account to be a seller this is irreversible"> 
-                <b>Submit & Create Seller</b> <i class= "fas fa-user-plus ml-2"> </i>
-            </button>
-          </div>
+          <!-- Breadcrumbs -->
+          <nav id="breadcrumbs" class="dark">
+            <ul>
+							<li><a href="{% url 'smart_home' %}">Home</a></li>
+              <li><a href="{% url 'user_profile' %}">Dashboard</li></a>
+              <li> Become a Freelancer </li>
+						</ul>
+          </nav>
         </div>
-      </form>
-      <br><br><br><br><br>
-    </div>
-  </section>
-<!-- section form -->
+    
+        <!-- Row -->
+          <form class = "row" method = "POST" action = "{% url 'become_seller_save' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Dashboard Box -->
+            <div class="col-xl-12">
+              <div class="dashboard-box margin-top-0">
 
-      
-<!-- Footer -->
-  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
-    <div class="container">
-       <!-- Social icons -->
-    <div class="pb-4">
-      <br>
-      <a href="https://www.facebook.com/mdbootstrap" target="_blank">
-        <i class="fab fa-facebook-f mr-3"></i>
-      </a>
+                <!-- Headline -->
+                <div class="headline">
+                  <h3><i class="icon-feather-folder-plus"></i> Freelancer Creation Form</h3>
+                </div>
 
-      <a href="https://twitter.com/MDBootstrap" target="_blank">
-        <i class="fab fa-twitter mr-3"></i>
-      </a>
+                <div class="content with-padding padding-bottom-10">
+                  <div class="row">
 
-      <a href="https://www.youtube.com/watch?v=7MUISDJ5ZZ4" target="_blank">
-        <i class="fab fa-youtube mr-3"></i>
-      </a>
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Owner_ID</h5>
+                        <input type="text" class="with-border" name = "owner" id = "owner" value = "{{request.user.username}}" disabled>
+                        <input name = "owner_id" type = "hidden" value = "{{request.user.id}}">
+                      </div>
+                    </div>
+                                     
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>First Name</h5>
+                        <input type="text" class="with-border" placeholder="Enter First Name" name = "firstname" id = "firstname" required>
+                      </div>
+                    </div>
 
-      <a href="https://plus.google.com/u/0/b/107863090883699620484" target="_blank">
-        <i class="fab fa-google-plus-g mr-3"></i>
-      </a>
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Last Name</h5>
+                        <input type="text" class="with-border" placeholder="Enter Last Name" name = "lastname" id = "lastname" required>
+                      </div>
+                    </div>
 
-      <a href="https://dribbble.com/mdbootstrap" target="_blank">
-        <i class="fab fa-dribbble mr-3"></i>
-      </a>
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Short Name</h5>
+                        <input type="text" class="with-border" placeholder="e.g CrazyClown" name = "shortname" id = "shortname" required>
+                      </div>
+                    </div>
 
-      <a href="https://pinterest.com/mdbootstrap" target="_blank">
-        <i class="fab fa-pinterest mr-3"></i>
-      </a>
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Cell Phone</h5>
+                        <input type="text" class="with-border" placeholder="e.g 532-382-635" name = "cellphone" id = "cellphone" required>
+                      </div>
+                    </div>
 
-      <a href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">
-        <i class="fab fa-github mr-3"></i>
-      </a>
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Address</h5>
+                        <input type="text" class="with-border" placeholder="e.g Amen Esate, Lagos" name = "address" id = "address">
+                      </div>
+                    </div>
 
-      <a href="http://codepen.io/mdbootstrap/" target="_blank">
-        <i class="fab fa-codepen mr-3"></i>
-      </a>
-    </div>
-    <!-- Social icons -->
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Category</h5>
+                        <select class="selectpicker with-border" title="Select Category" name = "cat" id="cat_id" required>
+                          {% for cat in categories %}
+                            <option value = {{cat.id}}> {{cat.category_title}} </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
 
-      <p>&copy; SmartFinder 2020. All Rights Reserved.</p>
-      <ul class="list-inline">
-        <li class="list-inline-item">
-          <a href="#">Privacy</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">Terms</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">FAQ</a>
-        </li>
-      </ul>
-    </div>
-  </footer>
-<!--/.Footer-->
+                    <div class = "col-xl-4">
+                      <div class="submit-field">
+                        <h5>Sub category</h5>
+                        <select class = "form-control-lg with-border" title = "Select Subcategory" name = "sub_cat" id="sub_cat_id" required>
+                          
+                        </select>
+                      </div>
+                    </div>
 
-<!-- Extra - form -->
-  <!-- <div class="row">
-    <div class="col">
-      <div class="form-outline">
-        <input type="text" id="form8Example1" class="form-control" />
-        <label class="form-label" for="form8Example1">Name</label>
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Plan</h5>
+                        <select class="selectpicker with-border" title="Select Experience Level" name = "level" id="level" required>
+                          {% for level in levels %}
+                            <option value = {{level.id}}> {{level.level}} </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Language</h5>
+                        <select class="selectpicker with-border" title="Select Language" name = "lang" id="lang" required>
+                          {% for lang in languages %}
+                            <option value = {{lang.id}}> {{lang.language_name }} </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-4">
+                      <div class="submit-field">
+                        <h5>Gender</h5>
+                        <select class="selectpicker with-border" title="Select Gender" name = "gender" id="gender" required>
+                          <option> Male </option>
+                          <option> Female </option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div class="col-xl-12">
+                      <div class="submit-field">
+                        <h5>Describe Your Yourself</h5>
+                        <textarea cols="30" rows="5" class="with-border" name = "description" id = "description" required> </textarea>
+                      </div>
+                    </div>
+
+                    <div class = "col-xl-12">
+                      <h5><b> Upload a Quality Nice Looking Image! </b></h5> <hr>
+                      <div class = "col-xl-4">
+                        <div class = "submit-field">
+                          <div class="uploadButton margin-top-30">
+                            <input class="uploadButton-input" type="file" id="upload1" name = "image" />
+                            <label class="uploadButton-button ripple-effect" for = "upload1">Upload </label>
+                            <span class="uploadButton-file-name"> This Will be Your Profile Image </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class = "row">
+              {% if messages %}
+                  <div class = "col-xl-12">
+                      {% for message in messages %}
+                          {% if message.tags == 'error' %}
+                              <div class = "alert alert-danger mt-4 ml-3 text-dark" style = "width:100%;">
+                                  {{message}}
+                              </div>
+                          {% endif %}
+                          {% if message.tags == 'success' %}
+                              <div class = "alert alert-success ml-3 mt-4 text-dark" style = "width:100%;">
+                                  {{message}}
+                              </div>
+                          {% endif %}
+                      {%endfor %}
+                  </div>              
+              {% endif %}
+            </div>
+
+            <div class="col-xl-12">
+              <button type = "submit" class="ml-1 button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Create Account </button>
+            </div>
+
+          </form>
+
+        <!-- Row / End -->
+
+      {% include 'user_templates/footer_dashboard.html'%}
+
       </div>
     </div>
-    <div class="col">
-      <div class="form-outline">
-        <input type="email" id="form8Example2" class="form-control" />
-        <label class="form-label" for="form8Example2">Email address</label>
-      </div>
-    </div>
-  </div>
-  <hr />
-  <div class="row">
-    <div class="col">
-      <div class="form-outline">
-        <input type="text" id="form8Example3" class="form-control" />
-        <label class="form-label" for="form8Example3">First name</label>
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-outline">
-        <input type="text" id="form8Example4" class="form-control" />
-        <label class="form-label" for="form8Example4">Last name</label>
-      </div>
-    </div>
-    <div class="col">
-      <div class="form-outline">
-        <input type="email" id="form8Example5" class="form-control" />
-        <label class="form-label" for="form8Example5">Email address</label>
-      </div>
-    </div>
-  </div> -->
+    <!-- Dashboard Content / End -->
+		
+	</div>
+  <!-- Dashboard Container / End -->
 
 {% else %}
 
-  <div class = "container">
-    <div class = "row">
-      <div class = "col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class = "card">
-          <div class = "card-header card-title bg-primary">
-            <h3> Hi, <b> @{{ request.user.username }}</b> </h3>
-          </div>
-          <div class = "card-body">
-            <br><br>
-              <h2 class = "text-danger" style = "font-family:Verdana, Geneva, Tahoma, sans-serif"> This account is not recognized by Smart..!  </h2>
-            <br><hr>
-            <a href = "{% url 'user_profile' %}" class = "btn btn-primary btn-block"> Learn More..! <i class = "fas fa-user ml-2"> </i></a>
-          </div>
-        </div>
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+  <!-- Dashboard Content
+  ================================================== -->
+  <div class="dashboard-content-container" data-simplebar>
+    <div class="dashboard-content-inner" >
+      
+      <!-- Dashboard Headline -->
+      <div class="dashboard-headline">
+        <h3>Sorry, {{request.user.username}}!</h3><br>
+        <span> This account is not recognized by smart! </span> 
       </div>
+   
+      {% include 'user_templates/footer_dashboard.html'%}
+
     </div>
   </div>
+  <!-- Dashboard Content / End -->
+</div>
+<!-- Dashboard Container / End -->
 
 {% endif %}
 
 
-<!-- JQuery -->  
-<script type="text/javascript" src="{% static 'jss/jquery-3.4.1.min.js' %}"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="{% static 'jss/popper.min.js' %}"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="{% static 'jss/bootstrap.min.js' %}"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="{% static 'jss/mdb.min.js' %}"></script>
-<!-- Initializations -->
-<script type="text/javascript">
-  // Animations initialization
-  new WOW().init();
-</script>
+{% endblock content %}
 
-</body>
+
+{% block custom_js %}
 
 <script type = "text/javascript">
   $(document).ready(function(){
@@ -429,4 +320,4 @@
   })
 </script>
 
-</html>
+{% endblock custom_js %}

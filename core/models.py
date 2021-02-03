@@ -11,6 +11,14 @@ Gender = (
 )
 
 
+Verified = (
+
+    ("yes", "yes"),
+    ("no", "no"),
+
+)
+
+
 order_ser = (
 
     ("not_ordered", "not_ordered"),
@@ -143,6 +151,7 @@ class Seller(models.Model):
     category            = models.ForeignKey(Category, on_delete = models.SET_NULL, null = True, related_name="sell")
     sub_category        = models.ForeignKey(SubCategory, on_delete = models.SET_NULL, null = True)
     label               = models.ForeignKey(Label_choice, on_delete = models.SET_NULL, null = True)
+    verified            = models.CharField(choices=Verified, default="no", max_length=10)
     created             = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
@@ -183,7 +192,7 @@ class Service(models.Model):
     created             = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return f"{self.owner.admin.username} - {self.owner.category.category_title}"
+        return f"{self.owner.admin.username} - {self.owner.category.category_title} - {self.title}"
 
     def cat_count(self):
         return self.category.all().count()
@@ -196,7 +205,7 @@ class Service(models.Model):
 
 class star_rating(models.Model):
     id = models.AutoField(primary_key = True)
-    rating_star = models.CharField(max_length=20)
+    rating_star = models.IntegerField()
 
     def __str__(self):
         return f"{self.rating_star}"
@@ -205,12 +214,15 @@ class star_rating(models.Model):
 
 class Reviews(models.Model):
     id = models.AutoField(primary_key = True)
-    seller_id = models.ForeignKey(Seller, on_delete = models.CASCADE)
+    user_id = models.ForeignKey(customUser, on_delete = models.SET_NULL, null = True)
+    seller_id = models.ForeignKey(Seller, on_delete = models.SET_NULL, null = True)
+    service_id = models.ForeignKey(Service, on_delete = models.SET_NULL, null = True)
     rating = models.ForeignKey(star_rating, on_delete = models.SET_NULL, null = True)
     review_content = models.TextField()
+    date_reviewed = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return f"{self.rating} stars - for - {self.seller_id.admin.username}"
+        return f"{self.user_id.username} left {self.rating} stars for {self.seller_id.admin.username}"
 
 
 

@@ -19,7 +19,7 @@
 					
 					<!-- Logo -->
 					<div id="logo">
-						<a href="index-2.html"><img src="{% static 'images2/logo.png' %}" alt=""></a>
+						<a href=""><img src="{% static 'images2/logo.png' %}" alt=""></a>
 					</div>
 	
 					<!-- Main Navigation -->
@@ -29,16 +29,16 @@
 							<li><a href="{% url 'smart_home' %}" style = "margin-top:3px;">Home</a>
 							  
 							</li>
-	
-							<li><a href="{% url 'seller_page' %}" style = "margin-top:3px;">Become a seller</a>
+							
+							<li><a href="{% url 'become_seller' %}" style = "margin-top:3px;">Become a seller</a>
 							   
 							</li>
 	
 							<li><a href="{% url 'user_profile' %}">Dashboard</a>
 								<ul class="dropdown-nav">
-									<li><a href="{% url 'seller_page' %}">Become a seller</a></li>
+									<li><a href="{% url 'become_seller' %}">Become a seller</a></li>
 									<li><a href="#">Messages</a></li>
-									<li><a href="#">Post a Job</a></li>
+									<li><a href="#">Post a Task</a></li>
 									{% if request.user.account_type == '3' %}
 									<li><a href="{% url 'update_profile_seller' %}">Settings</a></li>
 									{% elif request.user.account_type == '2' %}

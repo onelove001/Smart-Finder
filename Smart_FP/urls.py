@@ -73,13 +73,15 @@ urlpatterns = [
     path('update_profile_buyer_save', update_profile_buyer_save, name = 'update_profile_buyer_save'),
     path('create_service_', create_service_, name = 'create_service_service'),
     path('create_service_save', create_service_save, name = 'create_service_save'),
-    path('seller_profile_detail/<str:service_id>', seller_profile_detail, name = 'seller_profile_detail'),
+    path('service_detail/<str:service_id>', service_detail, name = 'service_detail'),
     path('fetch_subcategories', fetch_subcategories, name = 'fetch_subcategories'),
     path('get_category/<str:category_id>', get_category, name = 'get_category'),
     path('search', search, name = 'search'),
     path('user_review_save', user_review_save, name = 'user_review_save'),
     path('user_service_order', user_service_order, name = 'user_service_order'),
     path('freelancers_page/<str:category_idd>', freelancers_page, name = 'freelancers_page'),
+    path('seller_profile/<str:seller_id>', seller_profile, name = 'seller_profile'),
+    path('seller_reviews', seller_reviews, name = 'seller_reviews'),
 
 
     # =================/ Chat Urls /=============== #
