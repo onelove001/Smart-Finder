@@ -689,7 +689,7 @@
 					{% csrf_token %}
 					<div class="input-with-icon-left">
 						<i class="icon-material-baseline-mail-outline"></i>
-						<input type="text" class="input-text with-border" name="email" id="emailaddress" placeholder="Email Address" required/>
+						<input type="text" class="input-text with-border" name="email" id="emailaddress" placeholder="Email Address" required />
 					</div>
 
 					<div class="input-with-icon-left">
@@ -703,7 +703,6 @@
 				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="login-form" id = "sign_in_button"> Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
 				
 			</div>
-
 			<!-- Register -->
 			<div class="popup-tab-content" id="register">
 				
@@ -952,40 +951,37 @@ $('#snackbar-user-status label').click(function() {
   
 	  $(document).on("click", "#sign_in_button", function(){
   
-	  var email = $("#login_email").val();  
-	  var password = $("#login_password").val();  
+	  var email = $("#emailaddress").val();  
+	  var password = $("#password").val();  
   
 	  if(email == "" || password == ""){
-		Swal.fire({
-		  title: 'Error!',
-		  text: 'Please Ensure You Fill In All Fields',
-		  footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
-		}) }
-	  else {
-  
-	  $.ajax({
-		  url:"{% url 'login_user' %}",
-		  type:"POST",
-		  data:{email:email, password:password}
-	  })
-	  .done(function(response){
-		  if(response == "False"){
-		  Swal.fire({
-		  title: 'Error!',
-		  text: 'Incorrect Email or Password',
-		  footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
-		});
-	   }
-	  })
-	  .fail(function(){
-		Swal.fire({
-		  title: 'Error!',
-		  text: 'Incorrect Email or Password',
-		  footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
-		});
-	  })
-	  }
-	  });
+		alert(" Please Fill All Fields! ");
+
+	  } 
+
+	//   $.ajax({
+	// 	  url:"{% url 'login_user' %}",
+	// 	  type:"POST",
+	// 	  data:{email:email, password:password}
+	//   })
+	//   .done(function(response){
+	// 	  if(response == "False"){
+	// 	  alert(" Incorrect Email or Password ");
+
+	//    } else {
+	// 	Swal.fire({
+	// 	  title: "<a href = {% url 'smart_home' %}> Press Enter To Proceed! <br> </a>",
+	// 	  text: 'You are logged in',
+	// 	//   footer:"<a href = {% url 'smart_home' %}> Enter Home </a>"
+	// 	});
+	//    }
+	//   })
+	//   .fail(function(){
+	// 	alert(" Incorrect Email or Password ");
+	//   })
+	//   }
+	//   
+	});
   
 	});
 </script>

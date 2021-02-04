@@ -42,7 +42,7 @@ def landing_page(request):
 
 
 
-
+# @csrf_exempt
 def login_user(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -61,9 +61,9 @@ def login_user(request):
                 return redirect("smart_home")
 
             else:
-                return redirect("smart_home")
+                return redirect("False")
         else:
-            return HttpResponse("Incorrect Details")
+            return HttpResponse("False")
 
     return HttpResponse("False")
 

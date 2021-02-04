@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block app_title %}
-    Service
+    Service Info
 {% endblock app_title %}
 
 
@@ -116,7 +116,7 @@
 									<div class="leave-rating">			
 										{% for rate in ratings %}
 											<input type="radio" class = "rate" name = "rate" id = "rating-radio-{{rate}}" value="{{rate.id}}" required> 
-											<label for= "rating-radio-{{rate}}" class="icon-material-outline-star"> {{ rate.rating_star }}</label> 
+											<label for= "rating-radio-{{rate}}" class="icon-material-outline-star"> </label> 
 										{% endfor %}			
 									</div><div class="clearfix"></div>
 								</div>

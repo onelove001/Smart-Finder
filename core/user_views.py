@@ -361,8 +361,6 @@ def user_review_save(request):
         rate = request.POST.get('rate')
         service = request.POST.get('service')
 
-        print(" ############### ", rate)
-
         seller_obj = customUser.objects.get(id = seller)
         service_obj = Service.objects.get(id = service)
         user_obj = customUser.objects.get(id = request.user.id)
