@@ -22,29 +22,29 @@
 
                         <ul data-submenu-title="Start">
                             {% url 'user_profile' as user_profile %}
-                            <li class="{% if request.path == user_profile %} active {% endif %}"><a href="{{ user_profile }}"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                            <li><a href="#"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
+                            <li class="{% if request.path == user_profile %} active {% endif %}"><a href="{{ user_profile }}"><i class="icon-material-outline-dashboard"></i>Dashboard</a></li>
+                            <li><a href="#"><i class="icon-material-outline-question-answer"></i>Messages<span class="nav-tag">2</span></a></li>
                             {% if request.user.account_type == '3' %}
-                            <li><a href="{% url 'seller_reviews' %}"><i class="icon-material-outline-rate-review"></i> Reviews <span class="nav-tag">2</span></a></a></li>
-                            <li><a href="{% url 'create_service_service' %}"><i class="icon-material-outline-rate-review"></i> Create Service </a></li>
-                            <li><a href="#"><i class="icon-material-outline-rate-review"></i> Manage Services </a></li>
+                            <li><a href="{% url 'seller_reviews' %}"><i class="icon-material-outline-rate-review"></i>Reviews<span class="nav-tag">{{reviews}}</span></a></a></li>
+                            <li><a href="{% url 'create_service_service' %}"><i class="icon-material-outline-rate-review"></i>Create Service</a></li>
+                            <li><a href="#"><i class="icon-material-outline-rate-review"></i>Manage Services</a></li>
                             {% endif %}
                         </ul>
                         
                         <ul data-submenu-title="Organize and Manage">
-                            <li><a href="#"><i class="icon-material-outline-assignment"></i> Tasks</a>
+                            <li><a href="#"><i class="icon-material-outline-assignment"></i>Tasks</a>
                                 <ul>
                                     <li><a href="#">Manage Tasks <span class="nav-tag">2</span></a></li>
-                                    <!-- <li><a href="#">Manage Bidders</a></li> -->
-                                    <li><a href="#">My Active Bids <span class="nav-tag">4</span></a></li>
+                                    <li><a href="#">All Orders</a></li>
+                                    <li><a href="#">Active Orders <span class="nav-tag">4</span></a></li>
                                     <li><a href="#">Post a Task</a></li>
                                 </ul>	
                             </li>
                         </ul>
 
                         <ul data-submenu-title="Account">
-                            <li><a href="{% url 'update_profile_seller' %}"><i class="icon-material-outline-settings"></i> Settings</a></li>
-                            <li><a href="{% url 'logout_user' %}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                            <li><a href="{% url 'update_profile_seller' %}"><i class="icon-material-outline-settings"></i>Settings</a></li>
+                            <li><a href="{% url 'logout_user' %}"><i class="icon-material-outline-power-settings-new"></i>Logout</a></li>
                         </ul>
                         
                     </div>

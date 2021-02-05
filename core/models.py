@@ -48,6 +48,8 @@ class customUser(AbstractUser):
     def return_buyer_image(self):
         return self.buyer.image
 
+
+
 class Admin(models.Model):
 
     id = models.AutoField(primary_key=True)
@@ -126,6 +128,7 @@ class Xperienece_level(models.Model):
         return f"{self.level}"
 
 
+
 class Label_choice(models.Model):
 
     id      = models.AutoField(primary_key = True)
@@ -163,7 +166,6 @@ class Seller(models.Model):
     
 
 
-
 class Plan(models.Model):
 
     id = models.AutoField(primary_key=True)
@@ -171,6 +173,7 @@ class Plan(models.Model):
 
     def __str__(self):
         return f"{self.plan_name}"
+
 
 
 class Service(models.Model):
@@ -236,3 +239,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.user_order.username} {self.status}"
+
+
+class Notifications(models.Model):
+    pass

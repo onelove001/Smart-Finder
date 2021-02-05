@@ -32,11 +32,13 @@ def smart_home(request):
     return render(request, 'user_templates/home_content.html', context)
 
 
+
 def freelancers_page(request, category_idd):
     categories = Category.objects.all()
     services = Service.objects.filter(category = category_idd)
     serv = Service.objects.filter(category = category_idd).count()
     freelancers = Seller.objects.filter(category = category_idd).count()
+
 
     paginate = Paginator(services, 2)
     p = request.GET.get("page")
@@ -54,13 +56,23 @@ def seller_page(request):
 
 
 def become_seller(request):
-    user = request.user
-    categories = Category.objects.all()
-    sub_categories = SubCategory.objects.all()
-    languages = Language.objects.all()
-    levels = Xperienece_level.objects.all()
+    
+    if request.user.account_type == "3":
+        user_1 = request.user.id 
+        seller = Seller.objects.get(admin = user_1)
+        reviews = Reviews.objects.filter(seller_id = seller.id).count()
+        context = {"reviews":reviews}
 
-    return render(request, "user_templates/become_seller.html", {"user":user, "sub_categories":sub_categories, "categories":categories, "languages":languages, "levels":levels})
+    elif request.user.account_type == "2":
+        user = request.user
+        categories = Category.objects.all()
+        sub_categories = SubCategory.objects.all()
+        languages = Language.objects.all()
+        levels = Xperienece_level.objects.all()
+
+        context = {"user":user, "sub_categories":sub_categories, "categories":categories, "languages":languages, "levels":levels}
+
+    return render(request, "user_templates/become_seller.html", context)
 
 
 @csrf_exempt
@@ -80,6 +92,7 @@ def fetch_subcategories(request):
         return JsonResponse(json.dumps("False"), content_type = "application/json", safe = False)
    
     
+
 def become_seller_save(request):
     firstname = request.POST.get("firstname")
     lastname = request.POST.get("lastname")
@@ -137,6 +150,7 @@ def user_profile(request):
     if request.user.account_type == '3':
         user = customUser.objects.get(id = request.user.id)
         seller = Seller.objects.get(admin = user.id)
+        reviews = Reviews.objects.filter(seller_id = seller.id).count()
         service = Service.objects.filter(owner = seller.id)
         if service.exists():
             empty = 1
@@ -152,7 +166,7 @@ def user_profile(request):
                     buyers.append(s)
                     
             service_count = len(buyers)
-            context = {"seller":seller, "service_count":service_count, "buyers":buyers, "empty":empty, "service":service}
+            context = {"seller":seller, "service_count":service_count, "buyers":buyers, "empty":empty, "service":service, "reviews":reviews}
 
         except:
             context = {"seller":seller}
@@ -165,11 +179,20 @@ def user_profile(request):
 def update_profile_seller(request):
     user = request.user.id
     seller = Seller.objects.get(admin = user)
+    reviews = Reviews.objects.filter(seller_id = seller.id).count()
     categories = Category.objects.all()
     sub_categories = SubCategory.objects.all()
     languages = Language.objects.all()
     levels = Xperienece_level.objects.all()
-    context = {"seller":seller, "categories":categories, "sub_categories":sub_categories, "languages":languages, "levels":levels}
+
+    context = {
+        "seller":seller, 
+        "categories":categories, 
+        "sub_categories":sub_categories, 
+        "languages":languages, 
+        "levels":levels,
+        "reviews":reviews
+    }
     return render(request, "user_templates/update_seller_profile.html", context)
 
 
@@ -259,14 +282,17 @@ def update_profile_buyer_save(request):
     return HttpResponse("Request cannot be processed")
 
 
+
 @login_required
 def create_service_(request):
     user = request.user.id
     categories = Category.objects.all()
+    seller = Seller.objects.get(admin = user)
+    reviews = Reviews.objects.filter(seller_id = seller.id).count()
     sub_categories = SubCategory.objects.all()
     plans = Plan.objects.all()
     owner = Seller.objects.get(admin = user)
-    return render(request, "user_templates/create_servic.html", {"plans":plans, "categories":categories, "sub_categories":sub_categories, "owner":owner})
+    return render(request, "user_templates/create_servic.html", {"reviews":reviews, "plans":plans, "categories":categories, "sub_categories":sub_categories, "owner":owner})
 
 
 
@@ -323,15 +349,19 @@ def service_detail(request, service_id):
 
 
 
+@login_required
 def get_category(request, category_id):
     categories = Category.objects.all()
     category_id = Category.objects.get(id = category_id)
-    services = Service.objects.filter(category = category_id)
-    paginate = Paginator(services, 4)
+    sellers = Seller.objects.filter(category = category_id)
+    freelancers = Seller.objects.filter(category = category_id).count()
+    services = Service.objects.filter(category = category_id).count()
+
+    paginate = Paginator(sellers, 2)
     p = request.GET.get("page")
     pages = paginate.get_page(p)
 
-    return render(request, 'user_templates/get_category_page.html', {"services":services, 'pages':pages, 'categories':categories})
+    return render(request, 'user_templates/get_category_page.html', {"freelancers":freelancers, "services":services, "sellers":sellers, 'pages':pages, 'categories':categories})
 
 
 
@@ -339,18 +369,30 @@ def get_category(request, category_id):
 def search(request):
     if request.method == "POST":
         search = request.POST.get('search')
-        print(search)
+        search2 = request.POST.get('search2')
 
-        try:
-            category = Category.objects.get(category_title = search)
-            id = category.id
-            return redirect('get_category/'+str(id))
+        if search:
 
-        except:
-            return redirect('smart_home')
+            try:
+                category = Category.objects.get(category_title = search)
+                id = category.id
+                return redirect('get_category', category_id = id)
+
+            except:
+                return redirect('smart_home')
+
+        if search2:
+            try:
+                category = Category.objects.get(category_title = search2)
+                id = category.id
+                return redirect('get_category', category_id = id)
+
+            except:
+                return redirect('smart_home')
 
     else:
         return HttpResponse('Not a valid request')
+
 
 
 
@@ -421,14 +463,18 @@ def seller_profile(request, seller_id):
 
 
 
+
 def seller_reviews(request):
+
     user_id = request.user.id
     seller = Seller.objects.get(admin = user_id)
-    reviews = Reviews.objects.filter(seller_id = seller.id)
-    reviewss = Reviews.objects.filter(seller_id = seller.id).count()
+    reviewss = Reviews.objects.filter(seller_id = seller.id)
+    reviews = Reviews.objects.filter(seller_id = seller.id).count()
 
-    paginator = Paginator(reviews, 2)
+    paginator = Paginator(reviewss, 2)
     p = request.GET.get("page")
     pages = paginator.get_page(p)
 
     return render(request, "user_templates/seller_reviews.html", {"reviews":reviews, "pages":pages, "reviewss":reviewss})
+
+

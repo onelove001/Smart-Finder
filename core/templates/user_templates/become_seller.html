@@ -15,7 +15,7 @@
 <!-- Dashboard Container -->
 <div class="dashboard-container">
 
-  {% include 'user_templates/seller_sidebar.html' %}
+  {% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
 
   <!-- Dashboard Content
   ================================================== -->
@@ -52,7 +52,7 @@
 	<!-- Dashboard Container -->
 	<div class="dashboard-container">
 
-		{% include 'user_templates/seller_sidebar.html' %}
+		{% include 'user_templates/buyer_sidebar.html' %}
 
 
     <!-- Dashboard Content

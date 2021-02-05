@@ -30,31 +30,32 @@
 		<!-- Search Bar -->
 		<div class="row">
 			<div class="col-md-12">
-				<div class="intro-banner-search-form margin-top-95">
+				<form class="intro-banner-search-form margin-top-95" method = "POST" action = "{% url 'search' %}"> {% csrf_token %}
 
 					<!-- Search Field -->
 					<div class="intro-search-field with-autocomplete">
 						<label for="autocomplete-input" class="field-title ripple-effect">Take me to?</label>
 						<div class="input-with-icon">
-							<input id="autocomplete-input" type="text" placeholder="Online Job">
+							<input id="autocomplete-input" type="text" placeholder="Online Job" name="search2">
 							<i class="icon-material-outline-location-on"></i>
 						</div>
 					</div>
 
 					<!-- Search Field -->
 					<div class="intro-search-field">
-						<select class="selectpicker" data-size="7" title="All Categories" >
-							{% for cat in categories %}
-								<option> <a href = "#">{{ cat.category_title }}</a> </option>
+						<select class="selectpicker" title="All Categories" name = "search">
+							{% for cat in categories %}							
+								<option value = {{cat.category_title}}> {{ cat.category_title }}</a> </option>
 							{% endfor %}
 						</select>
 					</div>
 
 					<!-- Button -->
 					<div class="intro-search-button">
-						<button class="button ripple-effect" onclick="window.location.href='jobs-list-layout-1.html'">Search</button>
+						<button class="button ripple-effect" type = "submit">Search</button>
 					</div>
-				</div>
+
+				</form>
 			</div>
 		</div>
 

@@ -13,7 +13,7 @@
 	<!-- Dashboard Container -->
 	<div class="dashboard-container">
 
-		{% include 'user_templates/seller_sidebar.html' %}
+		{% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
 
 
     <!-- Dashboard Content
@@ -51,7 +51,7 @@
                             <h3><i class="icon-material-outline-thumb-up"></i> My Feedbacks | Reviews </h3>
                         </div>
                         <ul class="boxed-list-ul">
-                            {% if reviewss == 0 %}
+                            {% if reviews == 0 %}
                                 <li>
                                     <div class="boxed-list-item">
                                         <!-- Content -->

@@ -33,22 +33,22 @@
 		<!-- Search Bar -->
 		<div class="row">
 			<div class="col-md-12">
-				<div class="intro-banner-search-form margin-top-95">
+				<form class="intro-banner-search-form margin-top-95" method = "POST" action = "{% url 'search' %}"> {% csrf_token %}
 
 					<!-- Search Field -->
 					<div class="intro-search-field">
-						<select class="selectpicker default" multiple data-selected-text-format="count" data-size="7" title="All Categories" >
+						<select class="selectpicker" title="All Categories" name = "search">
 							{% for cat in categories %}
-								<option> {{ cat.category_title }} </option>
+								<option value = {{cat.category_title}}> {{ cat.category_title }} </option>
 							{% endfor %}
 						</select>
 					</div>
 
 					<!-- Button -->
 					<div class="intro-search-button">
-						<button class="button ripple-effect" onclick="window.location.href='freelancers-grid-layout-full-page.html'">Search</button>
+						<button class="button ripple-effect" type = "submit">Search</button>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 
@@ -202,14 +202,13 @@
 
 			<div class="notify-box margin-top-15">
 				<div class="switch-container">
-					<label> Filter you searches </label>
+					<label> Filtered Searches </label>
 				</div>
 
 				<div class="sort-by">
 					<span>Sort by:</span>
 					<select class="selectpicker hide-tick">
-						<option>Newest</option>
-						<option>Oldest</option>
+						<option> Relevance </option>
 					</select>
 				</div>
 			</div>
@@ -246,7 +245,7 @@
 							<div class="task-listing-bid-inner">
 								<div class="task-offers">
 									<strong> ${{service.charge}} </strong>
-									<span>Fixed Charge</span>
+									<span>Orders In Que : <b style = "color:blue;">({{service.get_number_orders}})</b></span>
 								</div>
 								<span class="button button-sliding-icon ripple-effect"> Check This! <i class="icon-material-outline-arrow-right-alt"></i></span>
 							</div>
@@ -263,7 +262,6 @@
 		<div class="clearfix"></div>
 		<div class="row">
 			<div class="col-md-12">
-				<!-- Pagination -->
 				<div class="pagination-container margin-top-60 margin-bottom-60">
 					<nav class="pagination">
 						<ul>
