@@ -1,0 +1,156 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+  Manage Orders
+{% endblock app_title %}
+
+
+{% block content %}
+
+{% if request.user.account_type == '3'%}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+		{% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
+
+        <!-- Dashboard Content
+        ================================================== -->
+        <div class="dashboard-content-container" data-simplebar>
+            <div class="dashboard-content-inner" >
+                
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>All Orders</h3>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" class="dark">
+                        <ul>
+                            <li><a href="{% url 'smart_home' %}">Home</a></li>
+                            <li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+                            <li>My Active Orders</li>
+                        </ul>
+                    </nav>
+                </div>
+        
+                <!-- Row -->
+                <div class="row">
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-gavel"></i> Orders List</h3>
+                            </div>
+
+                            <div class="content">
+                                <ul class="dashboard-box-list">
+                                    {% if orderss == 0 %}
+                                    <li>
+                                    <!-- Overview -->
+                                    <div class="freelancer-overview manage-candidates">
+                                        <div class="freelancer-overview-inner">
+                                        <h3 style = "color:rgb(255, 41, 41)"> You have no order history </h3>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    {% endif %}
+
+                                    {% for order in orders %}
+                                    <li>
+                                        <!-- Overview -->
+                                        <div class="freelancer-overview manage-candidates">
+                                            <div class="freelancer-overview-inner">
+
+                                                <!-- Avatar -->
+                                                <div class="freelancer-avatar">
+                                                    <div class="verified-badge"></div>
+                                                    {% if order.user_order.account_type == '3' %}
+                                                        <a href="{% url 'seller_profile' order.user_order.seller.id %}"><img src="{{order.user_order.return_seller_image}}" alt=""></a>
+                                                    {% elif order.user_order.account_type == '2' %}
+                                                        <a href="{% url 'buyer_profile' order.user_order.buyer.id %}"><img src="{{order.user_order.return_buyer_image}}" alt=""></a>
+                                                    {% endif %}
+                                                </div>
+
+                                                <!-- Name -->
+                                                <div class="freelancer-name">
+                                                    <h4><a href=""> {{order.user_order.username}} <img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="" title="Nigeria" data-tippy-placement="top"></a></h4>
+                                                    
+                                                    <!-- Details -->
+                                                    {% if order.user_order.account_type == '3' %}
+                                                    <span class="freelancer-detail-item"><a href="{% url 'seller_profile' order.user_order.seller.id %}"><i class="icon-feather-mail"></i> {{order.user_order.email}} </a></span>
+                                                    {% elif order.user_order.account_type == '2' %}
+                                                    <span class="freelancer-detail-item"><a href="{% url 'buyer_profile' order.user_order.buyer.id %}"><i class="icon-feather-mail"></i> {{order.user_order.email}} </a></span>
+                                                    {% endif %}
+
+                                                    {% if order.status == 'ordered' %}
+                                                    <span style = "color:rgb(49, 60, 204);">{{order.status}} <i class="icon-material-outline-autorenew"> </i></span>
+
+                                                    {% elif order.status == 'delivered' %}
+                                                    <span style = "color:green;">{{order.status}} <i class="icon-material-outline-check-circle"> </i></span>
+
+                                                    {% elif order.status == 'rejected' %}
+                                                    <span style = "color:red;">{{order.status}} <i class="icon-material-outline-highlight-off"> </i></span>
+
+                                                    {% endif %}
+                                                    <span class="freelancer-detail-item"><a href="{% url 'service_detail' order.service_ordered.id %}"> {{ order.service_ordered.title}} </a></span>
+
+                                                    <!-- Rating -->
+                                                    <div class="freelancer-rating">
+                                                        {% if order.user_order.account_type == '3' %}
+                                                        <span class="freelancer-detail-item"><a href="{% url 'seller_profile' order.user_order.seller.id %}"> Freelancer </a></span>
+                                                        {% elif order.user_order.account_type == '2' %}
+                                                        <span class="freelancer-detail-item"><a href="{% url 'buyer_profile' order.user_order.buyer.id %}"> Employer </a></span>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <!-- Bid Details -->
+                                                    <ul class="dashboard-task-info bid-info">
+                                                        <li><strong>${{order.service_ordered.charge}}</strong><span>Fixed Price</span></li>
+                                                        <li><strong>{{order.service_ordered.days}}</strong><span>Delivery Time</span></li>
+                                                    </ul>
+
+                                                    <!-- Buttons -->
+                                                    <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+                                                        {% if order.user_order.account_type == '3' %}
+                                                        <a href="{% url 'seller_profile' order.user_order.seller.id %}"  class=" button ripple-effect"><i class="icon-material-outline-check"></i> View Profile </a>
+                                                        {% elif order.user_order.account_type == '2' %}
+                                                        <a href="{% url 'buyer_profile' order.user_order.buyer.id %}" class=" button ripple-effect"><i class="icon-material-outline-check"></i> View Profile </a>
+                                                        {% endif %}
+                                                        <a href="#" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message </a>
+                                                        {% if order.status == 'ordered' %}
+                                                            <a href="{% url 'reject_order' order.id %}" class="button gray ripple-effect ico" title="Reject Order" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Row / End -->
+
+                {% include 'user_templates/footer_dashboard.html'%}
+
+            </div>
+        </div>
+        <!-- Dashboard Content / End -->
+    
+    </div>
+    <!-- Dashboard Container / End -->
+  
+{% endif %}
+
+{% endblock content %}
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}

@@ -1,0 +1,243 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+  Update Request
+{% endblock app_title %}
+
+
+{% block content %}
+
+{% if request.user.account_type == '3'%}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+		{% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
+
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+      <div class="dashboard-content-inner" >
+        
+        <!-- Dashboard Headline -->
+        <div class="dashboard-headline">
+          <h3>Edit My Request</h3>
+
+          <!-- Breadcrumbs -->
+          <nav id="breadcrumbs" class="dark">
+            <ul>
+			  <li><a href="{% url 'smart_home' %}">Home</a></li>
+              <li><a href="{% url 'user_profile' %}">Dashboard</li></a>
+              <li>Update Request</li>
+			</ul>
+          </nav>
+        </div>
+    
+        <!-- Row -->
+        <form class = "row" method = "POST" action = "{% url 'edit_request_save' %}">
+            {% csrf_token %}
+            <!-- Dashboard Box -->
+            <div class="col-xl-12">
+              <div class="dashboard-box margin-top-0">
+
+                <!-- Headline -->
+                <div class="headline">
+                  <h3><i class="icon-feather-folder-plus"></i> Request Update Form</h3>
+                </div>
+
+                <div class="content with-padding padding-bottom-10">
+                    <div class="row">
+
+                        <div class="col-xl-4">
+                        <div class="submit-field">
+                            <h5>Request_ID</h5>
+                            <input type="text" class="with-border" required value = {{reques.id}}>
+                            <input type = "hidden" name = "request_id" value = "{{reques.id}}">
+                        </div>
+                        </div>
+
+                        <div class="col-xl-4">
+                        <div class="submit-field">
+                            <h5>Budget</h5>
+                            <div class="input-with-icon">
+                            <input class="with-border" type="text" placeholder="Fixed" name = "charge" id = "charge" required value="{{reques.budget}}">
+                            <i class="currency">NGN</i>
+                            </div>
+                        </div>
+                        </div>
+
+                        <br>
+
+                        <div class="col-xl-12">
+
+                            <div class="submit-field">
+                                <h5>Request Content</h5>
+                                <textarea cols="30" rows="5" class="with-border" name = "description" id = "description" required value = {{reques.description}}>{{reques.description}}</textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class = "row">
+              {% if messages %}
+                  <div class = "col-xl-12">
+                      {% for message in messages %}
+                          {% if message.tags == 'error' %}
+                              <div class = "alert alert-danger mt-4 ml-3 text-dark" style = "width:100%;">
+                                  {{message}}
+                              </div>
+                          {% endif %}
+                          {% if message.tags == 'success' %}
+                              <div class = "alert alert-success ml-3 mt-4 text-dark" style = "width:100%;">
+                                  {{message}}
+                              </div>
+                          {% endif %}
+                      {%endfor %}
+                  </div>              
+              {% endif %}
+            </div>
+
+            <div class="col-xl-12">
+              <button type = "submit" class="ml-1 button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Save Changes </button>
+            </div>
+
+        </form>
+
+        <!-- Row / End -->
+
+      {% include 'user_templates/footer_dashboard.html'%}
+
+      </div>
+    </div>
+    <!-- Dashboard Content / End -->
+		
+	</div>
+    <!-- Dashboard Container / End -->
+  
+{% elif request.user.account_type == '2' %}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+		{% include 'user_templates/buyer_sidebar.html' %}
+
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+      <div class="dashboard-content-inner" >
+        
+        <!-- Dashboard Headline -->
+        <div class="dashboard-headline">
+          <h3>Edit My Request</h3>
+
+          <!-- Breadcrumbs -->
+          <nav id="breadcrumbs" class="dark">
+            <ul>
+			  <li><a href="{% url 'smart_home' %}">Home</a></li>
+              <li><a href="{% url 'user_profile' %}">Dashboard</li></a>
+              <li>Update Request</li>
+			</ul>
+          </nav>
+        </div>
+    
+        <!-- Row -->
+        <form class = "row" method = "POST" action = "{% url 'edit_request_save' %}">
+            {% csrf_token %}
+            <!-- Dashboard Box -->
+            <div class="col-xl-12">
+              <div class="dashboard-box margin-top-0">
+
+                <!-- Headline -->
+                <div class="headline">
+                  <h3><i class="icon-feather-folder-plus"></i> Request Update Form</h3>
+                </div>
+
+                <div class="content with-padding padding-bottom-10">
+                    <div class="row">
+
+                        <div class="col-xl-4">
+                        <div class="submit-field">
+                            <h5>Request_ID</h5>
+                            <input type="text" class="with-border" required value = {{reques.id}}>
+                            <input type = "hidden" name = "request_id" value = "{{reques.id}}">
+                        </div>
+                        </div>
+
+                        <div class="col-xl-4">
+                        <div class="submit-field">
+                            <h5>Budget</h5>
+                            <div class="input-with-icon">
+                            <input class="with-border" type="text" placeholder="Fixed" name = "charge" id = "charge" required value="{{reques.budget}}">
+                            <i class="currency">NGN</i>
+                            </div>
+                        </div>
+                        </div>
+
+                        <br>
+
+                        <div class="col-xl-12">
+
+                            <div class="submit-field">
+                                <h5>Request Content</h5>
+                                <textarea cols="30" rows="5" class="with-border" name = "description" id = "description" required value = {{reques.description}}>{{reques.description}}</textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class = "row">
+              {% if messages %}
+                  <div class = "col-xl-12">
+                      {% for message in messages %}
+                          {% if message.tags == 'error' %}
+                              <div class = "alert alert-danger mt-4 ml-3 text-dark" style = "width:100%;">
+                                  {{message}}
+                              </div>
+                          {% endif %}
+                          {% if message.tags == 'success' %}
+                              <div class = "alert alert-success ml-3 mt-4 text-dark" style = "width:100%;">
+                                  {{message}}
+                              </div>
+                          {% endif %}
+                      {%endfor %}
+                  </div>              
+              {% endif %}
+            </div>
+
+            <div class="col-xl-12">
+              <button type = "submit" class="ml-1 button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Save Changes </button>
+            </div>
+
+        </form>
+
+        <!-- Row / End -->
+
+      {% include 'user_templates/footer_dashboard.html'%}
+
+      </div>
+    </div>
+    <!-- Dashboard Content / End -->
+		
+	</div>
+    <!-- Dashboard Container / End -->
+  
+
+{% endif %}
+
+{% endblock content %}
+
+
+
+{% block custom_js %}
+
+
+{% endblock custom_js %}

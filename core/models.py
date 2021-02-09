@@ -19,19 +19,10 @@ Verified = (
 )
 
 
-order_ser = (
-
-    ("not_ordered", "not_ordered"),
-    ("ordered", "ordered"),
-    ("delivered", "delivered"),
-)
-
-
-
 order_service = (
-
     ("ordered", "ordered"),
     ("delivered", "delivered"),
+    ("rejected", "rejected"),
 )
 
 
@@ -175,14 +166,21 @@ class Plan(models.Model):
         return f"{self.plan_name}"
 
 
+class Delivery_days(models.Model):
+    id = models.AutoField(primary_key=True)
+    days = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.days} days"
+
 
 class Service(models.Model):
 
     id                  = models.AutoField(primary_key=True)
     owner               = models.ForeignKey(Seller, on_delete = models.CASCADE)
     title               = models.CharField(max_length = 100)
+    days                = models.ForeignKey(Delivery_days, on_delete = models.SET_NULL, null = True)
     orders              = models.ForeignKey("Order", on_delete = models.SET_NULL, null = True)
-    ordered             = models.CharField(choices = order_ser, max_length=20, default = "not_ordered")
     category            = models.ForeignKey(Category, on_delete = models.CASCADE)
     sub_category        = models.ForeignKey(SubCategory, on_delete = models.SET_NULL, null = True)
     plan                = models.ForeignKey(Plan, on_delete = models.SET_NULL, null = True)
@@ -201,9 +199,8 @@ class Service(models.Model):
         return self.category.all().count()
 
 
-    def get_number_orders(self):
+    def get_number_orders(self, status="ordered"):
         return self.order_set.all().count()
-
 
 
 class star_rating(models.Model):
@@ -212,7 +209,6 @@ class star_rating(models.Model):
 
     def __str__(self):
         return f"{self.rating_star}"
-
 
 
 class Reviews(models.Model):
@@ -228,17 +224,39 @@ class Reviews(models.Model):
         return f"{self.user_id.username} left {self.rating} stars for {self.seller_id.admin.username}"
 
 
-
 class Order(models.Model):
 
     id = models.AutoField(primary_key = True)
     user_order = models.ForeignKey(customUser, on_delete = models.CASCADE)
+    seller_id = models.ForeignKey(Seller, on_delete = models.CASCADE, null = True)
     service_ordered = models.ForeignKey(Service, on_delete = models.CASCADE)
     status = models.CharField(choices=order_service, max_length = 20)
     date_ordered = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
         return f"{self.user_order.username} {self.status}"
+
+
+class Requests(models.Model):
+    id = models.AutoField(primary_key=True)
+    poster = models.ForeignKey(customUser, on_delete=models.CASCADE)
+    budget = models.IntegerField()
+    description = models.TextField()
+    created = models.DateTimeField(default = timezone.now)
+
+    def __str__(self):
+        return self.poster.username
+
+
+class Request_replies(models.Model):
+    id = models.AutoField(primary_key=True)
+    request_id = models.ForeignKey(Requests, on_delete = models.CASCADE)
+    freelancer = models.ForeignKey(Seller, on_delete = models.CASCADE)
+    reply_text = models.TextField()
+    created = models.DateTimeField(default = timezone.now)
+
+    def __str__(self):
+        return f"{self.freelancer} replied {self.request_id.poster.username}"  
 
 
 class Notifications(models.Model):

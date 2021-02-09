@@ -74,6 +74,14 @@
                     </select>
                   </div>
 
+                  <div class="form-group">
+                    <label for="days">Days</label>
+                    <select name = "days" id = "days" class = "form-control">
+                      {% for day in days %}
+                        <option value = {{day.id}}> {{ day }} </option>
+                      {% endfor %}
+                    </select>
+                  </div>
 
                   <div class="form-group">
                     <label for="image"> Main Image</label>

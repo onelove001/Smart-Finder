@@ -25,6 +25,10 @@ def create_seller(request):
     return render(request, "admin_templates/create_seller.html", {"sub_categories":sub_categories, "categories":categories, "languages":languages, "levels":levels, "labels":labels,})
 
 
+def create_delivery_days(request):
+    return render(request, "admin_templates/create_delivery_days.html", {})
+
+
 def create_category(request):
     return render(request, "admin_templates/create_category.html", {})
 
@@ -67,7 +71,8 @@ def create_service_admin(request):
     categories = Category.objects.all()
     sub_categories = SubCategory.objects.all()
     plans = Plan.objects.all()
-    return render(request, "admin_templates/create_service.html", {"sellers":sellers, "categories":categories, "sub_categories":sub_categories, "plans":plans})
+    days = Delivery_days.objects.all()
+    return render(request, "admin_templates/create_service.html", {"days":days, "sellers":sellers, "categories":categories, "sub_categories":sub_categories, "plans":plans})
 
 
 
@@ -220,6 +225,7 @@ def create_language_save(request):
 
 
 
+
 def create_label_choice_save(request):
     if request.method == "POST":
         label = request.POST.get('label')
@@ -235,6 +241,24 @@ def create_label_choice_save(request):
             return redirect("create_label_choice")
     
     return HttpResponse(" <h2> Invalid Request </h2>")
+
+
+
+def create_delivery_save(request):
+    if request.method == "POST":
+        days = request.POST.get('days')
+
+        try:
+            days = Delivery_days(days = days)
+            days.save()
+            messages.success(request, "Delivery Days Created")
+            return redirect("create_delivery_days")
+
+        except:
+            messages.error(request, "Failed To Create")
+            return redirect("create_delivery_days")
+    
+    return HttpResponse(" <h2> This request cannot be processed </h2>")
 
 
 
@@ -291,7 +315,6 @@ def check_email(request):
 
 
 
-
 @csrf_exempt
 def check_username(request):
     username = request.POST.get('username')
@@ -311,6 +334,7 @@ def create_service_admin_save(request):
         cat_id = request.POST.get("cat_id")
         sub_cat_id = request.POST.get("sub_cat_id")
         plan = request.POST.get("plan")
+        days = request.POST.get("days")
         description = request.POST.get("description")
         image1 = request.FILES["image1"]
         image2 = request.FILES["image2"]
@@ -326,13 +350,14 @@ def create_service_admin_save(request):
         image3_url = fs.url(profile_image3_save)
         
         cat_obj = Category.objects.get(id = cat_id)
+        days_obj = Delivery_days.objects.get(id = days)
         plan_obj = Plan.objects.get(id = plan)
         sub_cat_obj = SubCategory.objects.get(id = sub_cat_id)
         user= customUser.objects.get(id = seller_id)
         seller = Seller.objects.get(admin = user.id)
         
         try:
-            service = Service(owner=seller, description=description, charge=charge, title=title, function=function, plan = plan_obj, category=cat_obj, sub_category=sub_cat_obj, image1=image1_url, image2=image2_url, image3=image3_url)
+            service = Service(owner=seller, description=description, charge=charge, title=title, function=function, plan = plan_obj, days = days_obj, category=cat_obj, sub_category=sub_cat_obj, image1=image1_url, image2=image2_url, image3=image3_url)
             service.save()
             messages.success(request, "Service Created Successfully")
             return redirect(request.META.get("HTTP_REFERER"))

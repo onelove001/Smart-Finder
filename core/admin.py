@@ -22,4 +22,11 @@ admin.site.register(Service)
 admin.site.register(star_rating)
 admin.site.register(Reviews)
 admin.site.register(Order)
+admin.site.register(Delivery_days)
+admin.site.register(Request_replies)
+admin.site.register(Requests)
+
+
+
+
 

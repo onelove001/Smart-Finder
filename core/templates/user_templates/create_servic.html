@@ -52,16 +52,19 @@
 
                     <div class="col-xl-4">
                       <div class="submit-field">
-                        <h5>Owner_ID</h5>
-                        <input type="text" class="with-border" name = "owner" id = "owner" value = "{{request.user.username}}" disabled>
-                        <input name = "owner_id" type = "hidden" value = "{{request.user.id}}">
+                        <h5>Service Title</h5>
+                        <input type="text" class="with-border" placeholder="e.g. Landing Page Service" name = "title" id = "title" required>
                       </div>
                     </div>
 
                     <div class="col-xl-4">
                       <div class="submit-field">
-                        <h5>Service Title</h5>
-                        <input type="text" class="with-border" placeholder="e.g. Landing Page Service" name = "title" id = "title" required>
+                          <h5>Delivery Days</h5>
+                          <select class="selectpicker with-border" title="Select Days" name = "days" id="days" required>
+                          {% for day in days %}
+                              <option value = {{day.id}} {% if day.days == service.days.days %} selected {% endif %}> {{day}} </option>
+                          {% endfor %}
+                          </select>
                       </div>
                     </div>
 

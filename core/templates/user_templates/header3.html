@@ -33,12 +33,16 @@
 							<li><a href="{% url 'become_seller' %}" style = "margin-top:3px;">Become a seller</a>
 							   
 							</li>
+							<li><a href="{% url 'employer_requests' %}" style = "margin-top:3px;">Employer Request</a>
+							   
+							</li>
+							
 	
 							<li><a href="{% url 'user_profile' %}">Dashboard</a>
 								<ul class="dropdown-nav">
 									<li><a href="{% url 'become_seller' %}">Become a seller</a></li>
 									<li><a href="#">Messages</a></li>
-									<li><a href="#">Post a Task</a></li>
+									<li><a href="{% url 'post_request' %}">Post a Request</a></li>
 									{% if request.user.account_type == '3' %}
 									<li><a href="{% url 'update_profile_seller' %}">Settings</a></li>
 									{% elif request.user.account_type == '2' %}

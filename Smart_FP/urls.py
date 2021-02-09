@@ -24,6 +24,9 @@ from core.user_views import *
 from chat.views import *
 from core.admin_views import *
 
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name = 'landing_page'),
@@ -32,6 +35,7 @@ urlpatterns = [
     path('signup_user', signup_user, name = 'signup_user'),
     path('smart_admin', smart_admin_home, name = 'smart_admin_home'),
     path('smart_home', smart_home, name = 'smart_home'),
+
 
     # '============/ Admin Urls /========= ' #
     path('create_seller', create_seller, name = 'create_seller'),
@@ -52,6 +56,8 @@ urlpatterns = [
     path('create_sub_category_save', create_sub_category_save, name = 'create_sub_category_save'),
     path('create_language_save', create_language_save, name = 'create_language_save'),
     path('create_xperienece_level_save', create_xperienece_level_save, name = 'create_xperienece_level_save'),
+    path('create_delivery_days', create_delivery_days, name = 'create_delivery_days'),
+    path('create_delivery_save', create_delivery_save, name = 'create_delivery_save'),
     path('create_label_choice_save', create_label_choice_save, name = 'create_label_choice_save'),
     path('create_plan', create_plan, name = 'create_plan'),
     path('create_plan_save', create_plan_save, name = 'create_plan_save'),
@@ -81,7 +87,26 @@ urlpatterns = [
     path('user_service_order', user_service_order, name = 'user_service_order'),
     path('freelancers_page/<str:category_idd>', freelancers_page, name = 'freelancers_page'),
     path('seller_profile/<str:seller_id>', seller_profile, name = 'seller_profile'),
+    path('edit_service/<str:service_edit_id>', edit_service, name = 'edit_service'),
+    path('delete_service/<str:service_delete_id>', delete_service, name = 'delete_service'),
     path('seller_reviews', seller_reviews, name = 'seller_reviews'),
+    path('manage_services', manage_services, name = 'manage_services'),
+    path('edit_service_save', edit_service_save, name = 'edit_service_save'),
+    path('manage_all_orders', manage_all_orders, name = 'manage_all_orders'),
+    path('active_orders', active_orders, name = 'active_orders'),
+    path('buyer_profile/<str:buyer_id>', buyer_profile, name = 'buyer_profile'),
+    path('reject_order/<str:order_id>', reject_order, name = 'reject_order'),
+    path('post_request', post_request, name = 'post_request'),
+    path('post_request_save', post_request_save, name = 'post_request_save'),
+    path('employer_requests', employer_requests, name = 'employer_requests'),
+    path('reply_request_save', reply_request_save, name = 'reply_request_save'),
+    path('manage_requests', manage_requests, name = 'manage_requests'),
+    path('edit_request/<str:request_id>', edit_request, name = 'edit_request'),
+    path('edit_request_save', edit_request_save, name = 'edit_request_save'),
+    path('delete_request/<str:request_id>', delete_request, name = 'delete_request'),
+    path('view_replies/<str:requessst_id>', view_replies, name = 'view_replies'),
+
+    
 
 
     # =================/ Chat Urls /=============== #
@@ -89,6 +114,8 @@ urlpatterns = [
     path('chat/<str:room_name>', room, name = "room_index"),
     
 ]
+
+
 
 
 urlpatterns+=static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

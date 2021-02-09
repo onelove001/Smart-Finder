@@ -1,0 +1,218 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+    Replies
+{% endblock app_title %}
+
+
+{% block content %}
+
+{% if request.user.account_type == '3'%}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+		{% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
+
+        <!-- Dashboard Content
+        ================================================== -->
+        <div class="dashboard-content-container" data-simplebar>
+            <div class="dashboard-content-inner" >
+                
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Freelancer Replies</h3>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" class="dark">
+                        <ul>
+                            <li><a href="{% url 'smart_home' %}">Home</a></li>
+                            <li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+                            <li>Replies</li>
+                        </ul>
+                    </nav>
+                </div>
+        
+                <!-- Row -->
+                <div class="row">
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-gavel"></i>Replies to Request ({{requestt_id.id}})</h3>
+                            </div>
+
+                            <div class="content">
+                                <ul class="dashboard-box-list">
+                                    {% if request_repliesss == 0 %}
+                                    <li>
+                                    <!-- Overview -->
+                                    <div class="freelancer-overview manage-candidates">
+                                        <div class="freelancer-overview-inner">
+                                        <h3 style = "color:rgb(255, 41, 41)"> You have no replies on this request as of yet </h3>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    {% endif %}
+
+                                    {% for reply in request_replies %}
+                                    <li>
+                                        <!-- Overview -->
+                                        <div class="freelancer-overview manage-candidates">
+                                            <div class="freelancer-overview-inner">
+
+                                                <!-- Avatar -->
+                                                <div class="freelancer-avatar">
+                                                    <div class="verified-badge"></div>
+                                                    <a href="{% url 'seller_profile' reply.freelancer.id %}"><img src="{{reply.freelancer.image}}" alt=""></a>        
+                                                </div>
+
+                                                <!-- Name -->
+                                                <div class="freelancer-name">
+                                                    <h4><a href=""> {{reply.freelancer.admin.username}} <img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="" title="Nigeria" data-tippy-placement="top"></a></h4>
+                                                    
+                                                    <!-- Details -->
+                                                    <span class="freelancer-detail-item"><a href="{% url 'seller_profile' reply.freelancer.id %}"><i class="icon-feather-mail"></i> {{reply.freelancer.admin.email}} </a></span>                                                                                                       
+                                                    
+                                                    <!-- Rating -->
+                                                    <div class="freelancer-rating">
+                                                        <span class="freelancer-detail-item"><a href="{% url 'seller_profile' reply.freelancer.id %}"> {{reply.reply_text}} </a></span>
+                                                    </div>
+
+                                                    <!-- Buttons -->
+                                                    <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+                                                        <a href="{% url 'seller_profile' reply.freelancer.id %}"  class=" button ripple-effect"><i class="icon-material-outline-check"></i> View Profile </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Row / End -->
+
+                {% include 'user_templates/footer_dashboard.html'%}
+
+            </div>
+        </div>
+        <!-- Dashboard Content / End -->
+    
+    </div>
+    <!-- Dashboard Container / End -->
+  
+{% elif request.user.account_type == '2' %}
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        {% include 'user_templates/buyer_sidebar.html' %}
+
+        <!-- Dashboard Content
+        ================================================== -->
+        <div class="dashboard-content-container" data-simplebar>
+            <div class="dashboard-content-inner" >
+                
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Freelancer Replies</h3>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" class="dark">
+                        <ul>
+                            <li><a href="{% url 'smart_home' %}">Home</a></li>
+                            <li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+                            <li>Replies</li>
+                        </ul>
+                    </nav>
+                </div>
+        
+                <!-- Row -->
+                <div class="row">
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-gavel"></i>Replies to Request {{requestt_id.id}}</h3>
+                            </div>
+
+                            <div class="content">
+                                <ul class="dashboard-box-list">
+                                    {% if request_repliesss == 0 %}
+                                    <li>
+                                    <!-- Overview -->
+                                    <div class="freelancer-overview manage-candidates">
+                                        <div class="freelancer-overview-inner">
+                                        <h3 style = "color:rgb(255, 41, 41)"> You have no replies on this request as of yet </h3>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    {% endif %}
+
+                                    {% for reply in request_replies %}
+                                    <li>
+                                        <!-- Overview -->
+                                        <div class="freelancer-overview manage-candidates">
+                                            <div class="freelancer-overview-inner">
+
+                                                <!-- Avatar -->
+                                                <div class="freelancer-avatar">
+                                                    <div class="verified-badge"></div>
+                                                    <a href="{% url 'seller_profile' reply.freelancer.id %}"><img src="{{reply.freelancer.image}}" alt=""></a>        
+                                                </div>
+
+                                                <!-- Name -->
+                                                <div class="freelancer-name">
+                                                    <h4><a href=""> {{reply.freelancer.admin.username}} <img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="" title="Nigeria" data-tippy-placement="top"></a></h4>
+                                                    
+                                                    <!-- Details -->
+                                                    <span class="freelancer-detail-item"><a href="{% url 'seller_profile' reply.freelancer.id %}"><i class="icon-feather-mail"></i> {{reply.freelancer.admin.email}} </a></span>
+                                                                                                    
+                                                    <!-- Rating -->
+                                                    <div class="freelancer-rating">
+                                                        <span class="freelancer-detail-item"><a href="{% url 'seller_profile' reply.freelancer.id %}"> {{reply.reply_text}} </a></span>                                                      
+                                                    </div>
+
+                                                    <!-- Buttons -->
+                                                    <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
+                                                        <a href="{% url 'seller_profile' reply.freelancer.id %}"  class=" button ripple-effect"><i class="icon-material-outline-check"></i> View Profile </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Row / End -->
+
+                {% include 'user_templates/footer_dashboard.html'%}
+
+            </div>
+        </div>
+        <!-- Dashboard Content / End -->
+
+    </div>
+    <!-- Dashboard Container / End -->
+
+{% endif %}
+
+{% endblock content %}
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}

@@ -24,9 +24,10 @@
 							<!-- <h5><a href="{% url 'seller_profile' service.owner.id %}"><i class="icon-material-outline-business"></i> About the Seller </h5> -->
 							<ul>
 								<br>
-								<li> {{ service.category.category_title }} --></li>
-								<li> {{ service.sub_category }} --></li>
-								<li><a href="{% url 'seller_profile' service.owner.id %}"><i class="icon-material-outline-business"></i> About the Freelancer </a></li>
+								<li><a href="{% url 'seller_profile' service.owner.id %}"><i class="icon-material-outline-business"></i> About the Freelancer </a></li><br>
+								<li> {{service.category.category_title}}</li>
+								<li> {{service.sub_category}} </li>
+								<li> {{service.created}}</li>
 							</ul>
 						</div>
 					</div>
@@ -54,6 +55,11 @@
 			<div class="single-page-section">
 				<h3 class="margin-bottom-25">Service Description</h3>
 				<p> {{ service.description }}</p>
+			</div>
+
+			<div class="single-page-section">
+				<h3 class="margin-bottom-25">Delivery Days</h3>
+				<p> {{ service.days }}</p>
 			</div>
 
 			{% if service.owner.admin.username != request.user.username %}	
@@ -141,13 +147,14 @@
 		<div class="col-xl-4 col-lg-4">
 			<div class="sidebar-container">
 
-				<div class="countdown green margin-bottom-35">{{ service.created|timesince }} ago</div>
+				<div class="countdown green margin-bottom-35">Date Posted: {{ service.created|timesince }} ago</div>
 
 				<div class="sidebar-widget">
 					<div class="bidding-widget">
 						{% if service.owner.admin.username != request.user.username %}	
 						<form method="POST" action = "{% url 'user_service_order' %}" class="bidding-inner"> {% csrf_token %}
 							<input type = "hidden" name = "service_id" value = "{{service.id}}">
+							<input type = "hidden" name = "seller_id" value = "{{service.owner.id}}">
 							<div class = "row">
 								{% if messages %}
 									<div class = "col-xl-12">

@@ -22,7 +22,8 @@
 							<h3>{{ seller.admin.username }} <span>{{seller.category.category_title}} <br> {{seller.experience_level.level}}</span></h3>
 							<ul>
 								<li><div class="star-rating" data-rating="5.0"></div></li>
-                                <li><img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt=""> Nigeria</li>
+								<li><img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="">Nigeria</li>
+								<li><a href="#"><i class="icon-feather-mail"></i> Contact Me Now! </a></li>							
                                 {% if seller.verified == 'yes' %}
                                 <li><div class="verified-badge-with-title">Verified</div></li>
                                 {% endif %}

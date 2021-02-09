@@ -1,0 +1,89 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+    Employer Profile
+{% endblock app_title %}
+
+
+{% block content %}
+
+
+<!-- Titlebar
+================================================== -->
+<div class="single-page-header freelancer-header" data-background-image="{% static 'images2/single-freelancer.jpg' %}">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="single-page-header-inner">
+					<div class="left-side">
+						<div class="header-image freelancer-avatar"><img src="{{buyer.image}}" alt=""></div>
+						<div class="header-details">
+							<h3>{{buyer.admin.username}} <span>{{buyer.short_name}} </span></h3>
+							<ul>
+								<li><img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="">Nigeria</li>
+								<li><a href="#"><i class="icon-feather-mail"></i> Send Message! </a></li>							
+                                <li><div class="verified-badge-with-title">Verified</div></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+	<div class="row">
+		
+		<!-- Content -->
+		<div class="col-xl-8 col-lg-8 content-right-offset">
+
+            <!-- Page Content -->
+			<div class="single-page-section">
+                <h3 class="margin-bottom-25">Email Address</h3>
+                <p> {{buyer.admin.email}} </p>
+            </div>
+            
+			<!-- Page Content -->
+			<div class="single-page-section">
+                <h3 class="margin-bottom-25">Member Since! </h3>
+                <p> {{buyer.created}} </p>
+            </div>
+            
+		</div>
+		
+		<!-- Sidebar -->
+		<div class="col-xl-4 col-lg-4">
+			<div class="sidebar-container">
+				
+				<!-- Profile Overview -->
+				<div class="profile-overview">
+					<div class="overview-item"><strong>Status</strong><span>Employer</span></div>
+					<!-- <div class="overview-item"><strong>53</strong><span>Jobs Done</span></div> -->
+					<div class="overview-item"><strong>7</strong><span>Jobs Out</span></div>
+					<div class="overview-item"><strong>7</strong><span>Reviews Out</span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Spacer -->
+<div class="margin-top-15"></div>
+<!-- Spacer / End-->
+
+
+
+
+{% include 'user_templates/footer2.html' %}
+
+{% endblock content %}
+
+{% block custom_js %}
+  
+{% endblock custom_js %}

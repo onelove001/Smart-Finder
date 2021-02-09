@@ -25,10 +25,12 @@
                     </ul>
                     
                     <ul data-submenu-title="Organize and Manage">
-                        <li><a href="#"><i class="icon-material-outline-assignment"></i> Tasks </a>
+                        <li><a href=""><i class="icon-material-outline-assignment"></i> Tasks </a>
                             <ul>
-                                <li><a href="#">Manage Tasks <span class="nav-tag">2</span></a></li>
-                                <li><a href="#">Post a Task</a></li>
+                                {% url 'manage_requests' as manage_requests %}
+                                {% url 'post_request' as post_request %}
+                                <li class = "{% if request.path == manage_requests %} active {% endif %}"><a href="{% url 'manage_requests' %}">Manage Requests</a></li>
+                                <li class = "{% if request.path == post_request %} active {% endif %}"><a href="{% url 'post_request' %}">Post a Request</a></li>
                             </ul>	
                         </li>
                     </ul>

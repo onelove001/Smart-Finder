@@ -25,25 +25,34 @@
                             <li class="{% if request.path == user_profile %} active {% endif %}"><a href="{{ user_profile }}"><i class="icon-material-outline-dashboard"></i>Dashboard</a></li>
                             <li><a href="#"><i class="icon-material-outline-question-answer"></i>Messages<span class="nav-tag">2</span></a></li>
                             {% if request.user.account_type == '3' %}
-                            <li><a href="{% url 'seller_reviews' %}"><i class="icon-material-outline-rate-review"></i>Reviews<span class="nav-tag">{{reviews}}</span></a></a></li>
-                            <li><a href="{% url 'create_service_service' %}"><i class="icon-material-outline-rate-review"></i>Create Service</a></li>
-                            <li><a href="#"><i class="icon-material-outline-rate-review"></i>Manage Services</a></li>
+                            {% url 'seller_reviews' as seller_reviews %}
+                            {% url 'create_service_service' as create_service_ %}
+                            {% url 'manage_services' as manage_services %}
+                            <li class="{% if request.path == seller_reviews %} active {% endif %}"><a href="{% url 'seller_reviews' %}"><i class="icon-material-outline-rate-review"></i>Reviews<span class="nav-tag">{{reviews}}</span></a></li>
+                            <li class="{% if request.path == create_service_ %} active {% endif %}"><a href="{% url 'create_service_service' %}"><i class="icon-material-outline-brush"></i>Create Service</a></li>
+                            <li class="{% if request.path == manage_services %} active {% endif %}"><a href="{% url 'manage_services' %}"><i class="icon-material-outline-account-balance"></i>Manage Services</a></li>
                             {% endif %}
                         </ul>
                         
                         <ul data-submenu-title="Organize and Manage">
-                            <li><a href="#"><i class="icon-material-outline-assignment"></i>Tasks</a>
+                            <li><a><i class="icon-material-outline-assignment"></i>Tasks</a>
                                 <ul>
-                                    <li><a href="#">Manage Tasks <span class="nav-tag">2</span></a></li>
-                                    <li><a href="#">All Orders</a></li>
-                                    <li><a href="#">Active Orders <span class="nav-tag">4</span></a></li>
-                                    <li><a href="#">Post a Task</a></li>
+                                    {% url 'manage_requests' as manage_requests %}
+                                    {% url 'post_request' as post_request %}
+                                    {% url 'manage_all_orders' as manage_all_orders %}
+                                    {% url 'active_orders' as active_orders %}
+
+                                    <li class="{% if request.path == manage_requests %} active {% endif %}"><a href="{% url 'manage_requests' %}">Manage Requests</a></li>
+                                    <li class="{% if request.path == post_request %} active {% endif %}"><a href="{% url 'post_request' %}">Post a Request</a></li>
+                                    <li class="{% if request.path == manage_all_orders %} active {% endif %}"><a href="{% url 'manage_all_orders' %}">Manage Orders</a></li>
+                                    <li class="{% if request.path == active_orders %} active {% endif %}"><a href="{% url 'active_orders' %}">Active Orders</a></li>
                                 </ul>	
                             </li>
                         </ul>
 
                         <ul data-submenu-title="Account">
-                            <li><a href="{% url 'update_profile_seller' %}"><i class="icon-material-outline-settings"></i>Settings</a></li>
+                            {% url 'update_profile_seller' as update_profile_seller %}
+                            <li class="{% if request.path == update_profile_seller %} active {% endif %}"><a href="{% url 'update_profile_seller' %}"><i class="icon-material-outline-settings"></i>Settings</a></li>
                             <li><a href="{% url 'logout_user' %}"><i class="icon-material-outline-power-settings-new"></i>Logout</a></li>
                         </ul>
                         

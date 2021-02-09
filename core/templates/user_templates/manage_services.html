@@ -1,0 +1,160 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+  Manage Services
+{% endblock app_title %}
+
+
+{% block content %}
+
+{% if request.user.account_type == '3'%}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+		{% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
+
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+      <div class="dashboard-content-inner" >
+        
+        <!-- Dashboard Headline -->
+        <div class="dashboard-headline">
+          <h3>Manage My Services</h3>
+
+          <!-- Breadcrumbs -->
+          <nav id="breadcrumbs" class="dark">
+            <ul>
+			  <li><a href="{% url 'smart_home' %}">Home</a></li>
+              <li><a href="{% url 'user_profile' %}">Dashboard</li></a>
+              <li> Manage Services </li>
+			</ul>
+          </nav>
+        </div>
+
+        <div class="row">
+
+            <!-- Dashboard Box -->
+            <div class="col-xl-12">
+                <div class="dashboard-box margin-top-0">
+
+                    <!-- Headline -->
+                    <div class="headline">
+                        <h3><i class="icon-material-outline-business-center"></i> My Service Listings</h3>
+                    </div>
+
+                    <div class="content">
+                        <ul class="dashboard-box-list">
+                            {% if servicesss == 0 %}
+                            <li>
+                                <!-- Overview -->
+                                <div class="freelancer-overview manage-candidates">
+                                    <div class="freelancer-overview-inner">
+                                    <h3 style = "color:rgb(255, 41, 41)"> You have no active services at the moment </h3>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% for service in pages %}
+                            <li>
+                                <!-- Job Listing -->
+                                <div class="job-listing">
+
+                                    <!-- Job Listing Details -->
+                                    <div class="job-listing-details">
+
+                                        <!-- Logo -->
+                                            <!-- <a href="#" class="job-listing-company-logo">
+                                            <img src="images/company-logo-05.png" alt="">
+                                        </a> -->
+
+                                        <!-- Details -->
+                                        <div class="job-listing-description">
+                                            <h3 class="job-listing-title"><a href="{% url 'edit_service' service.id %}">{{service.category.category_title}}-{{service.sub_category.sub_category_title}}</a> </h3>
+
+                                            <!-- Job Listing Footer -->
+                                            <div class="job-listing-footer">
+                                                <ul>
+                                                    <li><i class="icon-material-outline-date-range"></i> Posted on {{service.created}}</li>
+                                                    <!-- <li><i class="icon-material-outline-date-range"></i> Expiring on 10 August, 2019</li> -->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="buttons-to-right always-visible">
+                                    <a href="{% url 'service_detail' service.id %}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i>View Service</a>
+                                    <a href="{% url 'edit_service' service.id %}" class="button gray ripple-effect ico" title="Update" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                                    <a href="{% url 'delete_service' service.id %}" class="button gray ripple-effect ico" title="Delete" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pagination-container margin-top-60 margin-bottom-60">
+                            <nav class="pagination">
+                                <ul>
+                                {% if pages.has_previous %}
+                                <li class="pagination-arrow">
+                                    <a href="?page={{pages.previous_page_number}}" class="ripple-effect">
+                                        <i class="icon-material-outline-keyboard-arrow-left"></i>
+                                    </a>
+                                </li>
+                                {% endif %}
+
+                                {% for page in pages.paginator.page_range %}
+                                    {% if pages.number == page %}
+                                    <li><a href="?page={{page}}" class="current-page ripple-effect"> {{ page }}</a></li>
+
+                                    {% else %}
+                                    <li><a href="?page={{page}}" class="ripple-effect">{{page}}</a></li>
+                                    
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if pages.has_next %}
+                                <li class="pagination-arrow">
+                                    <a href="?page={{pages.next_page_number}}" class="ripple-effect">
+                                        <i class="icon-material-outline-keyboard-arrow-right"></i>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination / End -->
+            </div>
+        </div>
+        <!-- Row / End -->
+    
+      {% include 'user_templates/footer_dashboard.html'%}
+
+      </div>
+    </div>
+    <!-- Dashboard Content / End -->
+		
+	</div>
+  <!-- Dashboard Container / End -->
+  
+{% endif %}
+
+{% endblock content %}
+
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}
