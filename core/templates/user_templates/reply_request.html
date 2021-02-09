@@ -1,0 +1,153 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+   Reply
+{% endblock app_title %}
+
+
+{% block content %}
+
+{% if request.user.account_type == '3'%}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+		{% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
+
+
+    <!-- Dashboard Content
+    ================================================== -->
+    <div class="dashboard-content-container" data-simplebar>
+      <div class="dashboard-content-inner" >
+        
+        <!-- Dashboard Headline -->
+        <div class="dashboard-headline">
+          <h3> Direct Reply to {{requestt.poster.username}} </h3>
+
+          <!-- Breadcrumbs -->
+          <nav id="breadcrumbs" class="dark">
+            <ul>
+              <li><a href="{% url 'smart_home' %}">Home</a></li>
+              <li><a href="{% url 'user_profile' %}">Dashboard</li></a>
+              <li> Request Reply </li>
+			      </ul>
+          </nav>
+        </div>
+
+        {% if seller_exists == 1 %}
+            <li>
+            <!-- Overview -->
+            <div class="freelancer-overview manage-candidates">
+                <div class="freelancer-overview-inner">
+                <h3 style = "color:rgb(255, 41, 41)"> You Already Replied to this Request </h3>
+                </div>
+            </div>
+            </li>
+            <br><br><br><br>
+        {% else %}
+
+         <!-- Row -->
+          <form class = "row" method = "POST" action = "{% url 'create_service_save' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Dashboard Box -->
+            <div class="col-xl-12">
+              <div class="dashboard-box margin-top-0">
+
+                <!-- Headline -->
+                <div class="headline">
+                  <h3><i class="icon-feather-folder-plus"></i>Request Reply</h3>
+                </div>
+
+                <div class="content with-padding padding-bottom-10">
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="submit-field">
+                                <h5>Request ID</h5>
+                                <input type="text" class="with-border" name = "request_id" id = "request_id" value = {{requestt.id}} disabled>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-xl-12">
+                            <div class="submit-field">
+                                <h5>{{requestt.poster}} Request</h5>
+                                <textarea cols="30" rows="5" class="with-border" disabled value = "{{requestt.description}}"> {{requestt.description}}</textarea>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-xl-12">
+                            <div class="submit-field">
+                                <h5>Describe Your Service</h5>
+                                <textarea cols="30" rows="5" class="with-border" name = "reply_content" id = "reply_content" required> </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-12">
+              <button id = "reply_button" type = "submit" class="ml-1 button ripple-effect big margin-top-30"><i class="icon-material-outline-compare-arrows " > </i> Reply This Request </button>
+            </div>
+
+          </form>
+
+        {% endif %}
+
+        <!-- Row / End -->
+
+      {% include 'user_templates/footer_dashboard.html'%}
+
+      </div>
+    </div>
+    <!-- Dashboard Content / End -->
+		
+	</div>
+  <!-- Dashboard Container / End -->
+  
+{% endif %}
+
+{% endblock content %}
+
+
+
+{% block custom_js %}
+
+<script>
+    $(document).ready(function(){
+
+        $(document).on("click", "#reply_button", function(){
+
+            $(this).attr("disabled", "disabled")
+            $(this).text("Sending Your Reply...",)
+
+            var request_id = $("#request_id").val();
+            var message = $("#reply_content").val();  
+
+            $.ajax({
+                url:"{% url 'reply_request_save' %}",
+                type:"POST",
+                data:{message:message, request_id:request_id}
+
+            })
+            .done(function(response){
+                if (response == "True"){
+                    alert(" Reply Sent ");
+                } else {
+                    alert(" Error sending Reply ");
+                }
+                location = "{% url 'employer_requests' %}"
+            })
+            .fail(function(){
+                alert(" Reply Failed ");
+            })
+
+            
+        });
+
+    });
+</script>
+
+{% endblock custom_js %}
+

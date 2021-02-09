@@ -58,8 +58,7 @@
                                     </li>
                                     {% endif %}
 
-                                    {% for reques in requestss %}
-                                                                       
+                                    {% for reques in requestss %}                                  
                                     <li>
                                         <!-- Overview -->
                                         <div class="freelancer-overview manage-candidates">
@@ -77,16 +76,16 @@
 
                                                 <!-- Name -->
                                                 <div class="freelancer-name">
-                                                    <span id = "request_id">{{reques.id}}</span>
-                                                    <h4 id = "posterr"><a href=""> {{reques.poster.username}} <img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="" title="Nigeria" data-tippy-placement="top"></a></h4>
+                                                    <!-- <span id = "request_id">{{reques.id}}</span> -->
+                                                    <h4><a>{{reques.poster.username}}<img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="" title="Nigeria" data-tippy-placement="top"></a></h4>
                                                     <br>
                                                     <!-- Details -->
-                                                    <p class="freelancer-detail-item"><a> {{reques.description}} </a></p>
+                                                    <p class="freelancer-detail-item"><a>{{reques.description}}</a></p>
 
                                                     <!-- Buttons -->
                                                     <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
                                                         {% if request.user.username != reques.poster.username %}
-                                                            <a href="#small-dialog-2" class="popup-with-zoom-anim button ripple-effect reply_open_modal"><i class="icon-feather-mail"></i> Reply This Request </a>
+                                                            <a href="{% url 'reply_request' reques.id %}" class="button ripple-effect"><i class="icon-feather-mail"></i> Reply This Request </a>
                                                         {% endif %}
                                                         <ul class="dashboard-task-info bid-info">
                                                             <li><strong>#{{reques.budget}}<span>Budget</span></strong></li>
@@ -113,42 +112,6 @@
     
     </div>
     <!-- Dashboard Container / End -->
-
-    <!-- Send Direct Message Popup
-    ================================================== -->
-    <div id="small-dialog-2" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
-
-        <!--Tabs -->
-        <div class="sign-in-form">
-
-            <ul class="popup-tabs-nav">
-                <li><a href="#tab2">Send Message</a></li>
-            </ul>
-
-            <div class="popup-tabs-container">
-
-                <!-- Tab -->
-                <div class="popup-tab-content" id="tab2">
-                    
-                    <!-- Welcome Text -->
-                    <div class="welcome-text">
-                        <h3>Direct Message To : <span id = "poster"> </span>  </h3>
-                        <input type="hidden" id = "req_id">
-                    </div>
-                        
-                    <!-- Form -->
-                    <form id="send-pm">
-                        <textarea cols="10" placeholder="Message" id = "reply_message" class="with-border" required></textarea>
-                    </form>
-                    
-                    <!-- Button -->
-                    <button id = 'reply_button' class="button full-width button-sliding-icon ripple-effect" type="button" form="send-pm"> Forward Reply <i class="icon-material-outline-arrow-right-alt"></i></button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Send Direct Message Popup / End -->
 
   
 {% elif request.user.account_type == '2' %}
@@ -219,10 +182,10 @@
 
                                                 <!-- Name -->
                                                 <div class="freelancer-name">
-                                                    <h4><a href=""> {{reques.poster.username}} <img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="" title="Nigeria" data-tippy-placement="top"></a></h4>
+                                                    <h4><a>{{reques.poster.username}}<img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="" title="Nigeria" data-tippy-placement="top"></a></h4>
                                                     <br>
                                                     <!-- Details -->
-                                                    <p class="freelancer-detail-item"><a> {{reques.description}} </a></p>
+                                                    <p class="freelancer-detail-item"><a>{{reques.description}}</a></p>
                                                     
                                                     <div class="buttons-to-right always-visible margin-top-25 margin-bottom-0">
                                                         <!-- Bid Details -->
@@ -259,50 +222,5 @@
 
 
 {% block custom_js %}
-
-<script>
-    $(document).ready(function(){
-
-        $(".reply_open_modal").click(function(){
-
-            b = $("#posterr").text();
-            a = $("#request_id").text();
-
-            $("#poster").text(b);
-            $("#req_id").text(a);
-
-        });
-
-        $(document).on("click", "#reply_button", function(){
-
-            $(this).attr("disabled", "disabled")
-            $(this).text("Sending Your Reply...",)
-
-            var request_id = $("#req_id").val();
-            var message = $("#reply_message").val();  
-
-            $.ajax({
-                url:"{% url 'reply_request_save' %}",
-                type:"POST",
-                data:{message:message, request_id:request_id}
-
-            })
-            .done(function(response){
-                if (response == "True"){
-                    alert(" Reply Sent ");
-                } else {
-                    alert(" Error sending Reply ");
-                }
-                location.reload();
-            })
-            .fail(function(){
-                alert(" Reply Failed ");
-            })
-
-            
-        });
-
-    });
-</script>
 
 {% endblock custom_js %}

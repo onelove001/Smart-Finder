@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import *
 from django.utils import timezone
+from PIL import Image
 
 
 Gender = (
@@ -156,7 +157,6 @@ class Seller(models.Model):
         return self.created.strftime("%d/%m/%Y")
     
 
-
 class Plan(models.Model):
 
     id = models.AutoField(primary_key=True)
@@ -194,6 +194,7 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.owner.admin.username} - {self.owner.category.category_title} - {self.title}"
+
 
     def cat_count(self):
         return self.category.all().count()

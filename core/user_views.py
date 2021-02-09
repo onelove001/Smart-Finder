@@ -286,7 +286,6 @@ def create_service_(request):
 
 def create_service_save(request):
     if request.method == "POST":
-        owner_id = request.POST.get("owner_id")
         title = request.POST.get("title")
         charge = request.POST.get("charge")
         days = request.POST.get("days")
@@ -311,8 +310,8 @@ def create_service_save(request):
         days_obj = Delivery_days.objects.get(id = days)
         plan_obj = Plan.objects.get(id = plan)
         sub_cat_obj = SubCategory.objects.get(id = sub_cat)
-        user= customUser.objects.get(id = owner_id)
-        seller = Seller.objects.get(admin = user.id)
+        user = request.user.id
+        seller = Seller.objects.get(admin = user)
         
         try:
             service = Service(owner=seller, days = days_obj, description=description, charge=charge, title=title,  plan = plan_obj, category=cat_obj, sub_category=sub_cat_obj, image1=image1_url, image2=image2_url, image3=image3_url)
@@ -518,9 +517,27 @@ def edit_service_save(request):
         else:
             image_url1 = None
 
+        if request.FILES.get('image2', False):
+
+            profile_image2 = request.FILES['image2']
+            fs = FileSystemStorage()
+            profile_image_save2 = fs.save(profile_image2.name, profile_image2)
+            image_url2 = fs.url(profile_image_save2)
+        else:
+            image_url2 = None
+
+        if request.FILES.get('image3', False):
+            profile_image3 = request.FILES['image3']
+            fs = FileSystemStorage()
+            profile_image_save3 = fs.save(profile_image3.name, profile_image3)
+            image_url3 = fs.url(profile_image_save3)
+        
+        else:
+            image_url3 = None
+
         plan_obj = Plan.objects.get(id = plan)
         days_obj = Delivery_days.objects.get(id = days)
-        
+
         try:
             service = Service.objects.get(id = service_id)
             service.title = title
@@ -530,6 +547,10 @@ def edit_service_save(request):
             service.description = description
             if image_url1 != None:
                 service.image1 = image_url1
+            elif image_url2 != None:
+                service.image2 = image_url2
+            elif image_url3 != None:
+                service.image3 = image_url3
 
             service.save()
             messages.success(request, "Service Updated Successfully")
@@ -635,20 +656,31 @@ def employer_requests(request):
     return render(request, "user_templates/employer_request.html", context)
 
 
+def reply_request(request, request_id):
+    requestt = Requests.objects.get(id = request_id)
+    user=request.user.id
+    seller = Seller.objects.get(admin = user)
+    reviews = Reviews.objects.filter(seller_id = seller.id).count()
+    reply_exist = Request_replies.objects.filter(request_id = request_id, freelancer = seller.id).exists()
+    if reply_exist:
+        seller_exists = 1
+    else:
+        seller_exists = 0
+    return render(request, "user_templates/reply_request.html", {"requestt":requestt, "reviews":reviews, "seller_exists":seller_exists})
+
+
 @csrf_exempt
 def reply_request_save(request):
     request_id = request.POST.get("request_id")
     message = request.POST.get("message")
 
-    print(request_id)
-    print(message)
-
+    request_obj = Requests.objects.get(id = request_id)
     user = request.user.id
     seller = Seller.objects.get(admin = user)
     seller_id = seller.id
 
     try:
-        reply = Request_replies(request_id = request_id, freelancer = seller, reply_text = message)
+        reply = Request_replies(request_id = request_obj, freelancer = seller, reply_text = message)
         reply.save()
         return HttpResponse("True")
     except:
@@ -725,6 +757,7 @@ def edit_request_save(request):
 
 
 def view_replies(request, requessst_id):
+
     requestt_id = Requests.objects.get(id = requessst_id)
     if request.user.account_type == '3':
         user = request.user.id
