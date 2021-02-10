@@ -1,0 +1,52 @@
+{% extends 'user_templates/pages_base.html' %}
+{% load static %}
+
+{% block app_title %}
+ 404 Invalid
+{% endblock app_title %}
+
+
+{% block content %}
+
+    <!-- Titlebar
+    ================================================== -->
+    <div id="titlebar" class="gradient">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h2>404 Not Found</h2>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" class="dark">
+                        <ul>
+                            <li><a href="{% url 'landing_page' %}">Landing Page</a></li>
+                            <li>404 Not Found</li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Page Content
+    ================================================== -->
+    <!-- Container -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-xl-12">
+
+                <section id="not-found" class="center margin-top-50 margin-bottom-25">
+                    <h2>404 <i class="icon-line-awesome-question-circle"></i></h2>
+                    <p>We're sorry, but your details is not correct</p>
+                </section>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Container / End -->
+{% endblock content %}

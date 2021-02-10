@@ -774,3 +774,11 @@ def view_replies(request, requessst_id):
 
 
     return render(request, "user_templates/view_replies.html", context)
+
+
+def page_404(request):
+    return render(request, "user_templates/page_404.html", {})
+
+
+def contact_us_page(request):
+    return render(request, "user_templates/contact_us_page.html",  {})

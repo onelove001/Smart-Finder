@@ -610,7 +610,7 @@
 					<div class="footer-links">
 						<h3>Helpful Links</h3>
 						<ul>
-							<li><a href="#"><span>Contact</span></a></li>
+							<li><a href="{% url 'contact_us_page' %}"><span>Contact</span></a></li>
 							<li><a href="#"><span>Privacy Policy</span></a></li>
 							<li><a href="#"><span>Terms of Use</span></a></li>
 						</ul>
@@ -720,7 +720,7 @@
 				</div>
 					
 				<!-- Form -->
-				<!-- <form method="post" id="register-account-form"> -->
+				<form id = "myform">
 					<div class="input-with-icon-left" id = "id_span_email">
 						<i class="icon-material-baseline-mail-outline"></i>
 						<input type="email" class="input-text with-border" name="email" id="id_email" placeholder="Email Address" required/>
@@ -921,11 +921,8 @@ $('#snackbar-user-status label').click(function() {
 		})
 		.done(function(response){
 		  if (response == "True"){
-			  alert(" Account Created Successfully ");
-			Swal.fire({
-			  title: 'Success!',
-			  text: 'Smart Accout Created',
-			})
+			alert(" Account Created Successfully ");
+			$("#myform")[0].reset(); 
 		  } else {
 			  alert(" Smart could not created your account ");
 			// Swal.fire({

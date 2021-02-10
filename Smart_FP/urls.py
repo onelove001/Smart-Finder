@@ -106,6 +106,8 @@ urlpatterns = [
     path('delete_request/<str:request_id>', delete_request, name = 'delete_request'),
     path('view_replies/<str:requessst_id>', view_replies, name = 'view_replies'),
     path('reply_request/<str:request_id>', reply_request, name = 'reply_request'),
+    path('page_404', page_404, name = 'page_404'),
+    path('contact_us_page', contact_us_page, name = 'contact_us_page'),
 
     
 

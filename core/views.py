@@ -61,11 +61,11 @@ def login_user(request):
                 return redirect("smart_home")
 
             else:
-                return redirect("False")
+                return redirect("page_404")
         else:
-            return HttpResponse("False")
+            return redirect("page_404")
 
-    return HttpResponse("False")
+    return redirect("page_404")
 
 
 
