@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{% static 'css2/style.css' %}">
 <link rel="stylesheet" href="{% static 'css2/colors/blue.css' %}">
 
+{% if request.user.is_authenticated %}
+
  <!-- Header Container
 ================================================== -->
 	<header id="header-container" class="fullwidth dashboard-header not-sticky">
@@ -33,9 +35,11 @@
 							<li><a href="{% url 'become_seller' %}" style = "margin-top:3px;">Become a seller</a>
 							   
 							</li>
-							<li><a href="{% url 'employer_requests' %}" style = "margin-top:3px;">Employer Request</a>
-							   
-							</li>
+							{% if requestsssss == 0 %}
+							<li><a href="{% url 'employer_requests' %}" style = "margin-top:3px;">Employer Request</a></li>
+							{% else %}
+							<li><a href="{% url 'employer_requests' %}" style = "margin-top:3px;">Employer Request <span style = "color:blue">| {{ requestsssss }} | </span></a></li>
+							{% endif %}
 	
 							<li><a href="{% url 'user_profile' %}">Dashboard</a>
 								<ul class="dropdown-nav">
@@ -210,7 +214,7 @@
 					<!-- User Menu -->
 					<div class="header-widget">
 	
-						<!-- Messages -->
+						<!-- user image -->
 						<div class="header-notifications user-menu">
 							<div class="header-notifications-trigger">
 								{% if request.user.account_type == '2' %}
@@ -291,3 +295,63 @@
 	</header>
 	<div class="clearfix"></div>
 <!-- Header Container / End -->
+
+{% else %}
+
+	<header id="header-container" class="fullwidth dashboard-header not-sticky">
+			
+		<!-- Header -->
+		<div id="header"> 
+			<div class="container">
+		
+				<!-- Left Side Content -->
+				<div class="left-side">
+					
+					<!-- Logo -->
+					<div id="logo">
+						<a href=""> <img src="{% static 'images2/logo.png' %}" alt=""></a>
+					</div>
+
+					<!-- Main Navigation -->
+					<nav id="navigation">
+						<ul id="responsive">
+
+							<li><a href="{% url 'landing_page' %}" style = "margin-top:3px;">Go Back</a> </li>
+
+						</ul>
+					</nav>
+					<div class="clearfix"></div>
+					<!-- Main Navigation / End -->
+					
+				</div>
+				<!-- Left Side Content / End -->
+
+
+				<!-- Right Side Content / End -->
+				<div class="right-side">`
+
+					<!-- Mobile Navigation Button -->
+					<span class="mmenu-trigger">
+						<button class="hamburger hamburger--collapse" type="button">
+							<span class="hamburger-box">
+								<span class="hamburger-inner"></span>
+							</span>
+						</button>
+					</span>
+
+				</div>
+				<!-- Right Side Content / End -->
+
+			</div>
+		</div>
+		<!-- Header / End -->
+
+	</header>
+	<div class="clearfix"></div>
+
+{% endif %}
+<!-- 
+https://www.youtube.com/watch?v=22TkO8og4_Q
+https://www.youtube.com/watch?v=e-ZJekJXGfI
+https://www.youtube.com/watch?v=wSTbBIK8qrY
+https://www.youtube.com/watch?v=Atmrr1jY3Vc -->

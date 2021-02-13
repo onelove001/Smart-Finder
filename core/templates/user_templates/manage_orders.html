@@ -95,6 +95,9 @@
                                                     {% elif order.status == 'rejected' %}
                                                     <span style = "color:red;">{{order.status}} <i class="icon-material-outline-highlight-off"> </i></span>
 
+                                                    {% elif order.status == 'paid' %}
+                                                    <span style = "color:rgb(131, 181, 14);">{{order.status}} <i class="icon-material-outline-check"> </i></span>
+
                                                     {% endif %}
                                                     <span class="freelancer-detail-item"><a href="{% url 'service_detail' order.service_ordered.id %}"> {{ order.service_ordered.title}} </a></span>
 

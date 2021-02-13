@@ -111,22 +111,23 @@
 		<!-- Search Bar -->
 		<div class="row">
 			<div class="col-md-12">
-				<div class="intro-banner-search-form margin-top-95">
+				<form class="intro-banner-search-form margin-top-95" method = "POST" action = "{% url 'search22' %}"> {% csrf_token %}
 
 					<!-- Search Field -->
 					<div class="intro-search-field with-autocomplete">
-						<label for="autocomplete-input" class="field-title ripple-effect">Where?</label>
+						<label for="autocomplete-input" class="field-title ripple-effect">Take me to?</label>
 						<div class="input-with-icon">
-							<input id="autocomplete-input" type="text" placeholder="Online Job">
+							<input id="autocomplete-input" type="text" placeholder="Online Job" name="search22">
 							<i class="icon-material-outline-location-on"></i>
 						</div>
 					</div>
-					
+
 					<!-- Button -->
 					<div class="intro-search-button">
-						<button class="button ripple-effect" onclick="window.location.href='#'">Search</button>
+						<button class="button ripple-effect" type = "submit">Search</button>
 					</div>
-				</div>
+				</form>
+
 			</div>
 		</div>
 
@@ -180,7 +181,7 @@
 								<div class="category-box-counter">{{cat.get_number_of_services}}</div>
 								<div class="category-box-content">
 									<h3>{{cat.category_title}}</h3>
-									<p>Software Engineer, Web / Mobile Developer & More</p>
+									<p>{{cat.category_words}}</p>
 								</div>
 							</a>
 						{% endfor %}
@@ -308,7 +309,7 @@
 					<div class="default-slick-carousel freelancers-container freelancers-grid-layout">
 
 						<!--Freelancer -->
-						<div class="freelancer">
+						<div class="freelancer" id = "lancer">
 
 							<!-- Overview -->
 							<div class="freelancer-overview">
@@ -351,7 +352,7 @@
 						<!-- Freelancer / End -->
 
 						<!--Freelancer -->
-						<div class="freelancer">
+						<div class="freelancer" id = "lancer">
 
 							<!-- Overview -->
 							<div class="freelancer-overview">
@@ -392,7 +393,7 @@
 						<!-- Freelancer / End -->
 
 						<!--Freelancer -->
-						<div class="freelancer">
+						<div class="freelancer" id = "lancer">
 
 							<!-- Overview -->
 							<div class="freelancer-overview">
@@ -434,7 +435,7 @@
 						<!-- Freelancer / End -->
 						
 						<!--Freelancer -->
-						<div class="freelancer">
+						<div class="freelancer" id = "lancer">
 
 							<!-- Overview -->
 							<div class="freelancer-overview">
@@ -475,7 +476,7 @@
 						<!-- Freelancer / End -->
 									
 						<!--Freelancer -->
-						<div class="freelancer">
+						<div class="freelancer" id = "lancer">
 
 							<!-- Overview -->
 							<div class="freelancer-overview">
@@ -514,7 +515,6 @@
 							</div>
 						</div>
 						<!-- Freelancer / End -->
-
 
 					</div>
 				</div>
@@ -610,7 +610,7 @@
 					<div class="footer-links">
 						<h3>Helpful Links</h3>
 						<ul>
-							<li><a href="{% url 'contact_us_page' %}"><span>Contact</span></a></li>
+							<li><a href="{% url 'contact_us_page' %}"><span>Contact Us</span></a></li>
 							<li><a href="#"><span>Privacy Policy</span></a></li>
 							<li><a href="#"><span>Terms of Use</span></a></li>
 						</ul>
@@ -822,6 +822,10 @@ $('#snackbar-user-status label').click(function() {
 	$(document).ready(function(){
 
 	 $(document).on("click", "#loginfirst", function(){
+		 alert(" You have to login to view this page ");
+	 });
+
+	 $(document).on("click", "#lancer", function(){
 		 alert(" You have to login to view this page ");
 	 });
 

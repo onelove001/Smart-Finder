@@ -22,6 +22,7 @@ Verified = (
 
 order_service = (
     ("ordered", "ordered"),
+    ("paid", "paid"),
     ("delivered", "delivered"),
     ("rejected", "rejected"),
 )
@@ -75,6 +76,7 @@ class Category(models.Model):
     id                  = models.AutoField(primary_key=True)
     category_title      = models.CharField(max_length = 50)
     image               = models.FileField()
+    category_words      = models.CharField(max_length = 50)
     seller              = models.ForeignKey("Seller", on_delete = models.SET_NULL, null = True, related_name="sellerss")
 
     def __str__(self):
@@ -155,7 +157,8 @@ class Seller(models.Model):
 
     def return_time(self):
         return self.created.strftime("%d/%m/%Y")
-    
+
+
 
 class Plan(models.Model):
 
@@ -166,12 +169,14 @@ class Plan(models.Model):
         return f"{self.plan_name}"
 
 
+
 class Delivery_days(models.Model):
     id = models.AutoField(primary_key=True)
     days = models.IntegerField()
 
     def __str__(self):
         return f"{self.days} days"
+
 
 
 class Service(models.Model):
@@ -200,8 +205,9 @@ class Service(models.Model):
         return self.category.all().count()
 
 
-    def get_number_orders(self, status="ordered"):
-        return self.order_set.all().count()
+    def get_number_orders(self):
+        return self.order_set.all().filter(status = "ordered").count()
+
 
 
 class star_rating(models.Model):
@@ -210,6 +216,7 @@ class star_rating(models.Model):
 
     def __str__(self):
         return f"{self.rating_star}"
+
 
 
 class Reviews(models.Model):
@@ -225,6 +232,7 @@ class Reviews(models.Model):
         return f"{self.user_id.username} left {self.rating} stars for {self.seller_id.admin.username}"
 
 
+
 class Order(models.Model):
 
     id = models.AutoField(primary_key = True)
@@ -238,6 +246,7 @@ class Order(models.Model):
         return f"{self.user_order.username} {self.status}"
 
 
+
 class Requests(models.Model):
     id = models.AutoField(primary_key=True)
     poster = models.ForeignKey(customUser, on_delete=models.CASCADE)
@@ -247,6 +256,7 @@ class Requests(models.Model):
 
     def __str__(self):
         return self.poster.username
+
 
 
 class Request_replies(models.Model):
@@ -260,5 +270,31 @@ class Request_replies(models.Model):
         return f"{self.freelancer} replied {self.request_id.poster.username}"  
 
 
-class Notifications(models.Model):
-    pass
+
+class Contact_Us(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    title = models.CharField(max_length=30)
+    email = models.EmailField()
+    message = models.TextField(max_length=30)
+
+    def __str__(self):
+        return self.email
+
+
+
+class Wallet(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(Seller, on_delete = models.CASCADE)
+    order = models.ForeignKey(Order, on_delete = models.CASCADE)
+    wallet_acc = models.FloatField(default = 0)
+    created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"hey {self.user.admin.username}, {self.order.user_order.admin.username} Paid For {self.order.service_ordered.title}"
+
+    def get_vat(self):
+        vat = (20/100 * (self.order.service_ordered.charge))
+        return vat
+
+

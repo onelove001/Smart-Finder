@@ -34,7 +34,7 @@
 					<div class="right-side">
 						<div class="salary-box">
 							<div class="salary-type">Service Budget</div>
-							<div class="salary-amount">${{service.charge}}</div>
+							<div class="salary-amount">#{{service.charge}}</div>
 						</div>
 					</div>
 				</div>
@@ -147,7 +147,7 @@
 		<div class="col-xl-4 col-lg-4">
 			<div class="sidebar-container">
 
-				<div class="countdown green margin-bottom-35">Date Posted: {{ service.created|timesince }} ago</div>
+				<div class="countdown green margin-bottom-35">Date Posted: {{ service.created }} </div>
 
 				<div class="sidebar-widget">
 					<div class="bidding-widget">
@@ -208,46 +208,57 @@
 </div>
 
 
-<!-- Highest Rated Freelancers -->
-<div class="section padding-top-65 padding-bottom-70 full-width-carousel-fix">
+<!-- Images -->
+<div class="section white padding-top-0 padding-bottom-60 full-width-carousel-fix">
 	<div class="container">
 		<div class="row">
-
+			<h3 class = "margin-bottom-10">Service Images </h3>
 			<div class="col-xl-12">
-				<!-- Section Headline -->
-				<div class="section-headline margin-top-0 margin-bottom-25">
-					<h3>Service Images</h3>
+				<div class="blog-carousel">
+
+					<a class="blog-compact-item-container">
+						<div class="blog-compact-item">
+							<img src="{{service.image1}}" alt="">
+							<span class="blog-item-tag">Main Image</span>
+							<div class="blog-compact-item-content">
+								<ul class="blog-post-tags">
+									<li>{{service.created}}</li>
+								</ul>
+							</div>
+						</div>
+					</a>
+
+					<a class="blog-compact-item-container">
+						<div class="blog-compact-item">
+							<img src="{{service.image2}}" alt="">
+							<span class="blog-item-tag">Auxiliary Image</span>
+							<div class="blog-compact-item-content">
+								<ul class="blog-post-tags">
+									<li>{{service.created}}</li>
+								</ul>
+							</div>
+						</div>
+					</a>
+
+					<a class="blog-compact-item-container">
+						<div class="blog-compact-item">
+							<img src="{{service.image3}}" alt="">
+							<span class="blog-item-tag">Auxiliary Image</span>
+							<div class="blog-compact-item-content">
+								<ul class="blog-post-tags">
+									<li>{{service.created}}</li>
+								</ul>	
+							</div>
+						</div>
+					</a>
+
 				</div>
 			</div>
-
-			<div class="col-xl-12">
-				<div class="default-slick-carousel freelancers-container freelancers-grid-layout">
-
-					<!--Freelancer -->
-					<div class="freelancer" style = "height:500px; width:100%;">
-						<div style = "height:100%; width:100%;"><a href="{% url 'seller_profile' service.owner.id %}"><img src="{{service.image1}}" alt=""></a></div>
-					</div>
-					<!-- Freelancer / End -->
-
-					<!--Freelancer -->
-					<div class="freelancer" style = "height:500px; width:100%;">
-						<div style = "height:100%; width:100%;"><a href="{% url 'seller_profile' service.owner.id %}"><img src="{{service.image2}}" alt=""></a></div>
-					</div>
-					<!-- Freelancer / End -->
-
-					<!--Freelancer -->
-					<div class="freelancer" style = "height:500px; width:100%;">
-						<div style = "height:100%; width:100%;"><a href="{% url 'seller_profile' service.owner.id %}"><img src="{{service.image3}}" alt=""></a></div>
-					</div>
-					<!-- Freelancer / End -->
-
-				</div>
-			</div>
-
 		</div>
 	</div>
 </div>
-<!-- Images / End-->
+<!-- Images / End -->
+
 
 <!-- Spacer -->
 <div class="margin-top-15"></div>
@@ -270,25 +281,9 @@
 			} else {
 				alert(" Review Submitted ")
 			}
-
-        //     $.ajax({
-        //         url:"{% url 'user_review_save' %}",
-        //         type:"POST",
-        //         data:{review:review, user:user, rate:rate, service:service}
-        //     })
-        //     .done(function(response){
-        //     if (response == "True"){
-        //         alert(" Review Submitted! ")
-        //     } else {
-        //         alert(" Review Submission Failed ")
-        //     }
-                
-        //     })
-        //     .fail(function(){
-        //     alert(" Review Submission Failed ")
-        //     })
-        //     }
-		// 
+		});
+		$(document).on("click", "#snackbar-place-bid", function(){
+			alert("Placed this order!")
 		});
     });
 </script>

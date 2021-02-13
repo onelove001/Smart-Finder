@@ -95,3 +95,31 @@ def signup_user(request):
 def logout_user(request):
     logout(request)
     return redirect("landing_page")
+
+
+def search22(request):
+    if request.method == "POST":
+        search = request.POST.get('search22')
+        print(search)
+
+        try:
+            category = Category.objects.get(category_title = search)
+            id = category.id
+            return redirect('search_result', search_id = id)
+
+        except:
+            return redirect('page_404')
+    return redirect('page_404')
+
+
+def search_result(request, search_id):
+    services = Service.objects.filter(category=search_id)
+    freelancers = Seller.objects.all().count()
+    serv = Service.objects.filter(category=search_id).count()
+
+    paginate = Paginator(services, 2)
+    p = request.GET.get("page")
+    pages = paginate.get_page(p)
+
+    return render(request, "core_templates/search_result.html", {"services":services, "serv":serv, "freelancers":freelancers, "pages":pages})
+    

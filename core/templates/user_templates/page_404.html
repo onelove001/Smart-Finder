@@ -1,4 +1,4 @@
-{% extends 'user_templates/pages_base.html' %}
+{% extends 'user_templates/base3.html' %}
 {% load static %}
 
 {% block app_title %}
@@ -20,8 +20,12 @@
                     <!-- Breadcrumbs -->
                     <nav id="breadcrumbs" class="dark">
                         <ul>
+                            {% if request.user.is_authenticated %}
+                            <li>404 Not Found</li>
+                            {% else %}
                             <li><a href="{% url 'landing_page' %}">Landing Page</a></li>
                             <li>404 Not Found</li>
+                            {% endif %}
                         </ul>
                     </nav>
 
@@ -41,12 +45,16 @@
 
                 <section id="not-found" class="center margin-top-50 margin-bottom-25">
                     <h2>404 <i class="icon-line-awesome-question-circle"></i></h2>
-                    <p>We're sorry, but your details is not correct</p>
+                    <p>We're sorry, But the details filled-in is not correct</p><br>
+                    <p>Please, Chekck And Try Again</p>
                 </section>
 
             </div>
         </div>
 
-    </div>
+    </div><br><br>
     <!-- Container / End -->
+
+{% include 'user_templates/footer2.html' %}
+
 {% endblock content %}

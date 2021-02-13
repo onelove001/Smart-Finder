@@ -1,4 +1,4 @@
-{% extends 'user_templates/pages_base.html' %}
+{% extends 'user_templates/base3.html' %}
 {% load static %}
 
 {% block app_title %}
@@ -20,8 +20,13 @@
 				<!-- Breadcrumbs -->
 				<nav id="breadcrumbs" class="dark">
 					<ul>
+						{% if request.user.is_authenticated %}
+						<li><a href="{% url 'smart_home' %}">Home</a></li>
+						<li>Contact</li>
+						{% else %}
 						<li><a href="{% url 'landing_page' %}">Landing Page</a></li>
 						<li>Contact</li>
+						{% endif %}
 					</ul>
 				</nav>
 
@@ -30,11 +35,8 @@
 	</div>
 </div>
 
-
 <!-- Content
 ================================================== -->
-
-
 <!-- Container -->
 <div class="container">
 	<div class="row">
@@ -44,26 +46,20 @@
 				<div class="contact-address">
 					<ul>
 						<li class="contact-address-headline">Our Office</li>
-						<li>425 Berry Street, CA 93584</li>
+						<li>21 Ladoke Akintola Street, IB Nigeria</li>
 						<li>Phone (123) 123-456</li>
-						<li><a href="#">mail@example.com</a></li>
+						<li><a>SmartSurpport@gmail.com</a></li>
 						<li>
 							<div class="freelancer-socials">
 								<ul>
 									<li><a href="#" title="Dribbble" data-tippy-placement="top"><i class="icon-brand-dribbble"></i></a></li>
 									<li><a href="#" title="Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
 									<li><a href="#" title="Behance" data-tippy-placement="top"><i class="icon-brand-behance"></i></a></li>
-									<li><a href="#" title="GitHub" data-tippy-placement="top"><i class="icon-brand-github"></i></a></li>
-								
+									<li><a href="#" title="GitHub" data-tippy-placement="top"><i class="icon-brand-github"></i></a></li>		
 								</ul>
 							</div>
 						</li>
 					</ul>
-
-				</div>
-				<div id="single-job-map-container">
-					<div id="singleListingMap" data-latitude="37.777842" data-longitude="-122.391805" data-map-icon="im im-icon-Hamburger"></div>
-					<a href="#" id="streetView">Street View</a>
 				</div>
 			</div>
 		</div>
@@ -73,33 +69,33 @@
 			<section id="contact" class="margin-bottom-60">
 				<h3 class="headline margin-top-15 margin-bottom-35">Any questions? Feel free to contact us!</h3>
 
-				<form method="post" name="contactform" id="contactform" autocomplete="on">
+				<form name="contactform" id="contactform" autocomplete="on">
 					<div class="row">
 						<div class="col-md-6">
 							<div class="input-with-icon-left">
-								<input class="with-border" name="name" type="text" id="name" placeholder="Your Name" required="required" />
+								<input class="with-border" name="name" type="text" id="id_name" placeholder="Your Name" required="required" />
 								<i class="icon-material-outline-account-circle"></i>
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="input-with-icon-left">
-								<input class="with-border" name="email" type="email" id="email" placeholder="Email Address" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" required="required" />
+								<input class="with-border" name="email" type="email" id="id_email" placeholder="Email Address" pattern="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$" required="required" />
 								<i class="icon-material-outline-email"></i>
 							</div>
 						</div>
 					</div>
 
 					<div class="input-with-icon-left">
-						<input class="with-border" name="subject" type="text" id="subject" placeholder="Subject" required="required" />
+						<input class="with-border" name="title" type="text" id="id_title" placeholder="Subject" required="required" />
 						<i class="icon-material-outline-assignment"></i>
 					</div>
 
 					<div>
-						<textarea class="with-border" name="comments" cols="40" rows="5" id="comments" placeholder="Message" spellcheck="true" required="required"></textarea>
+						<textarea class="with-border" name="message" cols="40" rows="5" id="id_message" placeholder="Message" spellcheck="true" required="required"></textarea>
 					</div>
 
-					<input type="submit" class="submit button margin-top-15" id="submit" value="Submit Message" />
+					<button type="submit" class="submit button margin-top-15" id="submit_id" value="Submit Message" > Submit Message </button>
 
 				</form>
 			</section>
@@ -107,8 +103,46 @@
 		</div>
 
 	</div>
-</div>
+</div><br><br>
 <!-- Container / End -->
 
+{% include 'user_templates/footer2.html' %}
 
 {% endblock content %}
+
+{% block custom_js %}
+<script>
+	$(document).ready(function(){
+		$(document).on("click", "#submit_id", function(){
+
+		var title = $("#id_title").val();
+		var name = $("#id_name").val();
+		var email = $("#id_email").val();  
+		var message = $("#id_message").val();  
+		if(title == "" || email == "" || name == "" || message == ""){
+			alert(" Smart says please ensure you fill in all Details ");
+		 }
+		else {
+  
+		$.ajax({
+			url:"{% url 'contact_us_save' %}",
+			type:"POST",
+			data:{title:title, email:email, name:name, message:message}
+		})
+		.done(function(response){
+		  if (response == "True"){
+			alert(" Your request has been submited ");
+			location.reload();
+		  } else {
+			  alert("Failed to submit request, Please ensure you fill all Details");
+		  }
+			
+		})
+		.fail(function(){
+			alert(" Smart says please ensure you fill in all Details ");
+		})
+	   }
+	});
+	});
+</script>
+{% endblock custom_js %}

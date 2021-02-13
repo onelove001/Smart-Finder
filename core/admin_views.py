@@ -285,6 +285,7 @@ def create_sub_category_save(request):
 def create_category_save(request):
     if request.method == "POST":
         title = request.POST.get('title')
+        category_words = request.POST.get('category_words')
         category_image = request.FILES['cat_image']
 
         fs = FileSystemStorage()
@@ -292,7 +293,7 @@ def create_category_save(request):
         image_url = fs.url(category_image_save)
 
         try:
-            category = Category(category_title = title, image = image_url)
+            category = Category(category_title = title, image = image_url, category_words = category_words)
             category.save()
             messages.success(request, " Category Created ")
             return redirect("create_category")

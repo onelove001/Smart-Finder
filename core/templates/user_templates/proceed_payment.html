@@ -1,0 +1,168 @@
+{% extends 'user_templates/base3.html' %}
+
+
+{% block app_title %}
+    Payment
+{% endblock app_title %}
+
+
+{% block content %}
+
+
+<!-- Titlebar
+================================================== -->
+<div id="titlebar" class="gradient">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+
+				<h2>Checkout</h2>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{% url 'smart_home' %}">Home</a></li>
+						<li><a href="{% url 'ordered_listing' %}">OrderListing</a></li>
+						<li>Payment</li>
+					</ul>
+				</nav>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Content
+================================================== -->
+<!-- Container -->
+<div class="container">
+	<div class="row">
+		<!-- <div class="col-xl-8 col-lg-8 content-right-offset">
+			
+			Hedline
+			<h3 class="margin-top-30">Payment Method</h3>
+
+			Payment Methods Accordion
+			<div class="payment margin-top-30">
+
+				<div class="payment-tab payment-tab-active">
+					<div class="payment-tab-trigger">
+						<input checked id="paypal" name="cardType" type="radio" value="paypal">
+						<label for="paypal">PayPal</label>
+						<img class="payment-logo paypal" src="" alt="">
+					</div>
+
+					<div class="payment-tab-content">
+						<p>This payment method is not available for now.</p>
+					</div> 
+				</div>
+
+
+				<div class="payment-tab payment-tab-active">
+					<div class="payment-tab-trigger">
+						<input type="radio" name="cardType" id="creditCart" value="creditCard">
+						<label for="creditCart">Credit / Debit Card</label>
+						<img class="payment-logo" src="../../../i.imgur.com/IHEKLgm.png" alt="">
+					</div>
+
+					<div class="payment-tab-content">
+						<div class="row payment-form-row">
+
+							<div class="col-md-6">
+								<div class="card-label">
+									<input id="nameOnCard" name="nameOnCard" required type="text" placeholder="Cardholder Name">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="card-label">
+									<input id="cardNumber" name="cardNumber" placeholder="Credit Card Number" required type="text">
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="card-label">
+									<input id="expiryDate" placeholder="Expiry Month" required type="text">
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="card-label">
+									<label for="expiryDate">Expiry Year</label>
+									<input id="expirynDate" placeholder="Expiry Year" required type="text">
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="card-label">
+									<input id="cvv" required type="text" placeholder="CVV">
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+			Payment Methods Accordion / End
+		
+			<a href="#" class="button big ripple-effect margin-top-40 margin-bottom-65">Proceed Payment</a>
+		</div> -->
+
+
+		<!-- Summary -->
+		<div class="col-xl-12 col-lg-12 margin-top-0 margin-bottom-60">
+			
+			<!-- Summary -->
+			<div class="boxed-widget summary margin-top-0">
+				<div class="boxed-widget-headline">
+					<h3>Summary</h3>
+				</div>
+				<div class="boxed-widget-inner">
+					<ul>
+						<li>{{order.service_ordered.plan.plan_name}} Plan<span>N{{order.service_ordered.charge}}</span></li>
+						<li>Payment For <span>{{order.service_ordered.title}}</span></li>
+						<li class="total-costs">Final Price <span>N{{final_price}}</span></li>
+					</ul>
+                </div>
+                <!-- templates/home.html -->
+                <h3>Make Payment</h3><br>
+                <form action="{% url 'payment_confirmation' order.id %}" method="post">  
+                    {% csrf_token %}  
+                    <script src="https://checkout.stripe.com/checkout.js"
+                        class="stripe-button"          
+                        data-key="{{ key }}"          
+                        data-description="{{ order.service_ordered.title }}"          
+                        data-amount="{{ stripe_final }}"          
+                        data-locale="auto">
+                    </script>
+                </form>
+			</div>
+			<!-- Summary / End -->
+
+			<!-- Checkbox -->
+			<div class="checkbox margin-top-30">
+				<input type="checkbox" id="two-step" checked>
+				<label for="two-step"><span class="checkbox-icon"></span>  I agree to the <a href="#">Terms and Conditions</a></label>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- Container / End -->
+
+{% endblock content %}
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}
+
+
+
+
+
+
+
+

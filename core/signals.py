@@ -1,7 +1,7 @@
 from core.models import *
 from django.dispatch import receiver
-from django.db.models.signals import post_save
-
+from django.db.models.signals import *
+import datetime
 
 @receiver(post_save, sender = customUser)
 def create_account(sender, created, instance, **kwargs):
@@ -26,3 +26,4 @@ def save_account(sender, instance, **kwargs):
 
     if instance.account_type == 3:
         instance.seller.save()
+

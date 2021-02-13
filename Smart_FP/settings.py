@@ -39,7 +39,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'core.LoginCheckMiddleWare.LoginCheckMiddleWare',
+    'core.LoginCheckMiddleWare.LoginCheckMiddleWare',
 ]
 
 ROOT_URLCONF = 'Smart_FP.urls'
@@ -135,8 +135,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTHENTICATION_BACKENDS = ['core.EmailBackEnd.EmailBackEnd']
 
-
-
 import dj_database_url
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+
+# settings.py
+PUBLISHABLE_KEY = 'pk_test_51H0QmNJolXyKKiXl53mfCAphD1Scokwec006RHVX64lFGiuZtghUv7Kmw4FcT5YDn8zBupOPc4xBsky3CeIlIBEG00hzr8VWdG'
+SECRET_KEY = 'sk_test_51H0QmNJolXyKKiXlO2YxmMYmTPQWNAOAgJNNEnHX41tzCoFVHStwk6oHCcMgvvpkfnznrENRl8J8EQ9AtZhvZ0t100pziVKEyu'

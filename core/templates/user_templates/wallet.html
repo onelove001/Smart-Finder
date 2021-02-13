@@ -1,0 +1,122 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+  Wallet
+{% endblock app_title %}
+
+
+{% block content %}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+		{% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
+
+        <!-- Dashboard Content
+        ================================================== -->
+        <div class="dashboard-content-container" data-simplebar>
+            <div class="dashboard-content-inner" >
+                
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>My Wallet - @{{ request.user.username }}</h3>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" class="dark">
+                        <ul>
+                            <li><a href="{% url 'smart_home' %}">Home</a></li>
+                            <li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+                            <li>My Wallet</li>
+                        </ul>
+                    </nav>
+                </div>
+                
+                <!-- row -->
+                <div class = "row">                
+                    <div class="col-xl-12">
+                        <div class="section-headline border-bottom margin-top-5 padding-top-5 margin-bottom-25">
+                            <h4>Order Payment Lists</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-md-4">
+                                <div class="numbered">
+                                    <h3> SERVICE </h3> <br>
+                                    <ol>
+                                        {% for wallet in my_wallet %}
+                                            <li>{{ wallet.order.service_ordered.title }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4">
+                                <div class="numbered color">
+                                    <h3> PRICE </h3> <br>
+                                    <ol>
+                                        {% for wallet in my_wallet %}
+                                            <li>{{ wallet.order.service_ordered.charge }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4">
+                                <div class="numbered color filled">
+                                    <h3> SMART VAT </h3> <br>
+                                    <ol>
+                                        {% for wallet in my_wallet %}
+                                            <li>{{ wallet.get_vat }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Fun Facts Container -->
+                        <div class="fun-facts-container">
+                            <div class="fun-fact" data-fun-fact-color="#36bd78">
+                                <div class="fun-fact-text">
+                                    <span> Wallet Balance </span>
+                                    <h4>{{total}}</h4>
+                                </div>
+                                <div class="fun-fact-icon"><i class="icon-material-outline-gavel"></i></div>
+                            </div>
+                            <div class="fun-fact" data-fun-fact-color="#b81b7f">
+                                <div class="fun-fact-text">
+                                    <span>Total Vat</span>
+                                    <h4>{{total_vat}}</h4>
+                                </div>
+                                <div class="fun-fact-icon"><i class="icon-material-outline-business-center"></i></div>
+                            </div>
+                            <div class="fun-fact" data-fun-fact-color="#efa80f">
+                                <div class="fun-fact-text">
+                                    <span>Total Services</span>
+                                    <h4>{{my_wallett}}</h4>
+                                </div>
+                                <div class="fun-fact-icon"><i class="icon-material-outline-rate-review"></i></div>
+                            </div>
+
+                            <!-- Last one has to be hidden below 1600px, sorry :( -->
+                            <div class="fun-fact" data-fun-fact-color="#2a41e6">
+                                <div class="fun-fact-text">
+                                    <span>Total Services</span>
+                                    <h4>{{my_wallett}}</h4>
+                                </div>
+                                <div class="fun-fact-icon"><i class="icon-feather-trending-up"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- row / end -->
+                {% include 'user_templates/footer_dashboard.html'%}
+
+            </div>
+        </div>
+        <!-- Dashboard Content / End -->
+    
+    </div>
+    <!-- Dashboard Container / End -->
+
+{% endblock content %}
+
+
+{% block custom_js %}
+{% endblock custom_js %}

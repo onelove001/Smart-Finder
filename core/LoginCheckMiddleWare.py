@@ -10,14 +10,14 @@ class LoginCheckMiddleWare(MiddlewareMixin):
     def process_view(self, request, view_func, *view_args, **view_kwargs):
 
         module_name = view_func.__module__
-        print(module_name)
+        # print(module_name)
         user = request.user
         if user.is_authenticated:
             
             if user.account_type == "1":
                 if module_name == "core.admin_views":
                     pass
-                elif module_name == "core.views" or module_name == "django.views.static":
+                elif module_name == "core.views" or module_name == "django.views.static" or module_name == "django.contrib.admin.sites" or module_name == "django.contrib.admin.options":
                     pass
                 else:
                     return HttpResponseRedirect(reverse("smart_admin_home"))
@@ -40,11 +40,11 @@ class LoginCheckMiddleWare(MiddlewareMixin):
                 else:
                     return HttpResponseRedirect(reverse("smart_home"))
             else:
-                return HttpResponseRedirect(reverse("landing_page"))
+                return HttpResponseRedirect(reverse("page_404"))
                    
 
         else:
-            if request.path == reverse("landing_page") or request.path == reverse("login_user")  or module_name == "django.contrib.auth.views" or module_name == "core.views" or module_name == "core.admin_views" or module_name == "django.views.static":
+            if request.path == reverse("landing_page") or request.path == reverse("login_user")  or module_name == "django.contrib.auth.views" or module_name == "core.views" or module_name == "core.admin_views" or module_name == "django.views.static" or module_name == "core.user_views":
                 pass
             else:
-                return HttpResponseRedirect(reverse("landing_page"))
+                return HttpResponseRedirect(reverse("page_404"))

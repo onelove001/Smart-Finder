@@ -35,6 +35,9 @@ urlpatterns = [
     path('signup_user', signup_user, name = 'signup_user'),
     path('smart_admin', smart_admin_home, name = 'smart_admin_home'),
     path('smart_home', smart_home, name = 'smart_home'),
+    path('search22', search22, name = 'search22'),
+    path('search_result/<str:search_id>', search_result, name = 'search_result'),
+
 
 
     # '============/ Admin Urls /========= ' #
@@ -49,7 +52,6 @@ urlpatterns = [
     path('check_username', check_username, name = 'check_username'),
     path('check_email', check_email, name = 'check_email'),
     path('create_service_admin_save', create_service_admin_save, name = 'create_service_admin_save'),
-
     path('create_seller_save', create_seller_save, name = 'create_seller_save'),
     path('create_buyer_save', create_buyer_save, name = 'create_buyer_save'),
     path('create_category_save', create_category_save, name = 'create_category_save'),
@@ -107,8 +109,15 @@ urlpatterns = [
     path('view_replies/<str:requessst_id>', view_replies, name = 'view_replies'),
     path('reply_request/<str:request_id>', reply_request, name = 'reply_request'),
     path('page_404', page_404, name = 'page_404'),
-    path('contact_us_page', contact_us_page, name = 'contact_us_page'),
-
+    path('contact_us', contact_us_page, name = 'contact_us_page'),
+    path('contact_us_save', contact_us_save, name = 'contact_us_save'),
+    path('see_reviews', see_reviews, name = 'see_reviews'),
+    path('ordered_listing', ordered_listing, name = 'ordered_listing'),
+    path('mark_as_deliver/<str:order_id>', mark_as_deliver, name = 'mark_as_deliver'),
+    path('proceed_payment/<str:order_id>', proceed_payment, name = 'proceed_payment'),
+    path('payment_invoice/<str:order_id>', payment_invoice, name = 'payment_invoice'),
+    path('payment_confirmation/<str:order_id>', payment_confirmation, name = 'payment_confirmation'),
+    path('wallet', wallet, name = 'wallet'),
     
 
 

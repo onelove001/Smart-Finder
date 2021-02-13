@@ -25,6 +25,9 @@ admin.site.register(Order)
 admin.site.register(Delivery_days)
 admin.site.register(Request_replies)
 admin.site.register(Requests)
+admin.site.register(Contact_Us)
+admin.site.register(Wallet)
+
 
 
 
