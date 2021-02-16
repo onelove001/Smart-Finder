@@ -32,7 +32,7 @@
                                 {% url 'ordered_listing' as ordered_listing %}
                                 <li class = "{% if request.path == manage_requests %} active {% endif %}"><a href="{% url 'manage_requests' %}">Manage Requests</a></li>
                                 <li class = "{% if request.path == post_request %} active {% endif %}"><a href="{% url 'post_request' %}">Post a Request</a></li>
-                                <li class = "{% if request.path == ordered_listing %} active {% endif %}"><a href="{% url 'ordered_listing' %}">Order Listings</a></li>
+                                <li class = "{% if request.path == ordered_listing %} active {% endif %}"><a href="{% url 'ordered_listing' %}">Ordered Service Listings</a></li>
                             </ul>	
                         </li>
                     </ul>

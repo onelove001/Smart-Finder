@@ -38,7 +38,7 @@
 			<div class="left-side">
 				<!-- Logo -->
 				<div id="logo">
-					<a href=""><img src="{% static 'images2/logo.png' %}" alt=""></a>
+					<a href=""><img src="{% static 'images2/smart1.png' %}" alt=""></a>
 				</div>			
 			</div>
 			<!-- Left Side Content / End -->
@@ -631,9 +631,9 @@
 				<div class="col-xl-4 col-lg-4 col-md-12">
 					<h3><i class="icon-feather-mail"></i> Sign Up For a Newsletter</h3>
 					<p>Weekly breaking news, analysis and cutting edge advices on job searching.</p>
-					<form action="#" method="get" class="newsletter">
-						<input type="text" name="fname" placeholder="Enter your email address">
-						<button type="submit"><i class="icon-feather-arrow-right"></i></button>
+					<form class = "newsletter">
+						<input type="email" name="email" placeholder="Enter your email address" id = "id_emailll">
+						<button type="submit" id = "id_buttonnn"><i class="icon-feather-arrow-right"></i></button>
 					</form>
 				</div>
 			</div>
@@ -983,6 +983,34 @@ $('#snackbar-user-status label').click(function() {
 	//   }
 	//   
 	});
+
+
+	$(document).on("click", "#id_buttonnn", function(){
+		var email = $("#id_emailll").val();
+		if(email == ""){
+			alert(" Smart says please ensure you fill in all Fields ");
+		} else {
+			$.ajax({
+			url:"{% url 'news_letter_save' %}",
+			type:"POST",
+			data:{email:email}
+		})
+		.done(function(response){
+		  if (response == "True"){
+			alert(" Email Submitted ");
+			location.reload();
+		  } else {
+			  alert("Submission Failed");
+			  location.reload();
+		  }
+			
+		})
+		.fail(function(){
+			alert(" Submission Failed ");
+			location.reload();
+		})
+	   }
+	  });
   
 	});
 </script>

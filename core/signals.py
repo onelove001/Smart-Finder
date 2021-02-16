@@ -27,3 +27,4 @@ def save_account(sender, instance, **kwargs):
     if instance.account_type == 3:
         instance.seller.save()
 
+

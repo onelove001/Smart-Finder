@@ -71,7 +71,6 @@ urlpatterns = [
 
 
     # =================/ User Urls /=============== #
-    path('seller_page', seller_page, name = 'seller_page'),
     path('dashboard', user_profile, name = 'user_profile'),
     path('become_seller', become_seller, name = 'become_seller'),
     path('become_seller_save', become_seller_save, name = 'become_seller_save'),
@@ -117,6 +116,7 @@ urlpatterns = [
     path('proceed_payment/<str:order_id>', proceed_payment, name = 'proceed_payment'),
     path('payment_invoice/<str:order_id>', payment_invoice, name = 'payment_invoice'),
     path('payment_confirmation/<str:order_id>', payment_confirmation, name = 'payment_confirmation'),
+    path('news_letter_save', news_letter_save, name = 'news_letter_save'),
     path('wallet', wallet, name = 'wallet'),
     
 

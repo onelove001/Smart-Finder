@@ -13,27 +13,73 @@ from django.conf import settings
 
 
 
+
+def calcEpochSec(dt):
+    epochZero = datetime.datetime(1970,1,1,tzinfo = dt.tzinfo)
+    return (dt - epochZero).total_seconds()
+
+
 @login_required
 def smart_home(request):
     categories = Category.objects.all()
     buyers_count = Buyer.objects.all().count()
     sellers_count = Seller.objects.all().count()
     requestsss = Requests.objects.all().count()
+    requestss = Requests.objects.all()
     requestsssss = Requests.objects.all().count()
     services_count = Service.objects.all().count()
     categories_count = Category.objects.all().count()
     all_members = customUser.objects.all().count()
+    user = request.user.id
+    userr = request.user
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    for req in requestss:
+        a = calcEpochSec(req.created)
+        b = calcEpochSec(datetime.datetime.now())
+        c = b - a
+        if c >= 200:
+            req.delete()
 
-    context = {
-        "categories":categories,
-        "categories_count":categories_count,
-        "sellers_count":sellers_count,
-        "buyers_count":buyers_count,
-        "services_count":services_count,
-        "all_members":all_members,
-        "requestsss":requestsss,
-        "requestsssss":requestsssss,
-    }
+    if request.user.account_type == "3":
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+        
+        context = {
+            "categories":categories,
+            "categories_count":categories_count,
+            "sellers_count":sellers_count,
+            "buyers_count":buyers_count,
+            "services_count":services_count,
+            "all_members":all_members,
+            "requestsss":requestsss,
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
+        
+    else:
+        context = {
+            "categories":categories,
+            "categories_count":categories_count,
+            "sellers_count":sellers_count,
+            "buyers_count":buyers_count,
+            "services_count":services_count,
+            "all_members":all_members,
+            "requestsss":requestsss,
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
+
     return render(request, 'user_templates/home_content.html', context)
 
 
@@ -43,18 +89,51 @@ def freelancers_page(request, category_idd):
     serv = Service.objects.filter(category = category_idd).count()
     freelancers = Seller.objects.filter(category = category_idd).count()
     requestsssss = Requests.objects.all().count()
-
+    user = request.user.id
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
 
     paginate = Paginator(services, 2)
     p = request.GET.get("page")
     pages = paginate.get_page(p)
 
-    context = {"categories":categories, "services":services, "serv":serv, "freelancers":freelancers, "pages":pages, "requestsssss":requestsssss}
+    if request.user.account_type == "3":
+        userr = request.user
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "categories":categories,
+        "services":services,
+        "serv":serv,
+        "freelancers":freelancers,
+        "pages":pages,
+        "requestsssss":requestsssss,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+    }
+
+    else: 
+
+        context = {
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "categories":categories,
+            "services":services,
+            "serv":serv,
+            "freelancers":freelancers,
+            "pages":pages,
+            "requestsssss":requestsssss
+        }
     return render(request, 'user_templates/freelancers.html', context)
-
-
-def seller_page(request):
-    return render(request, 'user_templates/seller_page.html', {})
 
 
 def become_seller(request):
@@ -64,17 +143,48 @@ def become_seller(request):
         seller = Seller.objects.get(admin = user_1)
         reviews = Reviews.objects.filter(seller_id = seller.id).count()
         requestsssss = Requests.objects.all().count()
-        context = {"reviews":reviews, "requestsssss":requestsssss}
+        userr = request.user
+        reply_notifications = Reply_notifications.objects.filter(user = user_1)
+        notifications = Reply_notifications.objects.filter(user = user_1).count()
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "reviews":reviews, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
 
     elif request.user.account_type == "2":
         user = request.user
+        user_1 = request.user.id
         categories = Category.objects.all()
         sub_categories = SubCategory.objects.all()
         languages = Language.objects.all()
         requestsssss = Requests.objects.all().count()
         levels = Xperienece_level.objects.all()
+        reply_notifications = Reply_notifications.objects.filter(user = user_1)
+        notifications = Reply_notifications.objects.filter(user = user_1).count()
 
-        context = {"requestsssss":requestsssss, "user":user, "sub_categories":sub_categories, "categories":categories, "languages":languages, "levels":levels}
+        context = {
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "requestsssss":requestsssss,
+            "user":user, 
+            "sub_categories":sub_categories, 
+            "categories":categories, 
+            "languages":languages, 
+            "levels":levels
+        }
 
     return render(request, "user_templates/become_seller.html", context)
 
@@ -149,32 +259,52 @@ def user_profile(request):
         user = customUser.objects.get(id = request.user.id)
         buyer = Buyer.objects.get(admin = user.id)
         requestsssss = Requests.objects.all().count()
-        context = {"buyer":buyer, "requestsssss":requestsssss}
+        reply_notifications = Reply_notifications.objects.filter(user = user)
+        notifications = Reply_notifications.objects.filter(user = user).count()
+
+        context = {
+            "buyer":buyer, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
 
     if request.user.account_type == '3':
+        userr = request.user
         user = customUser.objects.get(id = request.user.id)
         seller = Seller.objects.get(admin = user.id)
         reviews = Reviews.objects.filter(seller_id = seller.id).count()
         service = Service.objects.filter(owner = seller.id)
         requestsssss = Requests.objects.all().count()
+        orders = Order.objects.filter(seller_id = seller, status = "ordered")
+        reply_notifications = Reply_notifications.objects.filter(user = user)
+        notifications = Reply_notifications.objects.filter(user = user).count()
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
         if service.exists():
             empty = 1
         else:
             empty = 0
     
-        # try:
-        #     buyers = []
-        #     service_co = Service.objects.filter(owner = seller.id, ordered = "ordered")
-        #     for serv in service_co:
-        #         orders = Order.objects.filter(service_ordered = serv.id)
-        #         for s in orders:
-        #             buyers.append(s)
-                    
-        #     service_count = len(buyers)
-        context = {"seller":seller, "empty":empty, "service":service, "reviews":reviews, "requestsssss":requestsssss}
-
-        # except:
-        #     context = {"seller":seller}
+        context = {
+            "seller":seller, 
+            "empty":empty, 
+            "service":service, 
+            "reviews":reviews, 
+            "requestsssss":requestsssss, 
+            "orders":orders,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
 
     return render(request, "user_templates/dashboard.html", context)
 
@@ -182,6 +312,7 @@ def user_profile(request):
 @login_required
 def update_profile_seller(request):
     user = request.user.id
+    userr = request.user
     seller = Seller.objects.get(admin = user)
     reviews = Reviews.objects.filter(seller_id = seller.id).count()
     categories = Category.objects.all()
@@ -189,6 +320,13 @@ def update_profile_seller(request):
     languages = Language.objects.all()
     levels = Xperienece_level.objects.all()
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
 
     context = {
         "seller":seller, 
@@ -198,6 +336,13 @@ def update_profile_seller(request):
         "levels":levels,
         "reviews":reviews,
         "requestsssss":requestsssss,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
     }
     return render(request, "user_templates/update_seller_profile.html", context)
 
@@ -207,8 +352,15 @@ def update_profile_buyer(request):
     user = request.user.id
     buyer = Buyer.objects.get(admin = user)
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
 
-    context = {"buyer":buyer, "requestsssss":requestsssss}
+    context = {
+        "buyer":buyer, 
+        "requestsssss":requestsssss,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+    }
     return render(request, "user_templates/update_buyer_profile.html", context)
 
 
@@ -285,9 +437,9 @@ def update_profile_buyer_save(request):
     return redirect("page_404")
 
 
-@login_required
 def create_service_(request):
     user = request.user.id
+    userr = request.user
     categories = Category.objects.all()
     seller = Seller.objects.get(admin = user)
     reviews = Reviews.objects.filter(seller_id = seller.id).count()
@@ -296,7 +448,31 @@ def create_service_(request):
     days = Delivery_days.objects.all()
     plans = Plan.objects.all()
     owner = Seller.objects.get(admin = user)
-    return render(request, "user_templates/create_servic.html", {"days":days, "reviews":reviews, "plans":plans, "categories":categories, "sub_categories":sub_categories, "owner":owner, "requestsssss":requestsssss})
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
+
+    context = {
+        "days":days, 
+        "reviews":reviews, 
+        "plans":plans, 
+        "categories":categories, 
+        "sub_categories":sub_categories, 
+        "owner":owner, 
+        "requestsssss":requestsssss,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+    }
+    return render(request, "user_templates/create_servic.html", context)
 
 
 def create_service_save(request):
@@ -343,12 +519,46 @@ def create_service_save(request):
 
 @login_required
 def service_detail(request, service_id):
+    user = request.user.id
     service = Service.objects.get(id = service_id)
     ratings = star_rating.objects.all()
     reviews = Reviews.objects.filter(seller_id = service.owner.id).count()
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
 
-    return render(request, "user_templates/service_detail.html", {"service":service, "ratings":ratings, "reviews":reviews, "requestsssss":requestsssss})
+    if request.user.account_type == "3":
+        userr = request.user
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "service":service, 
+            "ratings":ratings, 
+            "reviews":reviews, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
+    else:
+        context = {
+        "service":service, 
+        "ratings":ratings, 
+        "reviews":reviews, 
+        "requestsssss":requestsssss,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+    }
+
+    return render(request, "user_templates/service_detail.html", context)
 
 
 @login_required
@@ -359,12 +569,52 @@ def get_category(request, category_id):
     freelancers = Seller.objects.filter(category = category_id).count()
     services = Service.objects.filter(category = category_id).count()
     requestsssss = Requests.objects.all().count()
+    user = request.user.id
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
 
     paginate = Paginator(sellers, 2)
     p = request.GET.get("page")
     pages = paginate.get_page(p)
 
-    return render(request, 'user_templates/get_category_page.html', {"freelancers":freelancers, "services":services, "sellers":sellers, 'pages':pages, 'categories':categories, "requestsssss":requestsssss})
+    if request.user.account_type == "3":
+        userr = request.user
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+    
+        context = {
+            "reply_notifications":reply_notifications, 
+            "notifications":notifications,
+            "freelancers":freelancers, 
+            "services":services, 
+            "sellers":sellers, 
+            'pages':pages, 
+            'categories':categories, 
+            "requestsssss":requestsssss,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
+
+    else:
+
+        context = {
+            "reply_notifications":reply_notifications, 
+            "notifications":notifications,
+            "freelancers":freelancers, 
+            "services":services, 
+            "sellers":sellers, 
+            'pages':pages, 
+            'categories':categories, 
+            "requestsssss":requestsssss,
+        }
+
+    return render(request, 'user_templates/get_category_page.html', context)
 
 
 @login_required
@@ -416,6 +666,9 @@ def user_review_save(request):
         try:
             review_obj = Reviews(seller_id = seller_id, service_id = service_obj, user_id = user_obj, rating = rate_obj, review_content = review)
             review_obj.save()
+            review_id = Reviews.objects.get(id = review_obj.id)
+            review_notify = Review_notifications(user = seller_id, review = review_id)
+            review_notify.save()
             return redirect(request.META.get("HTTP_REFERER"))
 
         except:
@@ -438,6 +691,9 @@ def user_service_order(request):
         
             order = Order(user_order = user_obj, seller_id = seller_obj, service_ordered = service_obj, status = "ordered")
             order.save()
+            order_id = Order.objects.get(id = order.id)
+            order_notify = Order_notifications(user = seller_obj, order = order_id)
+            order_notify.save()
             order_obj = Order.objects.filter(user_order = user_obj).first()
             service_obj.orders = order_obj
             service_obj.ordered = "ordered"
@@ -454,17 +710,54 @@ def user_service_order(request):
 
 
 def seller_profile(request, seller_id):
+    user = request.user.id
     seller = Seller.objects.get(id = seller_id)
     services = Service.objects.filter(owner = seller.id).count()
     reviews = Reviews.objects.filter(seller_id = seller.id)
     reviewss = Reviews.objects.filter(seller_id = seller.id).count()
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+
     
     paginator = Paginator(reviews, 3)
     p = request.GET.get("page")
     pages = paginator.get_page(p)
 
-    context = { "seller":seller, "reviews":reviews, "pages":pages, "services":services, "reviewss":reviewss, "requestsssss":requestsssss}
+    if request.user.account_type == "3":
+        userr = request.user
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "seller":seller, 
+            "reviews":reviews, 
+            "pages":pages, 
+            "services":services, 
+            "reviewss":reviewss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
+    else:
+        context = {
+            "seller":seller, 
+            "reviews":reviews, 
+            "pages":pages, 
+            "services":services, 
+            "reviewss":reviewss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
     return render(request, "user_templates/seller_profile.html", context)
 
 
@@ -475,12 +768,44 @@ def seller_reviews(request):
     reviewss = Reviews.objects.filter(seller_id = seller.id)
     reviews = Reviews.objects.filter(seller_id = seller.id).count()
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user_id)
+    notifications = Reply_notifications.objects.filter(user = user_id).count()
 
-    paginator = Paginator(reviewss, 2)
+    paginator = Paginator(reviewss, 4)
     p = request.GET.get("page")
     pages = paginator.get_page(p)
 
-    return render(request, "user_templates/seller_reviews.html", {"reviews":reviews, "pages":pages, "reviewss":reviewss, "requestsssss":requestsssss})
+    if request.user.account_type == "3":
+        userr = request.user
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "reviews":reviews, 
+            "pages":pages, 
+            "reviewss":reviewss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
+    else:
+        context = {
+            "reviews":reviews, 
+            "pages":pages, 
+            "reviewss":reviewss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
+    return render(request, "user_templates/seller_reviews.html", context)
 
 
 def manage_services(request):
@@ -491,12 +816,35 @@ def manage_services(request):
     servicesss = Service.objects.filter(owner = seller.id).count()
     reviews = Reviews.objects.filter(seller_id = seller.id).count()
     requestsssss = Requests.objects.all().count()
+    userr = request.user
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
+
 
     paginate = Paginator(services, 3)
     p = request.GET.get("page")
     pages = paginate.get_page(p)
 
-    context = {"services":services, "reviews":reviews, "pages":pages, "servicesss":servicesss, "requestsssss":requestsssss}
+    context = {
+        "services":services, 
+        "reviews":reviews, 
+        "pages":pages, 
+        "servicesss":servicesss, 
+        "requestsssss":requestsssss,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+
+        }
 
     return render(request, "user_templates/manage_services.html", context)
 
@@ -511,8 +859,32 @@ def edit_service(request, service_edit_id):
     seller = Seller.objects.get(admin = user)
     reviews = Reviews.objects.filter(seller_id = seller.id).count()
     requestsssss = Requests.objects.all().count()
+    userr = request.user
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
 
-    context = {"requestsssss":requestsssss, "days":days, "service":service, "reviews":reviews, "plans":plans, "categories":categories, "sub_categories":sub_categories}
+
+    context = {
+        "requestsssss":requestsssss, 
+        "days":days, "service":service, 
+        "reviews":reviews, 
+        "plans":plans, 
+        "categories":categories, 
+        "sub_categories":sub_categories,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+        
+    }
 
     return render(request, "user_templates/edit_service.html", context)
 
@@ -592,7 +964,38 @@ def buyer_profile(request, buyer_id):
     user_id = customUser.objects.get(id = buyer_id)
     buyer = Buyer.objects.get(id = user_id.id)
     requestsssss = Requests.objects.all().count()
-    return render(request, "user_templates/buyer_profile.html", {"buyer":buyer, "requestsssss":requestsssss})
+    user = request.user.id
+    userr = request.user
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+
+    if request.user.account_type == "3":
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+        context = {
+            "buyer":buyer, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
+
+    else:
+
+        context = {
+            "buyer":buyer, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
+    return render(request, "user_templates/buyer_profile.html", context)
 
 
 def active_orders(request):
@@ -603,8 +1006,28 @@ def active_orders(request):
     orders = Order.objects.filter(seller_id=seller, status="ordered")
     orderss = Order.objects.filter(seller_id=seller, status="ordered").count()
     requestsssss = Requests.objects.all().count()
+    userr = request.user
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
 
-    context = {"reviews":reviews, "orders":orders, "orderss":orderss, "requestsssss":requestsssss}
+    context = {
+        "reviews":reviews, 
+        "orders":orders, 
+        "orderss":orderss, 
+        "requestsssss":requestsssss,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+        }
     return render(request, "user_templates/active_orders.html", context)
 
 
@@ -616,8 +1039,28 @@ def manage_all_orders(request):
     orders = Order.objects.filter(seller_id=seller)
     orderss = Order.objects.filter(seller_id=seller).count()
     requestsssss = Requests.objects.all().count()
+    userr = request.user
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
 
-    context = {"reviews":reviews, "orders":orders, "orderss":orderss, "requestsssss":requestsssss}
+    context = {
+        "reviews":reviews, 
+        "orders":orders, 
+        "orderss":orderss, 
+        "requestsssss":requestsssss,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+        }
     return render(request, "user_templates/manage_orders.html", context)
 
 
@@ -635,14 +1078,37 @@ def reject_order(request, order_id):
 
 def post_request(request):
     requestsssss = Requests.objects.all().count()
+    user = request.user.id
+    userr = request.user
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    
     if request.user.account_type == '3':
-        user = request.user.id
         seller = Seller.objects.get(admin = user)
         reviews = Reviews.objects.filter(seller_id = seller.id).count()
-        context = {"reviews":reviews, "requestsssss":requestsssss}
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+        context = {
+            "reviews":reviews, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
 
     else:
-        context = {"requestsssss":requestsssss}
+        context = {
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
 
     return render(request, "user_templates/post_request.html", context)
 
@@ -667,31 +1133,53 @@ def post_request_save(request):
     return redirect("page_404")
 
 
-def calcEpochSec(dt):
-    epochZero = datetime.datetime(1970,1,1,tzinfo = dt.tzinfo)
-    return (dt - epochZero).total_seconds()
-
-
 def employer_requests(request):
     requestss = Requests.objects.all()
     requestsss = Requests.objects.all().count()
     requestsssss = Requests.objects.all().count()
+    userr = request.user
+    user = request.user.id
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
     for req in requestss:
         a = calcEpochSec(req.created)
         b = calcEpochSec(datetime.datetime.now())
         c = b - a
         print(c)
-        if c >= 900:
+        if c >= 200:
             req.delete()
 
     if request.user.account_type == '3':
         user = request.user.id
         seller = Seller.objects.get(admin = user)
         reviews = Reviews.objects.filter(seller_id = seller.id).count()
-        context = {"reviews":reviews, "requestsss":requestsss, "requestss":requestss, "requestsssss":requestsssss}
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+        context = {
+            "reviews":reviews, 
+            "requestsss":requestsss, 
+            "requestss":requestss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
 
     elif request.user.account_type == '2':
-        context = {"requestsss":requestsss, "requestss":requestss, "requestsssss":requestsssss}
+        context = {
+            "requestsss":requestsss, 
+            "requestss":requestss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
 
 
     return render(request, "user_templates/employer_request.html", context)
@@ -701,14 +1189,37 @@ def reply_request(request, request_id):
     requestt = Requests.objects.get(id = request_id)
     requestsssss = Requests.objects.all().count()
     user=request.user.id
+    userr = request.user
     seller = Seller.objects.get(admin = user)
     reviews = Reviews.objects.filter(seller_id = seller.id).count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
     reply_exist = Request_replies.objects.filter(request_id = request_id, freelancer = seller.id).exists()
     if reply_exist:
         seller_exists = 1
     else:
         seller_exists = 0
-    return render(request, "user_templates/reply_request.html", {"requestsssss":requestsssss, "requestt":requestt, "reviews":reviews, "seller_exists":seller_exists})
+    
+    context = {
+        "requestsssss":requestsssss, 
+        "requestt":requestt, 
+        "reviews":reviews, 
+        "seller_exists":seller_exists,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+    
+    }
+    return render(request, "user_templates/reply_request.html", context)
 
 
 @csrf_exempt
@@ -717,6 +1228,7 @@ def reply_request_save(request):
     message = request.POST.get("message")
 
     request_obj = Requests.objects.get(id = request_id)
+    c_user = customUser.objects.get(id = request_obj.poster.id)
     user = request.user.id
     seller = Seller.objects.get(admin = user)
     seller_id = seller.id
@@ -724,6 +1236,10 @@ def reply_request_save(request):
     try:
         reply = Request_replies(request_id = request_obj, freelancer = seller, reply_text = message)
         reply.save()
+        req_reply = Request_replies.objects.get(id = reply.id)
+        reply_notification = Reply_notifications.objects.create(user = c_user, request_replies = req_reply)
+        reply_notification.save()
+
         return HttpResponse("True")
     except:
         return HttpResponse("False")
@@ -731,42 +1247,94 @@ def reply_request_save(request):
 
 def manage_requests(request):
     user = request.user.id
+    userr = request.user
     requestss = Requests.objects.filter(poster = user)
     requestsss = Requests.objects.filter(poster = user).count()
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+
+    paginate = Paginator(requestss, 3)
+    p = request.GET.get("page")
+    pages = paginate.get_page(p)
 
     if request.user.account_type == '3':
         seller = Seller.objects.get(admin = user)    
         reviews = Reviews.objects.filter(seller_id = seller.id).count()
+        reply_notifications = Reply_notifications.objects.filter(user = user)
+        notifications = Reply_notifications.objects.filter(user = user).count()
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
 
-        paginate = Paginator(requestss, 3)
-        p = request.GET.get("page")
-        pages = paginate.get_page(p)
-
-        context = {"requestss":requestss, "requestsss":requestsss, "reviews":reviews, "pages":pages, "requestsssss":requestsssss}
+        context = {
+            "requestss":requestss, 
+            "requestsss":requestsss, 
+            "reviews":reviews, 
+            "pages":pages, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
     
     elif request.user.account_type == '2':
 
-        paginate = Paginator(requestss, 3)
-        p = request.GET.get("page")
-        pages = paginate.get_page(p)
-
-        context = {"requestss":requestss, "requestsss":requestsss, "pages":pages, "requestsssss":requestsssss}
+        context = {
+            "requestss":requestss, 
+            "requestsss":requestsss, 
+            "pages":pages, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
 
     return render(request, "user_templates/manage_requests.html", context)
 
 
 def edit_request(request, request_id):
+    user = request.user.id
+    userr = request.user
     reques = Requests.objects.get(id = request_id)
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    
     if request.user.account_type == "3":
-        user = request.user.id
         seller = Seller.objects.get(admin = user)
         reviews = Reviews.objects.filter(seller_id = seller.id).count()
-        context = {"reviews":reviews, "reques":reques, "requestsssss":requestsssss}
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "reviews":reviews, 
+            "reques":reques, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
 
     elif request.user.account_type == "2":
-        context = {"reques":reques, "requestsssss":requestsssss}
+        context = {
+            "reques":reques, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
 
     return render(request, "user_templates/edit_request.html", context)
 
@@ -801,32 +1369,122 @@ def edit_request_save(request):
 
 
 def view_replies(request, requessst_id):
+    user = request.user.id
+    userr = request.user
     requestt_id = Requests.objects.get(id = requessst_id)
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+
     if request.user.account_type == '3':
-        user = request.user.id
         request_replies = Request_replies.objects.filter(request_id = requestt_id)
         seller_id = Seller.objects.get(admin = user)
         reviews = Reviews.objects.filter(seller_id = seller_id).count()
         request_repliesss = Request_replies.objects.filter(request_id = requestt_id).count()
-        context = {"requestt_id":requestt_id, "reviews":reviews, "request_replies":request_replies, "request_repliesss":request_repliesss, "requestsssss":requestsssss}
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "requestt_id":requestt_id, 
+            "reviews":reviews, 
+            "request_replies":request_replies, 
+            "request_repliesss":request_repliesss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
     
     elif request.user.account_type == '2':
         request_replies = Request_replies.objects.filter(request_id = requestt_id)
         request_repliesss = Request_replies.objects.filter(request_id = requestt_id).count()
-        context = {"requestt_id":requestt_id, "request_replies":request_replies, "request_repliesss":request_repliesss, "requestsssss":requestsssss}
+        context = {
+            "requestt_id":requestt_id, 
+            "request_replies":request_replies, 
+            "request_repliesss":request_repliesss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
 
 
     return render(request, "user_templates/view_replies.html", context)
 
 
 def page_404(request):
-    return render(request, "user_templates/page_404.html", {})
+    user = request.user.id
+    userr = request.user
+    requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+
+    if request.user.account_type == "3":
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+    
+        context = {
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+            "requestsssss":requestsssss,
+        }
+    
+    else:
+        context = {
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "requestsssss":requestsssss,
+        }
+
+    return render(request, "user_templates/page_404.html", context)
 
 
 def contact_us_page(request):
     requestsssss = Requests.objects.all().count()
-    return render(request, "user_templates/contact_us_page.html",  {"requestsssss":requestsssss})
+    user = request.user.id
+    userr = request.user
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+
+    if request.user.account_type == "3":
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+    
+        context = {
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+            "requestsssss":requestsssss,
+        }
+    
+    else:
+        context = {
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "requestsssss":requestsssss,
+        }
+    return render(request, "user_templates/contact_us_page.html",  context)
 
 
 @csrf_exempt
@@ -850,19 +1508,43 @@ def contact_us_save(request):
 
 def ordered_listing(request):
     user = request.user.id
+    userr = request.user
+    orders = Order.objects.all().filter(user_order = user)
+    orderedss = Order.objects.all().filter(user_order = user).count()
+    requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
     if request.user.account_type == "2":
-        orders = Order.objects.all().filter(user_order = user)
-        orderedss = Order.objects.all().filter(user_order = user).count()
-        requestsssss = Requests.objects.all().count()
-        context = {"orders":orders, "orderedss":orderedss, "requestsssss":requestsssss}
+        context = {
+            "orders":orders, 
+            "orderedss":orderedss, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
 
     if request.user.account_type == "3":
         seller = Seller.objects.get(admin = user)
         reviews = Reviews.objects.filter(seller_id = seller.id).count()
-        orders = Order.objects.all().filter(user_order = user)
-        orderedss = Order.objects.all().filter(user_order = user).count()
-        requestsssss = Requests.objects.all().count()
-        context = {"orders":orders, "orderedss":orderedss, "requestsssss":requestsssss, "reviews":reviews}
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+    
+        context = {
+            "orders":orders, 
+            "orderedss":orderedss, 
+            "requestsssss":requestsssss, 
+            "reviews":reviews,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
 
     return render(request, "user_templates/order_listing.html", context)
 
@@ -880,32 +1562,108 @@ def mark_as_deliver(request, order_id):
 
 
 def see_reviews(request):
+    user = request.user.id
+    userr = request.user
     categories = Category.objects.all()
     reviews = Reviews.objects.all()
     freelancers = Seller.objects.all().count()
     serv = Service.objects.all().count()
     requestsssss = Requests.objects.all().count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
 
     paginate = Paginator(reviews, 2)
     p = request.GET.get("page")
     pages = paginate.get_page(p)
-    return render(request, "user_templates/see_reviews.html", {"categories":categories, "pages":pages, "serv":serv, "freelancers":freelancers, "requestsssss":requestsssss})
+
+    if request.user.account_type == "3":
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "categories":categories, 
+            "pages":pages, 
+            "serv":serv, 
+            "freelancers":freelancers, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
+    else:
+        context = {
+            "categories":categories, 
+            "pages":pages, 
+            "serv":serv, 
+            "freelancers":freelancers, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,   
+        }
+
+    return render(request, "user_templates/see_reviews.html", context)
 
 
 def proceed_payment(request, order_id):
+    user = request.user.id
+    userr = request.user
     requestsssss = Requests.objects.all().count()
     order = Order.objects.get(id = order_id)
     final_price = order.service_ordered.charge 
     stripe_final = final_price * 100
     key = settings.PUBLISHABLE_KEY
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
 
-    context = {"order":order, "requestsssss":requestsssss, "final_price":final_price, "key":key, "stripe_final":stripe_final}
+    if request.user.account_type == "3":
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "order":order, 
+            "requestsssss":requestsssss, 
+            "final_price":final_price, 
+            "key":key, 
+            "stripe_final":stripe_final,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,   
+        }
+
+    else:
+            context = {
+            "order":order, 
+            "requestsssss":requestsssss, 
+            "final_price":final_price, 
+            "key":key, 
+            "stripe_final":stripe_final,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,   
+        }
 
     return render(request, "user_templates/proceed_payment.html", context)
 
 
 def payment_confirmation(request, order_id):
+    user = request.user.id
+    userr = request.user
     order = Order.objects.get(id = order_id)
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
     seller_idd = Seller.objects.get(id = order.seller_id.id)
     charge = order.service_ordered.charge
     requestsssss = Requests.objects.all().count()
@@ -914,7 +1672,35 @@ def payment_confirmation(request, order_id):
     vat = ((20/100) * charge)
     real_charge = charge - vat
     wallet = Wallet.objects.create(user = seller_idd, order = order, wallet_acc = real_charge)
-    return render(request, "user_templates/payment_confirmation.html", {"order":order, "requestsssss":requestsssss})
+    if request.user.account_type == "3":
+        order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        notificationsss = notifications + notifications2 + notifications3
+
+        context = {
+            "order":order, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+            "order_notifications":order_notifications,
+            "notifications2":notifications2,
+            "notificationsss":notificationsss,
+            "review_notifications":review_notifications,
+            "notifications3":notifications3,
+        }
+
+    else:
+
+        context = {
+            "order":order, 
+            "requestsssss":requestsssss,
+            "reply_notifications":reply_notifications,
+            "notifications":notifications,
+        }
+
+    return render(request, "user_templates/payment_confirmation.html", context)
 
 
 def payment_invoice(request, order_id):
@@ -925,13 +1711,36 @@ def payment_invoice(request, order_id):
     return render(request, "user_templates/payment_invoice.html", {"order":order, "requestsssss":requestsssss, "now_date":now_date, "vat":vat})
 
 
+@csrf_exempt
+def news_letter_save(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+
+        try:
+            news_letter = NewsLetter(email = email)
+            news_letter.save()
+            return HttpResponse("True")
+        except:
+            return HttpResponse("False")
+
+    return redirect("page_404")
+
+
 def wallet(request):
     user = request.user.id
+    userr = request.user
     seller = Seller.objects.get(admin = user)
     requestsssss = Requests.objects.all().count()
     reviews = Reviews.objects.filter(seller_id = seller.id).count()
     my_wallet = Wallet.objects.filter(user = seller.id)
     my_wallett = Wallet.objects.filter(user = seller.id).count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
 
     total = 0
     total_vat = 0
@@ -939,5 +1748,20 @@ def wallet(request):
         total = total + i.wallet_acc
         total_vat = total_vat + i.get_vat()
 
-    context = {"requestsssss":requestsssss, "seller":seller, "reviews":reviews, "my_wallet":my_wallet, "total":total, "total_vat":total_vat, "my_wallett":my_wallett}
+    context = {
+        "requestsssss":requestsssss, 
+        "seller":seller, 
+        "reviews":reviews, 
+        "my_wallet":my_wallet, 
+        "total":total, 
+        "total_vat":total_vat, 
+        "my_wallett":my_wallett,
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+    }
     return render(request, "user_templates/wallet.html", context)

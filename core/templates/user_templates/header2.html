@@ -21,7 +21,7 @@
 					
 					<!-- Logo -->
 					<div id="logo">
-						<a href=""><img src="{% static 'images2/logo.png' %}" alt=""></a>
+						<a href=""><img style = "width:auto; height:auto;" src="{% static 'images2/smart1.png' %}" alt=""></a>
 					</div>
 	
 					<!-- Main Navigation -->
@@ -54,12 +54,12 @@
 								</ul>
 							</li>
 	
-							<li><a href="#">Explore</a>
+							<li><a h>Explore</a>
 								<ul class="dropdown-nav">
 									<li><a href="#">Blog</a></li>
 									<li><a href="#">Guide</a></li>
 									<li><a href="#">News Page</a></li>
-									<li><a href="#">Contact Us</a></li>
+									<li><a href="{% url 'contact_us_page' %}">Contact Us</a></li>
 								</ul>
 							</li>
 	
@@ -83,7 +83,11 @@
 	
 							<!-- Trigger -->
 							<div class="header-notifications-trigger">
-								<a href="#"><i class="icon-feather-bell"></i><span>4</span></a>
+								{% if request.user.account_type == '2' %}
+								<a href=""><i class="icon-feather-bell"></i><span>{{notifications}}</span></a>
+								{% elif request.user.account_type == '3' %}
+								<a href=""><i class="icon-feather-bell"></i><span>{{notificationsss}}</span></a>
+								{% endif %}
 							</div>
 	
 							<!-- Dropdown -->
@@ -98,47 +102,99 @@
 	
 								<div class="header-notifications-content">
 									<div class="header-notifications-scroll" data-simplebar>
+										{% if request.user.account_type == '2' %}
+
 										<ul>
+										{% if notifications == 0 %}
+										<li class="notifications-not-read">
+												<span class="notification-text">
+													<strong> You have no notifications at this moment </strong></span>
+												</span>
+											</a>
+										</li>
+										{% else %}
+										{% for note in reply_notifications %}
 											<!-- Notification -->
 											<li class="notifications-not-read">
-												<a href="dashboard-manage-candidates.html">
+												<a href="{% url 'view_replies' note.request_replies.request_id.id %}">
 													<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
 													<span class="notification-text">
-														<strong>Michael Shannah</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
+														<strong>{{note.request_replies.freelancer.admin.username}}</strong> replied to your request<span class="color">{{note.get_first_words}} - {{note.created|timesince}}</span>
 													</span>
 												</a>
 											</li>
-	
-											<!-- Notification -->
-											<li>
-												<a href="dashboard-manage-bidders.html">
-													<span class="notification-icon"><i class=" icon-material-outline-gavel"></i></span>
-													<span class="notification-text">
-														<strong>Gilbert Allanis</strong> placed a bid on your <span class="color">iOS App Development</span> project
-													</span>
-												</a>
-											</li>
-	
-											<!-- Notification -->
-											<li>
-												<a href="dashboard-manage-jobs.html">
-													<span class="notification-icon"><i class="icon-material-outline-autorenew"></i></span>
-													<span class="notification-text">
-														Your job listing <span class="color">Full Stack PHP Developer</span> is expiring.
-													</span>
-												</a>
-											</li>
-	
-											<!-- Notification -->
-											<li>
-												<a href="dashboard-manage-candidates.html">
-													<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
-													<span class="notification-text">
-														<strong>Sindy Forrest</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
-													</span>
-												</a>
-											</li>
+										{% endfor %}
+										{% endif %}
 										</ul>
+
+										{% elif request.user.account_type == '3' %}
+
+										<ul>
+											{% if notifications == 0 %}
+											<li class="notifications-not-read">
+													<span class="notification-text">
+														<strong>No request notification at the moment</strong></span>
+													</span>
+												</a>
+											</li>
+											{% else %}
+											{% for note in reply_notifications %}
+												<!-- Notification -->
+												<li class="notifications-not-read">
+													<a href="{% url 'view_replies' note.request_replies.request_id.id %}">
+														<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
+														<span class="notification-text">
+															<strong>{{note.request_replies.freelancer.admin.username}}</strong> replied to your request <span class="color"> {{note.get_first_words}} - {{note.created|timesince}} ago </span>
+														</span>
+													</a>
+												</li>
+											{% endfor %}
+											{% endif %}
+											<hr style = "color:rgb(230, 185, 131); border:1px;">
+											{% if notifications2 == 0 %}
+											<li class="notifications-not-read">
+													<span class="notification-text">
+														<strong>No order notifications at the moment</strong></span>
+													</span>
+												</a>
+											</li>
+											{% else %}
+											{% for note in order_notifications %}
+												<!-- Notification -->
+												<li class="notifications-not-read">
+													<a href="{% url 'active_orders' %}">
+														<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
+														<span class="notification-text">
+															<strong>{{note.order.user_order.username}}</strong> {{note.order.status}} your service <span class="color"> {{note.order.service_ordered.title}} - {{note.created|timesince}} ago </span>
+														</span>
+													</a>
+												</li>
+											{% endfor %}
+											{% endif %}
+											<hr style = "color:rgb(230, 185, 131); border:1px;">
+											{% if notifications3 == 0 %}
+											<li class="notifications-not-read">
+													<span class="notification-text">
+														<strong>No review notifications at the moment</strong></span>
+													</span>
+												</a>
+											</li>
+											{% else %}
+											{% for note in review_notifications %}
+												<!-- Notification -->
+												<li class="notifications-not-read">
+													<a href="{% url 'seller_reviews' %}">
+														<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
+														<span class="notification-text">
+															<strong>{{note.review.user_id.username}}</strong> left you a review <span class="color"> {{note.created|timesince}} ago </span>
+														</span>
+													</a>
+												</li>
+											{% endfor %}
+											{% endif %}
+										</ul>
+
+										{% endif %}
 									</div>
 								</div>
 	
@@ -309,7 +365,7 @@
 					
 					<!-- Logo -->
 					<div id="logo">
-						<a href=""> <img src="{% static 'images2/logo.png' %}" alt=""></a>
+						<a href=""> <img src="{% static 'images2/finder.jpg' %}" alt=""></a>
 					</div>
 
 					<!-- Main Navigation -->
@@ -350,8 +406,12 @@
 	<div class="clearfix"></div>
 
 {% endif %}
+
 <!-- 
 https://www.youtube.com/watch?v=22TkO8og4_Q
 https://www.youtube.com/watch?v=e-ZJekJXGfI
 https://www.youtube.com/watch?v=wSTbBIK8qrY
-https://www.youtube.com/watch?v=Atmrr1jY3Vc -->
+https://www.youtube.com/watch?v=Atmrr1jY3Vc 
+https://www.youtube.com/watch?v=YUiykhw9yGs&list=PL6RgKo1nB4TlJDfWz3czfXHkg8wSn8THV
+https://studygyaan.com/django/django-payment-gateway-stripe
+-->

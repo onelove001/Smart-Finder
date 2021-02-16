@@ -27,9 +27,9 @@ admin.site.register(Request_replies)
 admin.site.register(Requests)
 admin.site.register(Contact_Us)
 admin.site.register(Wallet)
-
-
-
-
+admin.site.register(Reply_notifications)
+admin.site.register(Order_notifications)
+admin.site.register(Review_notifications)
+admin.site.register(NewsLetter)
 
 

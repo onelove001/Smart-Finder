@@ -115,66 +115,26 @@
 					<div class="col-xl-12">
 						<div class="dashboard-box">
 							<div class="headline">
-								<h3><i class="icon-material-outline-assignment"></i> Active Bidders</h3>
+								<h3><i class="icon-material-outline-assignment"></i> Active Orders </h3>
 							</div>
 							<div class="content">
 								<ul class="dashboard-box-list">
+									{% for order in orders %}
 									<li>
 										<div class="invoice-list-item">
-										<strong>Professional Plan</strong>
+										<strong> {{order.service_ordered.plan.plan_name}} plan </strong>
 											<ul>
-												<li><span class="unpaid">Unpaid</span></li>
-												<li>Order: #326</li>
-												<li>Date: 12/08/2019</li>
+												<li><span class="paid">{{order.status}}</span></li>
+												<li>Order: #{{order.id}}</li>
+												<li>Date: {{order.date_ordered}}</li>
 											</ul>
 										</div>
 										<!-- Buttons -->
-										<div class="buttons-to-right">
+										<!-- <div class="buttons-to-right">
 											<a href="pages-checkout-page.html" class="button">Finish Payment</a>
-										</div>
+										</div> -->
 									</li>
-									<li>
-										<div class="invoice-list-item">
-										<strong>Professional Plan</strong>
-											<ul>
-												<li><span class="paid">Paid</span></li>
-												<li>Order: #264</li>
-												<li>Date: 10/07/2019</li>
-											</ul>
-										</div>
-										<!-- Buttons -->
-										<div class="buttons-to-right">
-											<a href="pages-invoice-template.html" class="button gray">View Invoice</a>
-										</div>
-									</li>
-									<li>
-										<div class="invoice-list-item">
-										<strong>Professional Plan</strong>
-											<ul>
-												<li><span class="paid">Paid</span></li>
-												<li>Order: #211</li>
-												<li>Date: 12/06/2019</li>
-											</ul>
-										</div>
-										<!-- Buttons -->
-										<div class="buttons-to-right">
-											<a href="pages-invoice-template.html" class="button gray">View Invoice</a>
-										</div>
-									</li>
-									<li>
-										<div class="invoice-list-item">
-										<strong>Professional Plan</strong>
-											<ul>
-												<li><span class="paid">Paid</span></li>
-												<li>Order: #179</li>
-												<li>Date: 06/05/2019</li>
-											</ul>
-										</div>
-										<!-- Buttons -->
-										<div class="buttons-to-right">
-											<a href="pages-invoice-template.html" class="button gray">View Invoice</a>
-										</div>
-									</li>
+									{% endfor %}
 								</ul>
 							</div>
 						</div>

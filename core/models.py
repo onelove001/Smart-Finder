@@ -283,6 +283,12 @@ class Contact_Us(models.Model):
 
 
 
+class NewsLetter(models.Model):
+    id = models.AutoField(primary_key=True)
+    email = models.EmailField()
+
+
+
 class Wallet(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(Seller, on_delete = models.CASCADE)
@@ -291,10 +297,46 @@ class Wallet(models.Model):
     created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return f"hey {self.user.admin.username}, {self.order.user_order.admin.username} Paid For {self.order.service_ordered.title}"
+        return f"hey {self.user.admin.username}, {self.order.user_order.username} Paid For {self.order.service_ordered.title}"
 
     def get_vat(self):
         vat = (20/100 * (self.order.service_ordered.charge))
         return vat
 
 
+
+class Reply_notifications(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(customUser, on_delete = models.CASCADE)
+    request_replies  = models.ForeignKey(Request_replies, models.CASCADE)
+    created = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return f"{self.request_replies.freelancer.admin.username} replied {self.user.username}"
+
+    def get_first_words(self):
+        return f"{self.request_replies.request_id.description[:20]}"
+
+
+
+class Review_notifications(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(Seller, on_delete = models.CASCADE)
+    review  = models.ForeignKey(Reviews, models.CASCADE)
+    created = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return f"{self.review.user_id.username} sent a review"
+
+
+
+class Order_notifications(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(Seller, on_delete = models.CASCADE)
+    order  = models.ForeignKey(Order, models.CASCADE)
+    created = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return f"{self.order.user_order.username} {self.order.status} your {self.order.service_ordered.title}"
+
+   

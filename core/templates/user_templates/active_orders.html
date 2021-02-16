@@ -86,8 +86,8 @@
                                                     {% elif order.user_order.account_type == '2' %}
                                                     <span class="freelancer-detail-item"><a href="{% url 'buyer_profile' order.user_order.buyer.id %}"><i class="icon-feather-mail"></i> {{order.user_order.email}} </a></span>
                                                     {% endif %}
-                                                    {{order.status}}
-                                                    <span class="freelancer-detail-item"><a href="{% url 'service_detail' order.service_ordered.id %}"><i class="icon-material-outline-check-circle"></i> {{ order.service_ordered.title}} </a></span>
+                                                    <span style="color:green;">{{ order.status }} <i class="icon-material-outline-check-circle"> </i> </span>
+                                                    <span class="freelancer-detail-item"><a href="{% url 'service_detail' order.service_ordered.id %}">{{ order.service_ordered.title}} </a></span>
 
                                                     <!-- Rating -->
                                                     <div class="freelancer-rating">
