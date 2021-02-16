@@ -118,6 +118,7 @@ urlpatterns = [
     path('payment_confirmation/<str:order_id>', payment_confirmation, name = 'payment_confirmation'),
     path('news_letter_save', news_letter_save, name = 'news_letter_save'),
     path('wallet', wallet, name = 'wallet'),
+    path('blog', blog, name = 'blog'),
     
 
 

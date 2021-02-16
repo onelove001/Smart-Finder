@@ -24,7 +24,9 @@
 						<div class="footer-rows-left">
 							<div class="footer-row">
 								<div class="footer-row-inner footer-logo">
-									<img src="{% static 'images2/smart1.png' %}" alt="">
+									<!-- <div class = "logo">
+										<img style = "width:auto; height: auto;" src="{% static 'images2/smart1.png' %}" alt="">
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -135,7 +137,7 @@
 					<h3><i class="icon-feather-mail"></i> Sign Up For our Newsletter</h3>
 					<p>Weekly breaking news, analysis and cutting edge advices on job searching.</p>
 					<form class="newsletter">
-						<input type="email" name="email" placeholder="Enter your email address" id = "id_emailll">
+						<input type="email" name="email" placeholder="Enter your email address" id = "id_emailll" required="required">
 						<button type="submit" id = "id_buttonnn"><i class="icon-feather-arrow-right"></i></button>
 					</form>
 				</div>
@@ -156,36 +158,6 @@
 	</div>
 	<!-- Footer Copyrights / End -->
 
-	<script type = "text/javascript">
-		$(document).ready(function(){
-			$(document).on("click", "#id_buttonnn", function(){
-				var email = $("#id_emailll").val();
-				if(email == ""){
-					alert(" Smart says please ensure you fill in all Fields ");
-				} else {
-					$.ajax({
-					url:"{% url 'news_letter_save' %}",
-					type:"POST",
-					data:{email:email}
-				})
-				.done(function(response){
-				if (response == "True"){
-					alert(" Email Submitted ");
-					location.reload();
-				} else {
-					alert("Submission Failed");
-					location.reload();
-				}
-					
-				})
-				.fail(function(){
-					alert(" Submission Failed ");
-					location.reload();
-				})
-			}
-		});
-	});
-	</script>
 </div>
 <!-- Footer / End -->
 
@@ -207,9 +179,9 @@
 						<!-- Left Side -->
 						<div class="footer-rows-left">
 							<div class="footer-row">
-								<div class="footer-row-inner footer-logo">
+								<!-- <div class="footer-row-inner footer-logo">
 									<img src="{% static 'images2/smart1.png' %}" alt="">
-								</div>
+								</div> -->
 							</div>
 						</div>
 						
@@ -285,7 +257,7 @@
 					<h3><i class="icon-feather-mail"></i> Sign Up For our Newsletter</h3>
 					<p>Weekly breaking news, analysis and cutting edge advices on job searching.</p>
 					<form class = "newsletter">
-						<input type="email" name="email" placeholder="Enter your email address" id = "id_emailll">
+						<input type="email" name="email" placeholder="Enter your email address" id = "id_emailll" required>
 						<button type="submit" id = "id_buttonnn"><i class="icon-feather-arrow-right"></i></button>
 					</form>
 				</div>
@@ -306,38 +278,8 @@
 	</div>
 	<!-- Footer Copyrights / End -->
 
-	<script type = "text/javascript">
-		$(document).ready(function(){
-			$(document).on("click", "#id_buttonnn", function(){
-				var email = $("#id_emailll").val();
-				if(email == ""){
-					alert(" Smart says please ensure you fill in all Fields ");
-				} else {
-					$.ajax({
-					url:"{% url 'news_letter_save' %}",
-					type:"POST",
-					data:{email:email}
-				})
-				.done(function(response){
-				if (response == "True"){
-					alert(" Email Submitted ");
-					location.reload();
-				} else {
-					alert("Submission Failed");
-					location.reload();
-				}
-					
-				})
-				.fail(function(){
-					alert(" Submission Failed ");
-					location.reload();
-				})
-			}
-		});
-	});
-	</script>
-
 </div>
 <!-- Footer / End -->
 
 {% endif %}
+

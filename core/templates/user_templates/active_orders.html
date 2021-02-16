@@ -42,7 +42,7 @@
 
                             <!-- Headline -->
                             <div class="headline">
-                                <h3><i class="icon-material-outline-gavel"></i> Orders List</h3>
+                                <h3><i class="icon-material-outline-gavel"></i> Active Orders </h3>
                             </div>
 
                             <div class="content">
@@ -50,14 +50,13 @@
 
                                     {% if orderss == 0 %}
                                     <li>
-                                    <!-- Overview -->
-                                    <div class="freelancer-overview manage-candidates">
-                                        <div class="freelancer-overview-inner">
-                                        <h3 style = "color:rgb(255, 41, 41)"> You have no active orders </h3>
+                                        <!-- Overview -->
+                                        <div class="freelancer-overview manage-candidates">
+                                            <div class="freelancer-overview-inner">
+                                            <h3 style = "color:rgb(255, 41, 41)"> You have no active orders at the moment </h3>
+                                            </div>
                                         </div>
-                                    </div>
                                     </li>
-                                    <br><br>
                                     {% else %}
                                     
                                     {% for order in orders %}
@@ -128,6 +127,7 @@
                 </div>
                 <!-- Row / End -->
 
+                <br><br><br><br><br>
                 {% include 'user_templates/footer_dashboard.html'%}
 
             </div>

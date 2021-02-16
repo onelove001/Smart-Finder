@@ -74,6 +74,38 @@
     <script src="{% static 'js2/leaflet-autocomplete.js' %}"></script>
     <script src="{% static 'js2/leaflet-control-geocoder.js' %}"></script>
     <script src = "{% static 'js/sweetalert2.all.min.js' %}"> </script>
+
+    <script type = "text/javascript">
+		$(document).ready(function(){
+			$(document).on("click", "#id_buttonnn", function(){
+				var email = $("#id_emailll").val();
+				if(email == ""){
+					alert(" Smart says please ensure you fill in all Fields ");
+				} else {
+					$.ajax({
+					url:"{% url 'news_letter_save' %}",
+					type:"POST",
+					data:{email:email}
+				})
+				.done(function(response){
+				if (response == "True"){
+					alert(" Email Submitted ");
+					location.reload();
+				} else {
+					alert("Submission Failed");
+					location.reload();
+				}
+					
+				})
+				.fail(function(){
+					alert(" Submission Failed ");
+					location.reload();
+				})
+			}
+		});
+	});
+	</script>
+
     
  </body>
     
