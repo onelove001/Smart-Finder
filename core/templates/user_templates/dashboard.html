@@ -43,21 +43,21 @@
 					<div class="fun-fact" data-fun-fact-color="#36bd78">
 						<div class="fun-fact-text">
 							<span>Done Tasks</span>
-							<h4>22</h4>
+							<h4>{{done_tasks}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-gavel"></i></div>
 					</div>
 					<div class="fun-fact" data-fun-fact-color="#b81b7f">
 						<div class="fun-fact-text">
 							<span> Active Tasks</span>
-							<h4>4</h4>
+							<h4>{{active_tasks}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-business-center"></i></div>
 					</div>
 					<div class="fun-fact" data-fun-fact-color="#efa80f">
 						<div class="fun-fact-text">
 							<span>Reviews</span>
-							<h4>28</h4>
+							<h4>{{reviews}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-rate-review"></i></div>
 					</div>
@@ -65,8 +65,8 @@
 					<!-- Last one has to be hidden below 1600px, sorry :( -->
 					<div class="fun-fact" data-fun-fact-color="#2a41e6">
 						<div class="fun-fact-text">
-							<span>This Month Views</span>
-							<h4>987</h4>
+							<span>Level</span>
+							<h4>TOP</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-feather-trending-up"></i></div>
 					</div>
@@ -79,29 +79,29 @@
 					<div class="fun-fact" data-fun-fact-color="#36bd78">
 						<div class="fun-fact-text">
 							<span>Services Created</span>
-							<h4>22</h4>
+							<h4>{{services_created}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-gavel"></i></div>
 					</div>
 					<div class="fun-fact" data-fun-fact-color="#b81b7f">
 						<div class="fun-fact-text">
 							<span> Services Ordered</span>
-							<h4>4</h4>
+							<h4>{{services_ordered}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-business-center"></i></div>
 					</div>
 					<div class="fun-fact" data-fun-fact-color="#efa80f">
 						<div class="fun-fact-text">
 							<span>Total Bidders</span>
-							<h4>28</h4>
+							<h4>{{total_bidders}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-rate-review"></i></div>
 					</div>
 					<!-- Last one has to be hidden below 1600px, sorry :( -->
 					<div class="fun-fact" data-fun-fact-color="#2a41e6">
 						<div class="fun-fact-text">
-							<span>This Month Views</span>
-							<h4>987</h4>
+							<span>Level</span>
+							<h4>TOP</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-feather-trending-up"></i></div>
 					</div>
@@ -178,29 +178,29 @@
 						</ul>
 					</nav>
 				</div>
-		
+						
 				<!-- Fun Facts Container -->
 				<div class="fun-facts-container">
 					<div class="fun-fact" data-fun-fact-color="#36bd78">
 						<div class="fun-fact-text">
-							<span>Total Tasks posted</span>
-							<h4>22</h4>
+							<span>Active Orders</span>
+							<h4>{{active_tasks}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-gavel"></i></div>
 					</div>
 
 					<div class="fun-fact" data-fun-fact-color="#b81b7f">
 						<div class="fun-fact-text">
-							<span> Freelancers reviewed </span>
-							<h4>4</h4>
+							<span> Services Reviewed </span>
+							<h4>{{freelancers_reviewed}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-business-center"></i></div>
 					</div>
 					
 					<div class="fun-fact" data-fun-fact-color="#efa80f">
 						<div class="fun-fact-text">
-							<span>Total reviews given out</span>
-							<h4>28</h4>
+							<span>Tasks Posted</span>
+							<h4>{{tasks_posted}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-material-outline-rate-review"></i></div>
 					</div>
@@ -208,50 +208,49 @@
 					<!-- Last one has to be hidden below 1600px, sorry :( -->
 					<div class="fun-fact" data-fun-fact-color="#2a41e6">
 						<div class="fun-fact-text">
-							<span>This Month Views</span>
-							<h4>987</h4>
+							<span>Total Reviews Out</span>
+							<h4>{{total_reviewed}}</h4>
 						</div>
 						<div class="fun-fact-icon"><i class="icon-feather-trending-up"></i></div>
 					</div>
 				</div>
 
-				<br><hr style = "background-color:bisque; border-radius: 2px;"><br>
+				<br><hr style = "background-color:bisque; border-radius: 2px;">
 
-				<!-- Fun Facts Container continued -->
-				<div class="fun-facts-container">
-					<div class="fun-fact" data-fun-fact-color="#36bd78">
-						<div class="fun-fact-text">
-							<span>Active Tasks</span>
-							<h4>22</h4>
+				<!-- Row -->
+				<div class="row">
+
+					<!-- Dashboard Box -->
+					<div class="col-xl-12">
+						<div class="dashboard-box">
+							<div class="headline">
+								<h3><i class="icon-material-outline-assignment"></i> Active Orders </h3>
+							</div>
+							<div class="content">
+								<ul class="dashboard-box-list">
+									{% for order in orders %}
+									<li>
+										<div class="invoice-list-item">
+										<strong> {{order.service_ordered.plan.plan_name}} plan </strong>
+											<ul>
+												<li><span class="paid">{{order.status}}</span></li>
+												<li>Order: #{{order.id}}</li>
+												<li>Date: {{order.date_ordered}}</li>
+											</ul>
+										</div>
+										<!-- Buttons -->
+										<!-- <div class="buttons-to-right">
+											<a href="pages-checkout-page.html" class="button">Finish Payment</a>
+										</div> -->
+									</li>
+									{% endfor %}
+								</ul>
+							</div>
 						</div>
-						<div class="fun-fact-icon"><i class="icon-material-outline-rate-review"></i></div>
 					</div>
 
-					<div class="fun-fact" data-fun-fact-color="#b81b7f">
-						<div class="fun-fact-text">
-							<span> Active charge </span>
-							<h4>4</h4>
-						</div>
-						<div class="fun-fact-icon"><i class="icon-material-outline-gavel"></i></div>
-					</div>
-					
-					<div class="fun-fact" data-fun-fact-color="#efa80f">
-						<div class="fun-fact-text">
-							<span>Total amount paid out</span>
-							<h4>28</h4>
-						</div>
-						<div class="fun-fact-icon"><i class="icon-feather-trending-up"></i></div>
-					</div>
-
-					<!-- Last one has to be hidden below 1600px, sorry :( -->
-					<div class="fun-fact" data-fun-fact-color="#2a41e6">
-						<div class="fun-fact-text">
-							<span>This Month Views</span>
-							<h4>987</h4>
-						</div>
-						<div class="fun-fact-icon"><i class="icon-feather-trending-up"></i></div>
-					</div>
 				</div>
+				<!-- Row / End -->
 		
 				{% include 'user_templates/footer_dashboard.html'%}
 

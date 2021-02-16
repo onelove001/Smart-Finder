@@ -260,13 +260,23 @@ def user_profile(request):
         buyer = Buyer.objects.get(admin = user.id)
         requestsssss = Requests.objects.all().count()
         reply_notifications = Reply_notifications.objects.filter(user = user)
+        orders = Order.objects.filter(user_order=user, status="paid")
         notifications = Reply_notifications.objects.filter(user = user).count()
+        tasks_posted = Requests.objects.filter(poster = user).count()
+        freelancers_reviewed = Reviews.objects.filter(user_id = user).count()
+        total_reviewed = Reviews.objects.filter(user_id = user).count()
+        active_tasks = Order.objects.filter(user_order = user, status = "paid").count()
+
 
         context = {
             "buyer":buyer, 
             "requestsssss":requestsssss,
             "reply_notifications":reply_notifications,
             "notifications":notifications,
+            "freelancers_reviewed":freelancers_reviewed,
+            "total_reviewed":total_reviewed,
+            "active_tasks":active_tasks,
+            "tasks_posted":tasks_posted,
         }
 
     if request.user.account_type == '3':
@@ -276,7 +286,11 @@ def user_profile(request):
         reviews = Reviews.objects.filter(seller_id = seller.id).count()
         service = Service.objects.filter(owner = seller.id)
         requestsssss = Requests.objects.all().count()
-        orders = Order.objects.filter(seller_id = seller, status = "ordered")
+        orders = Order.objects.filter(seller_id = seller, status = "paid")
+        services_ordered = Order.objects.filter(user_order = user).count()
+        active_tasks = Order.objects.filter(seller_id = seller, status = "paid").count()
+        done_tasks = Order.objects.filter(seller_id = seller, status = "delivered").count()
+        services_created = Service.objects.filter(owner = seller.id).count()
         reply_notifications = Reply_notifications.objects.filter(user = user)
         notifications = Reply_notifications.objects.filter(user = user).count()
         order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
@@ -304,6 +318,10 @@ def user_profile(request):
             "notificationsss":notificationsss,
             "review_notifications":review_notifications,
             "notifications3":notifications3,
+            "active_tasks":active_tasks,
+            "done_tasks":done_tasks,
+            "services_created":services_created,
+            "services_ordered":services_ordered
         }
 
     return render(request, "user_templates/dashboard.html", context)
@@ -1003,8 +1021,8 @@ def active_orders(request):
     user = request.user.id
     seller = Seller.objects.get(admin = user)
     reviews = Reviews.objects.filter(seller_id = seller.id).count()
-    orders = Order.objects.filter(seller_id=seller, status="ordered")
-    orderss = Order.objects.filter(seller_id=seller, status="ordered").count()
+    orders = Order.objects.filter(seller_id=seller, status="paid")
+    orderss = Order.objects.filter(seller_id=seller, status="paid").count()
     requestsssss = Requests.objects.all().count()
     userr = request.user
     reply_notifications = Reply_notifications.objects.filter(user = user)
