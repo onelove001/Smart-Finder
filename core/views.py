@@ -121,5 +121,12 @@ def search_result(request, search_id):
     p = request.GET.get("page")
     pages = paginate.get_page(p)
 
-    return render(request, "core_templates/search_result.html", {"services":services, "serv":serv, "freelancers":freelancers, "pages":pages})
+    context = {
+        "services":services, 
+        "serv":serv, 
+        "freelancers":freelancers, 
+        "pages":pages
+    }
+
+    return render(request, "core_templates/search_result.html", context)
     

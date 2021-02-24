@@ -1,0 +1,163 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+    Messages
+{% endblock app_title %}
+
+
+{% block content %}
+
+{% if request.user.account_type == '3'%}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+		{% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
+
+		<!-- Dashboard Content
+		================================================== -->
+		<div class="dashboard-content-container" data-simplebar>
+			<div class="dashboard-content-inner" >
+				
+				<!-- Dashboard Headline -->
+			<div class="dashboard-headline">
+				<h3>Messages</h3>
+
+				<!-- Breadcrumbs -->
+				<nav id="breadcrumbs" class="dark">
+					<ul>
+						<li><a href="{% url 'smart_home' %}">Home</a></li>
+						<li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+						<li>Messages</li>
+					</ul>
+				</nav>
+			</div>
+	
+				<div class="messages-container margin-top-0">
+					<!-- <div class="messages-container-inner"> -->
+
+						<!-- Messages -->
+						<div class="messages-inbox">
+							<div class="messages-headline">
+								<div class="input-with-icon">
+										<input id="autocomplete-input" type="text" placeholder="Search">
+									<i class="icon-material-outline-search"></i>
+								</div>
+							</div>
+
+							<ul>
+                                {% for user in users %}
+								<li>
+									<a href="{% url 'thread' user.username %}">
+                                        {% if user.account_type == '2' %}
+										    <div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.buyer.image}}" alt="" /></div>
+                                        {% elif user.account_type == '3' %}
+										    <div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.seller.image}}" alt="" /></div>
+                                        {% endif %}
+										<div class="message-by">
+											<div class="message-by-headline">
+												<h5>{{user.username}}</h5>
+												<p> {{user.get_last_message}} </p>
+												<span>{{user.timestamp2|timesince}}</span>
+											</div>
+										</div>
+									</a>
+								</li>
+                                {% endfor %}
+							</ul>
+						</div>
+						<!-- Messages / End -->
+					<!-- </div> -->
+				</div>
+			<!-- Messages Container / End -->
+
+
+				{% include 'user_templates/footer_dashboard.html'%}
+
+			</div>
+		</div>
+		<!-- Dashboard Content / End -->
+
+	</div>
+	<!-- Dashboard Container / End -->
+
+
+{% elif request.user.account_type == '2' %}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+		{% include 'user_templates/buyer_sidebar.html' with reviews=reviews %}
+
+		<!-- Dashboard Content
+		================================================== -->
+		<div class="dashboard-content-container" data-simplebar>
+			<div class="dashboard-content-inner" >
+				
+				<!-- Dashboard Headline -->
+				<div class="dashboard-headline">
+					<h3>Messages</h3>
+
+					<!-- Breadcrumbs -->
+					<nav id="breadcrumbs" class="dark">
+						<ul>
+							<li><a href="{% url 'smart_home' %}">Home</a></li>
+							<li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+							<li>Messages</li>
+						</ul>
+					</nav>
+				</div>
+		
+				<div class="messages-container margin-top-0">
+					<!-- Messages -->
+					<div class="messages-inbox">
+						<div class="messages-headline">
+							<div class="input-with-icon">
+									<input id="autocomplete-input" type="text" placeholder="Search">
+								<i class="icon-material-outline-search"></i>
+							</div>
+						</div>
+
+						<ul>
+							{% for user in users %}
+							<li>
+								<a href="{% url 'thread' user.username %}">
+									<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.seller.image}}" alt="" /></div>
+									<div class="message-by">
+										<div class="message-by-headline">
+											<h5>{{user.username}}</h5>
+											<p> {{user.get_last_message}} </p>
+											<span>{{user.timestamp2|timesince}} ago</span>
+										</div>
+									</div>
+								</a>
+							</li>
+							{% endfor %}							
+						</ul>
+					</div>
+					<!-- Messages / End -->
+				</div>
+				<!-- Messages Container / End -->
+
+				{% include 'user_templates/footer_dashboard.html'%}
+
+			</div>
+		</div>
+		<!-- Dashboard Content / End -->
+
+	</div>
+	<!-- Dashboard Container / End -->
+
+{% endif %}
+
+
+{% endblock content %}
+
+{% block custom_js %}
+
+    <!-- Chart.js // documentation: http://www.chartjs.org/docs/latest/ -->
+    <script src="{% static 'js2/chart.min.js' %}"></script>
+
+
+{% endblock custom_js %}

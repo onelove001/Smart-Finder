@@ -10,7 +10,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
     def process_view(self, request, view_func, *view_args, **view_kwargs):
 
         module_name = view_func.__module__
-        # print(module_name)
+        print(module_name)
         user = request.user
         if user.is_authenticated:
             
@@ -26,7 +26,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
             elif user.account_type == "2":
                 if module_name == "core.user_views":
                     pass
-                elif module_name == "core.views" or module_name == "django.views.static":
+                elif module_name == "core.views" or module_name == "django.views.static" or module_name == "chat.views":
                     pass
                 else:
                     return HttpResponseRedirect(reverse("smart_home"))
@@ -35,7 +35,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
             elif user.account_type == "3":
                 if module_name == "core.user_views":
                     pass
-                elif module_name == "core.views" or module_name == "django.views.static":
+                elif module_name == "core.views" or module_name == "django.views.static" or module_name == "chat.views":
                     pass
                 else:
                     return HttpResponseRedirect(reverse("smart_home"))

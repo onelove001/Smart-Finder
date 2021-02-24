@@ -1,6 +1,15 @@
 from django.contrib import admin
-from chat.models import *
 
 
+from .models import Thread, ChatMessage
 
-admin.site.register(Message)
+class ChatMessage(admin.TabularInline):
+    model = ChatMessage
+
+class ThreadAdmin(admin.ModelAdmin):
+    inlines = [ChatMessage]
+    class Meta:
+        model = Thread 
+
+
+admin.site.register(Thread, ThreadAdmin)

@@ -16,7 +16,7 @@ Including another URLconf
 
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from core.views import *
@@ -123,12 +123,11 @@ urlpatterns = [
 
 
     # =================/ Chat Urls /=============== #
-    # path('chat', chat_index, name = "chat_index"),
-    path('chat/<str:room_name>', room, name = "room_index"),
+    # path('messages', InboxView.as_view(), name = "inbox_messages"),
+    path('messages', messages_view, name = "messages_view"),
+    re_path(r"^messages/(?P<username>[\w.@+-]+)", ThreadView.as_view(), name = "thread"),
     
 ]
-
-
 
 
 urlpatterns+=static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

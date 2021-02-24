@@ -1,18 +1,85 @@
 from django.db import models
-from core.models import customUser
+from django.urls import reverse
+from django.conf import settings
+from django.db import models
+from django.db.models import Q
 from django.utils import timezone
+from core.models import customUser
 
 
+class ThreadManager(models.Manager):
 
-class Message(models.Model):
-    sender = models.ForeignKey(customUser, on_delete = models.CASCADE, related_name = 'sender', null = True)
-    receiver = models.ForeignKey(customUser, on_delete = models.CASCADE, related_name = 'receiver', null = True)
-    content = models.TextField()
-    time_stamp = models.DateTimeField(default = timezone.now)
+    def get_all_users(self, sender):
+        qs = customUser.objects.all().exclude(username = sender or username == "admin")
+        return qs
+
+    def by_user(self, user):
+        qlookup = Q(first=user) | Q(second=user)
+        qlookup2 = Q(first=user) & Q(second=user)
+        qs = self.get_queryset().filter(qlookup).exclude(qlookup2).distinct()
+        return qs
+
+    def get_or_new(self, user, other_username): # get_or_create
+        username = user.username
+        if username == other_username:
+            return None
+        qlookup1 = Q(first__username=username) & Q(second__username=other_username)
+        qlookup2 = Q(first__username=other_username) & Q(second__username=username)
+        qs = self.get_queryset().filter(qlookup1 | qlookup2).distinct()
+        if qs.count() == 1:
+            return qs.first(), False
+        elif qs.count() > 1:
+            return qs.order_by('timestamp').first(), False
+        else:
+            Klass = user.__class__
+            user2 = Klass.objects.get(username=other_username)
+            if user != user2:
+                obj = self.model(
+                        first=user, 
+                        second=user2
+                    )
+                obj.save()
+                return obj, True
+            return None, False
+
+
+class Profile(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profileuser')
+
+
+class Thread(models.Model):
+    first        = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_thread_first')
+    second       = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_thread_second')
+    updated      = models.DateTimeField(auto_now=True)
+    timestamp    = models.DateTimeField(auto_now_add=True)
+    timestamp2 = models.DateTimeField(default=timezone.now)
+    
+    objects      = ThreadManager()
+
+    @property
+    def room_group_name(self):
+        return f'chat_{self.id}'
+
+    def get_last_message(self):
+        messages = []
+        for chat in self.chatmessage_set.all():
+            messages.append(chat.message)
+        return messages[-1:]
+
+
+    def broadcast(self, msg=None):
+        if msg is not None:
+            broadcast_msg_to_chat(msg, group_name=self.room_group_name, user='admin')
+            return True
+        return False
+
+
+class ChatMessage(models.Model):
+    thread      = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.SET_NULL)
+    user        = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='sender', on_delete=models.CASCADE)
+    message     = models.TextField()
+    timestamp   = models.DateTimeField(auto_now_add=True)
+    timestamp2 = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return f"{self.sender.username} messaged {self.receiver.username}"
-   
-    def get_last_10_messages(self):
-        pass
-        # return self.messages.objects.order_by('-time_stamp').all()[:10]
+        return f"{self.user} and {self.thread.second.username}"

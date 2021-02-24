@@ -23,9 +23,11 @@
 							<ul>
 								<li><div class="star-rating" data-rating="5.0"></div></li>
 								<li><img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="">Nigeria</li>
-								<li><a href="#"><i class="icon-feather-mail"></i> Contact Me Now! </a></li>							
-                                {% if seller.verified == 'yes' %}
-                                <li><div class="verified-badge-with-title">Verified</div></li>
+								{% if request.user.username != seller.admin.username %}
+									<li><a href="{% url 'thread' seller.admin.username %}"><i class="icon-feather-mail"></i> Contact Me Now! </a></li>							
+                                {% endif %}
+								{% if seller.verified == 'yes' %}
+                                	<li><div class="verified-badge-with-title">Verified</div></li>
                                 {% endif %}
 							</ul>
 						</div>
@@ -221,8 +223,6 @@
 <!-- Spacer -->
 <div class="margin-top-15"></div>
 <!-- Spacer / End-->
-
-
 
 
 {% include 'user_templates/footer2.html' %}

@@ -20,6 +20,7 @@ AUTH_USER_MODEL = "core.customUser"
 
 INSTALLED_APPS = [
     'channels',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,7 +62,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Smart_FP.wsgi.application'
-ASGI_APPLICATION = 'Smart_FP.asgi.application'
+ASGI_APPLICATION = 'Smart_FP.routing.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -139,6 +140,9 @@ import dj_database_url
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
+
 # settings.py
 PUBLISHABLE_KEY = 'pk_test_51H0QmNJolXyKKiXl53mfCAphD1Scokwec006RHVX64lFGiuZtghUv7Kmw4FcT5YDn8zBupOPc4xBsky3CeIlIBEG00hzr8VWdG'
 SECRET_KEY = 'sk_test_51H0QmNJolXyKKiXlO2YxmMYmTPQWNAOAgJNNEnHX41tzCoFVHStwk6oHCcMgvvpkfnznrENRl8J8EQ9AtZhvZ0t100pziVKEyu'
+
+CRISPY_TEMPLATE_PACK = "uni_form"

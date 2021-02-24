@@ -22,7 +22,7 @@
 							<h3>{{buyer.admin.username}} <span>{{buyer.short_name}} </span></h3>
 							<ul>
 								<li><img class="flag" src="{% static 'images2/flags/nigerflag.jpeg' %}" alt="">Nigeria</li>
-								<li><a href="#"><i class="icon-feather-mail"></i> Send Message! </a></li>							
+								<li><a href="{% url 'thread' buyer.admin.username %}"><i class="icon-feather-mail"></i> Send Message! </a></li>							
                                 <li><div class="verified-badge-with-title">Verified</div></li>
 							</ul>
 						</div>
@@ -76,8 +76,6 @@
 <!-- Spacer -->
 <div class="margin-top-15"></div>
 <!-- Spacer / End-->
-
-
 
 
 {% include 'user_templates/footer2.html' %}

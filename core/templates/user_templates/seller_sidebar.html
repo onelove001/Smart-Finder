@@ -23,7 +23,7 @@
                         <ul data-submenu-title="Start">
                             {% url 'user_profile' as user_profile %}
                             <li class="{% if request.path == user_profile %} active {% endif %}"><a href="{{ user_profile }}"><i class="icon-material-outline-dashboard"></i>Dashboard</a></li>
-                            <li><a href="#"><i class="icon-material-outline-question-answer"></i>Messages<span class="nav-tag">2</span></a></li>
+                            <li><a href="{% url 'messages_view' %}"><i class="icon-material-outline-question-answer"></i>Messages</a></li>
                             {% if request.user.account_type == '3' %}
                             {% url 'seller_reviews' as seller_reviews %}
                             {% url 'create_service_service' as create_service_ %}
