@@ -125,7 +125,7 @@ urlpatterns = [
     # =================/ Chat Urls /=============== #
     # path('messages', InboxView.as_view(), name = "inbox_messages"),
     path('messages', messages_view, name = "messages_view"),
-    re_path(r"^messages/(?P<username>[\w.@+-]+)", ThreadView.as_view(), name = "thread"),
+    re_path(r"^messages/(?P<username>[\w.@+-]+)/", ThreadView.as_view(), name = "thread"),
     
 ]
 

@@ -69,10 +69,10 @@
 										{% elif request.user != chat.user %}
 										<div class="message-bubble">
 											<div class="message-bubble-inner">
-												{% if chat.thread.second.account_type == '2' %}
-													<div class="message-avatar"><img src="{{chat.thread.second.buyer.image}}" alt="" /> </div>
+												{% if chat.user.account_type == '2' %}
+													<div class="message-avatar"><img src="{{chat.user.buyer.image}}" alt="" /> </div>
 												{% elif chat.thread.second.account_type == '3' %}
-													<div class="message-avatar"><img src="{{chat.thread.second.seller.image}}" alt="" /> </div>
+													<div class="message-avatar"><img src="{{chat.user.seller.image}}" alt="" /> </div>
 												{% endif %}
 												<div class="message-text"> <li> <p> {{chat.message}}  </p> </li> - <span>{{chat.timestamp2|timesince}} ago</span></div>
 											</div>
@@ -81,21 +81,6 @@
 										{% endif %}
 									{% endfor %}
 								</ul>
-
-								<!-- <div class="message-bubble">
-									<div class="message-bubble-inner">
-										<div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-										<div class="message-text">
-											Typing Indicator
-											<div class="typing-indicator">
-												<span></span>
-												<span></span>
-												<span></span>
-											</div>
-										</div>
-									</div>
-									<div class="clearfix"></div>
-								</div> -->
 							</div>
 							<!-- Message Content Inner / End -->
 							
@@ -109,18 +94,13 @@
 												{{form|crispy}}
 											</div>
 											<div class="col-2 mt-3">
-												<button type="submit" class="mt-4 button ripple-effect">Send</button>
+												<button type="submit" class="mt-4 button ripple-effect rounded-circle" style = "margin-left:5px;">Reply</button>
 											</div>
 										</div>
 									</form>
 								
 								</div>
 							</div>
-	
-							<!-- <div class="message-reply">
-								<textarea cols="1" rows="1" placeholder="Your Message" data-autoresize></textarea>
-								<button class="button ripple-effect">Send</button>
-							</div> -->
 
 						</div>
 						<!-- Message Content -->
@@ -200,7 +180,7 @@
 									{% elif request.user != chat.user %}
 										<div class="message-bubble">
 											<div class="message-bubble-inner">
-												<div class="message-avatar"><img src="{{chat.thread.second.seller.image}}" alt="" /> </div>
+												<div class="message-avatar"><img src="{{chat.user.seller.image}}" alt="" /> </div>
 												<div class="message-text"> <li> <p> {{chat.message}}  </p> </li> - <span>{{chat.timestamp2|timesince}} ago</span></div>
 											</div>
 											<div class="clearfix"></div>
@@ -208,21 +188,6 @@
 									{% endif %}
 								{% endfor %}
 							</ul>
-
-							<!-- <div class="message-bubble">
-								<div class="message-bubble-inner">
-									<div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-									<div class="message-text">
-										Typing Indicator
-										<div class="typing-indicator">
-											<span></span>
-											<span></span>
-											<span></span>
-										</div>
-									</div>
-								</div>
-								<div class="clearfix"></div>
-							</div> -->
 						</div>
 						<!-- Message Content Inner / End -->
 						
@@ -236,7 +201,7 @@
 											{{form|crispy}}
 										</div>
 										<div class="col-2 mt-3">
-											<button type="submit" class="mt-4 button ripple-effect"> &nbsp; Send &nbsp;</button>
+											<button type="submit" class="mt-4 button ripple-effect rounded-circle" style = "margin-left:5px;">Reply</button>
 										</div>
 									</div>
 								</form>
@@ -245,18 +210,15 @@
 
 					</div>
 					<!-- Message Content -->
-
 				</div>
 			</div>
 			<!-- Messages Container / End -->
-
 
 				{% include 'user_templates/footer_dashboard.html'%}
 
 			</div>
 		</div>
 		<!-- Dashboard Content / End -->
-
 	</div>
 	<!-- Dashboard Container / End -->
 
@@ -280,18 +242,19 @@
     var chatHolder = $("#chat-items")
     var me = $("#myUsername").val()
 
-    var wsStart = 'wss://'
+    var wsStart = 'ws://'
     if (loc.protocol == 'https:'){
         wsStart = 'wss://'
     }
 
     var endpoint = wsStart + loc.host + loc.pathname
     var socket = new WebSocket(endpoint)
-	
+
     socket.onmessage= function(e){
         console.log("message", e)
         var chatDataMsg = JSON.parse(e.data)
         chatHolder.append("<li>" + chatDataMsg.message + " via " + chatDataMsg.username + "</li>")
+        // chatHolder.append("<li>" + e.data + "</li>")
         
     }
 
@@ -300,11 +263,9 @@
         formData.submit(function(event){
             event.preventDefault()
             var msgText = msgInput.val()
-            
             var finalData = {
                 "message":msgText
             }
-
             socket.send(JSON.stringify(finalData))
             formData[0].reset()
         })
@@ -320,6 +281,5 @@
 
 
 </script>
-
 
 {% endblock custom_js %}

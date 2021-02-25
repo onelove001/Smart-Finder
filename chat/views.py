@@ -20,7 +20,8 @@ def messages_view(request):
     userrr = request.user.username
     userr = request.user
     users = Thread.objects.get_all_users(userrr)
-    print("users", users) 
+    print("users", users)
+    requestsssss = Requests.objects.all().count() 
     reply_notifications = Reply_notifications.objects.filter(user = user)
     notifications = Reply_notifications.objects.filter(user = user).count()
 
@@ -51,6 +52,7 @@ def messages_view(request):
         usersss = customUser.objects.filter(account_type = '3')
         context = {
             "users":usersss,
+            "requestsssss":requestsssss,
             "reply_notifications":reply_notifications,
             "notifications":notifications,
         }
@@ -84,6 +86,43 @@ class ThreadView(LoginRequiredMixin, FormMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # user = self.request.user.id
+        # userr = self.request.user
+        # reply_notifications = Reply_notifications.objects.filter(user = user)
+        # notifications = Reply_notifications.objects.filter(user = user).count()
+        # requestsssss = Requests.objects.all().count()
+
+        # if self.request.user.account_type == "3":
+        #     seller = Seller.objects.get(admin = user)
+        #     reviews = Reviews.objects.filter(seller_id = seller.id).count()
+        #     order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+        #     notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+        #     review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+        #     notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+        #     notificationsss = notifications + notifications2 + notifications3
+
+        #     context = {
+        #         # "form":self.get_form(),
+        #         "requestsssss":requestsssss,
+        #         "reply_notifications":reply_notifications,
+        #         "notifications":notifications,
+        #         "order_notifications":order_notifications,
+        #         "notifications2":notifications2,
+        #         "notificationsss":notificationsss,
+        #         "review_notifications":review_notifications,
+        #         "notifications3":notifications3,
+        #         "reviews":reviews,
+        #     }
+
+        # else:
+        #     context = {
+        #         # "form":self.get_form(),
+        #         "requestsssss":requestsssss,
+        #         "reply_notifications":reply_notifications,
+        #         "notifications":notifications,
+                
+        #     }
+
         context['form'] = self.get_form()
         return context
 

@@ -56,6 +56,9 @@ class Thread(models.Model):
     
     objects      = ThreadManager()
 
+    def __str__(self):
+        return f"{self.first.username} to {self.second.username}"
+
     @property
     def room_group_name(self):
         return f'chat_{self.id}'
@@ -82,4 +85,4 @@ class ChatMessage(models.Model):
     timestamp2 = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return f"{self.user} and {self.thread.second.username}"
+        return f"{self.user} to {self.thread.second.username}"

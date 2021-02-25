@@ -10,7 +10,7 @@ class LoginCheckMiddleWare(MiddlewareMixin):
     def process_view(self, request, view_func, *view_args, **view_kwargs):
 
         module_name = view_func.__module__
-        print(module_name)
+        # print(module_name)
         user = request.user
         if user.is_authenticated:
             

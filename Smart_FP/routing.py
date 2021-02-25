@@ -3,7 +3,7 @@ from django.conf.urls import url
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator, OriginValidator
-from chat.consumers import chatConsumer
+from chat.consumers import ChatConsumer
 
 
 application = ProtocolTypeRouter({
@@ -11,7 +11,7 @@ application = ProtocolTypeRouter({
         AuthMiddlewareStack(
             URLRouter(
                 [
-                    url(r"^messages/(?P<username>[\w.@+-]+$", chatConsumer)
+                    url(r"^messages/(?P<username>[\w.@+-]+)/", ChatConsumer.as_asgi()),
                 ]
             )
         )
