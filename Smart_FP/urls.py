@@ -119,7 +119,12 @@ urlpatterns = [
     path('news_letter_save', news_letter_save, name = 'news_letter_save'),
     path('wallet', wallet, name = 'wallet'),
     path('blog', blog, name = 'blog'),
+    path('save_skills', save_skills, name = 'save_skills'),
+    path('add_skills', add_skills, name = 'add_skills'),
+    path('add_skills_service', add_skills_service, name = 'add_skills_service'),
+    path('save_skills_service', save_skills_service, name = 'save_skills_service'),
     
+
 
 
     # =================/ Chat Urls /=============== #

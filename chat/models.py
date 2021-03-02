@@ -5,12 +5,16 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 from core.models import customUser
+from chat.timesin import calcEpochSec, timesince
+import datetime
+
+
 
 
 class ThreadManager(models.Manager):
 
     def get_all_users(self, sender):
-        qs = customUser.objects.all().exclude(username = sender or username == "admin")
+        qs = customUser.objects.all().exclude(username = sender)
         return qs
 
     def by_user(self, user):
@@ -19,7 +23,7 @@ class ThreadManager(models.Manager):
         qs = self.get_queryset().filter(qlookup).exclude(qlookup2).distinct()
         return qs
 
-    def get_or_new(self, user, other_username): # get_or_create
+    def get_or_new(self, user, other_username): #get_or_create
         username = user.username
         if username == other_username:
             return None
@@ -52,7 +56,7 @@ class Thread(models.Model):
     second       = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_thread_second')
     updated      = models.DateTimeField(auto_now=True)
     timestamp    = models.DateTimeField(auto_now_add=True)
-    timestamp2 = models.DateTimeField(default=timezone.now)
+    timestamp2   = models.DateTimeField(default=timezone.now)
     
     objects      = ThreadManager()
 
@@ -67,7 +71,23 @@ class Thread(models.Model):
         messages = []
         for chat in self.chatmessage_set.all():
             messages.append(chat.message)
-        return messages[-1:]
+        return str(messages[-1:]).strip("['']")
+
+    def get_time_message(self):
+        time = []
+        for chat in self.chatmessage_set.all():
+            t = (calcEpochSec(datetime.datetime.now()) - calcEpochSec(chat.timestamp2))
+            if t < 3600:
+                a = int(t/60)
+                z = (str(a) + " minutes ago").strip("-")
+                time.append(z)
+
+            elif t > 3600:
+                a = int(t/60/60)
+                z = (str(a) + " hours ago").strip("-")
+                time.append(z)
+
+        return str(time[-1:]).strip("['']")
 
 
     def broadcast(self, msg=None):
@@ -84,5 +104,4 @@ class ChatMessage(models.Model):
     timestamp   = models.DateTimeField(auto_now_add=True)
     timestamp2 = models.DateTimeField(default = timezone.now)
 
-    def __str__(self):
-        return f"{self.user} to {self.thread.second.username}"
+    

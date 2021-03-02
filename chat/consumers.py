@@ -4,15 +4,14 @@ from django.contrib.auth import get_user_model
 from channels.db import database_sync_to_async
 from .models import *
 from channels.consumer import AsyncConsumer
+from asgiref.sync import async_to_sync
 
 
 class ChatConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
-        print("connected", event)
         other_user = self.scope['url_route']['kwargs']['username']
         me = self.scope['user']
         thread_obj = await self.get_thread(me, other_user)
-        print(me, thread_obj.id)
         self.thread_obj = thread_obj
         chat_room = f"thread_{thread_obj.id}"
         self.chat_room = chat_room
@@ -26,7 +25,6 @@ class ChatConsumer(AsyncConsumer):
 
 
     async def websocket_receive(self, event):
-        print("received", event)
         front_text = event.get("text", None)
         if front_text is not None:
             load_dict_data = json.loads(str(front_text))
@@ -61,13 +59,12 @@ class ChatConsumer(AsyncConsumer):
         })
 
     async def websocket_discoonect(self, event):
-        print("disconnect", event)
+        # print("disconnect", event)
         async_to_sync(self.channel_layer.group_discard)(
             self.chat_room,
             self.channel_name
         )
         
-
 
     @database_sync_to_async
     def get_thread(self, user, other_username):

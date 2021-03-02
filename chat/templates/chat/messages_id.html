@@ -1,12 +1,11 @@
 {% extends 'user_templates/base3.html' %}
-
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block app_title %}
-    Messages
-{% endblock app_title %}
 
+{% block app_title %}
+    Message
+{% endblock app_title %}
 
 {% block content %}
 
@@ -44,7 +43,7 @@
 						<div class="message-content">
 
 							<div class="messages-headline">
-								<h4>  </h4>
+								<h4 class = "text-primary"> {{other_username}} </h4>
 								<a href="#" class="message-action"><i class="icon-feather-trash-2"></i> Delete Conversation</a>
 							</div>
 							
@@ -62,11 +61,12 @@
 										<div class="message-bubble me">
 											<div class="message-bubble-inner">
 												<div class="message-avatar"><img src="{{request.user.seller.image}}" alt="" /> </div>
-												<div class="message-text"> <li> <p> {{chat.message}} </p> </li> - <span>{{chat.timestamp2|timesince}} ago</span></div>
+												<div class="message-text"> <li> <p> {{chat.message}} </p> </li> <small class ="text-muted"> {{chat.timestamp2|timesince}} ago</small></div>
 											</div>
 											<div class="clearfix"></div>
 										</div>
 										{% elif request.user != chat.user %}
+										<input type = "hidden" value="{{chat.user.seller.image}}" id = "other_image2" />
 										<div class="message-bubble">
 											<div class="message-bubble-inner">
 												{% if chat.user.account_type == '2' %}
@@ -74,7 +74,7 @@
 												{% elif chat.thread.second.account_type == '3' %}
 													<div class="message-avatar"><img src="{{chat.user.seller.image}}" alt="" /> </div>
 												{% endif %}
-												<div class="message-text"> <li> <p> {{chat.message}}  </p> </li> - <span>{{chat.timestamp2|timesince}} ago</span></div>
+												<div class="message-text"> <li> <p> {{chat.message}}  </p> </li> <small class = "text-muted"> {{chat.timestamp2|timesince}} ago </small></div>
 											</div>
 											<div class="clearfix"></div>
 										</div>
@@ -98,7 +98,6 @@
 											</div>
 										</div>
 									</form>
-								
 								</div>
 							</div>
 
@@ -147,14 +146,24 @@
 			</div>
 	
 			<div class="messages-container margin-top-0">
+				{% if empty == 1 %}
+				<div class="messages-container-inner">
+					<!-- Message Content -->
+					<div class="message-content">
 
+						<div class="messages-headline">
+							<h4 class = "text-danger text-center"> Please Update Your Profile Picture In | Settings | </h4>
+						</div>
+					</div>
+				</div>
+				{% else %}
 				<div class="messages-container-inner">
 
 					<!-- Message Content -->
 					<div class="message-content">
 
 						<div class="messages-headline">
-							<h4>  </h4>
+							<h4 class = "text-primary"> {{other_username}} </h4>
 							<a href="#" class="message-action"><i class="icon-feather-trash-2"></i> Delete Conversation</a>
 						</div>
 						
@@ -172,16 +181,17 @@
 									<div class="message-bubble me">
 										<div class="message-bubble-inner">
 											<div class="message-avatar"><img src="{{request.user.buyer.image}}" alt="" /> </div>
-											<div class="message-text"> <li> <p> {{chat.message}} </p> </li> - <span>{{chat.timestamp2|timesince}} ago</span></div>
+											<div class="message-text"> <li> <p> {{chat.message}} </p> </li> <small class = "text-muted">{{chat.timestamp2|timesince}} ago</small></div>
 										</div>
 										<div class="clearfix"></div>
 									</div>
 							
 									{% elif request.user != chat.user %}
+										<input type = "hidden" value="{{chat.user.seller.image}}" id = "other_image1" />
 										<div class="message-bubble">
 											<div class="message-bubble-inner">
-												<div class="message-avatar"><img src="{{chat.user.seller.image}}" alt="" /> </div>
-												<div class="message-text"> <li> <p> {{chat.message}}  </p> </li> - <span>{{chat.timestamp2|timesince}} ago</span></div>
+												<div class="message-avatar"><img src="{{chat.user.seller.image}}" alt=""/> </div>
+												<div class="message-text"> <li> <p> {{chat.message}}  </p> </li> <small class = "text-muted">{{chat.timestamp2|timesince}} ago</small></div>
 											</div>
 											<div class="clearfix"></div>
 										</div>
@@ -211,6 +221,8 @@
 					</div>
 					<!-- Message Content -->
 				</div>
+				{% endif %}
+				
 			</div>
 			<!-- Messages Container / End -->
 
@@ -224,23 +236,20 @@
 
 {% endif %}
 
-
 {% endblock content %}
 
 {% block custom_js %}
 
-    
 <script src = "{% static 'jss/reconnecting-websocket.js' %}"> </script>
 
 <script>
-    // console.log(window.location)
-    // var loc = window.location
-
     var loc = window.location
     var formData = $("#form")
     var msgInput = $("#id_message")
     var chatHolder = $("#chat-items")
     var me = $("#myUsername").val()
+	today = new Date();
+	var dd = "0 minutes ago"
 
     var wsStart = 'ws://'
     if (loc.protocol == 'https:'){
@@ -248,13 +257,23 @@
     }
 
     var endpoint = wsStart + loc.host + loc.pathname
-    var socket = new WebSocket(endpoint)
+    var socket = new ReconnectingWebSocket(endpoint)
 
     socket.onmessage= function(e){
-        console.log("message", e)
         var chatDataMsg = JSON.parse(e.data)
-        chatHolder.append("<li>" + chatDataMsg.message + " via " + chatDataMsg.username + "</li>")
-        // chatHolder.append("<li>" + e.data + "</li>")
+		if(chatDataMsg.username == me){
+
+			html_div = "<div class='message-bubble me'> <div class = 'message-bubble-inner'> <div class = 'message-avatar'> {% if request.user.account_type == '3' %} <img src = '{{request.user.seller.image}}' alt=''> {% elif request.user.account_type == '2' %} <img src = '{{request.user.buyer.image}}' alt=''> {% endif %}</div>"
+			html_div+="<div class = 'message-text'> <li> <p>" + chatDataMsg.message + "</p> </li>" + "<small class = 'text-muted'>" + dd + "</small>" + "</div> <div class = 'clearfix'> </div>"
+			html_div+="</div> </div>"
+
+		} else {
+			html_div = "<div class='message-bubble'> <div class = 'message-bubble-inner'> <div class = 'message-avatar'> <img src = '{{image_now}}' alt=''> </div>"
+			html_div+="<div class = 'message-text'> <li> <p>" + chatDataMsg.message + "</p> </li>" + "<small class = 'text-muted'>" + dd + "</small>" + "</div> <div class = 'clearfix'>  </div>"
+			html_div+="</div> </div>"
+		}
+
+        chatHolder.append(html_div)
         
     }
 

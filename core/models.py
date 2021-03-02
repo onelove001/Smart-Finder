@@ -210,6 +210,27 @@ class Service(models.Model):
 
 
 
+class Added_skills(models.Model):
+    id = models.AutoField(primary_key = True)
+    seller = models.ForeignKey(Seller, on_delete = models.CASCADE)
+    skill_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.seller.admin.username} {self.skill_name}"
+
+
+
+class Added_skills_service(models.Model):
+    id = models.AutoField(primary_key = True)
+    service = models.ForeignKey(Service, on_delete = models.CASCADE)
+    seller = models.ForeignKey(Seller, on_delete = models.CASCADE)
+    skill_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.service.title} {self.skill_name}"
+
+
+
 class star_rating(models.Model):
     id = models.AutoField(primary_key = True)
     rating_star = models.IntegerField()

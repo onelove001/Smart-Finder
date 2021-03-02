@@ -122,7 +122,7 @@
                                                         {% elif order.user_order.account_type == '2' %}
                                                         <a href="{% url 'buyer_profile' order.user_order.buyer.id %}" class=" button ripple-effect"><i class="icon-material-outline-check"></i> View Profile </a>
                                                         {% endif %}
-                                                        <a href="#" class="popup-with-zoom-anim button dark ripple-effect"><i class="icon-feather-mail"></i> Send Message </a>
+                                                        <a href="{% url 'thread' order.user_order.username %}" class="button dark ripple-effect"><i class="icon-feather-mail"></i> Chat Me Up! </a>
                                                         {% if order.status == 'ordered' %}
                                                             <a href="{% url 'reject_order' order.id %}" class="button gray ripple-effect ico" title="Reject Order" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                                         {% endif %}

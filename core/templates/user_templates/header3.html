@@ -212,9 +212,9 @@
 	
 								<div class="header-notifications-headline">
 									<h4>Messages</h4>
-									<button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
+									<!-- <button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
 										<i class="icon-feather-check-square"></i>
-									</button>
+									</button> -->
 								</div>
 	
 								<div class="header-notifications-content">
@@ -236,7 +236,7 @@
 									</div>
 								</div>
 	
-								<a href="#" class="header-notifications-button ripple-effect button-sliding-icon">View All Messages<i class="icon-material-outline-arrow-right-alt"></i></a>
+								<a href="{% url 'messages_view' %}" class="header-notifications-button ripple-effect button-sliding-icon">View All Messages<i class="icon-material-outline-arrow-right-alt"></i></a>
 							</div>
 						</div>
 	
@@ -265,12 +265,14 @@
 									<!-- User Name / Avatar -->
 									<div class="user-details">
 										{% if request.user.account_type == '2' %}
+										
 											<div class="user-avatar status-online"><img src= "{{ request.user.return_buyer_image }}" alt=""></div>
 											<div class="user-name">
 												{{request.user.username}} <span> Employer </span>
 											</div>
 
 										{% elif request.user.account_type == '3' %}
+
 											<div class="user-avatar status-online"><img src= "{{ request.user.return_seller_image }}" alt=""></div>
 											<div class="user-name">
 												{{request.user.username}} <span> Freelancer </span>

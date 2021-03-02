@@ -33,42 +33,65 @@
 					</ul>
 				</nav>
 			</div>
-	
-				<div class="messages-container margin-top-0">
-					<!-- <div class="messages-container-inner"> -->
+				<div class = "row">
+					<div class = "col-8">
+						<div class="messages-container margin-top-0">
+							<!-- <div class="messages-container-inner"> -->
 
-						<!-- Messages -->
-						<div class="messages-inbox">
-							<div class="messages-headline">
-								<div class="input-with-icon">
-										<input id="autocomplete-input" type="text" placeholder="Search">
-									<i class="icon-material-outline-search"></i>
-								</div>
-							</div>
-
-							<ul>
-                                {% for user in users %}
-								<li>
-									<a href="{% url 'thread' user.username %}">
-                                        {% if user.account_type == '2' %}
-										    <div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.buyer.image}}" alt="" /></div>
-                                        {% elif user.account_type == '3' %}
-										    <div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.seller.image}}" alt="" /></div>
-                                        {% endif %}
-										<div class="message-by">
-											<div class="message-by-headline">
-												<h5>{{user.username}}</h5>
-												<p> {{user.get_last_message}} </p>
-												<span>{{user.timestamp2|timesince}}</span>
-											</div>
+								<!-- Messages -->
+								<div class="messages-inbox">
+									<div class="messages-headline">
+										<div class="input-with-icon">
+												<input id="autocomplete-input" type="text" placeholder="Search">
+											<i class="icon-material-outline-search"></i>
 										</div>
-									</a>
-								</li>
-                                {% endfor %}
-							</ul>
+									</div>
+
+									<ul>
+										{% for user in users %}
+										{% if request.user.username == user.first.username %}
+											<li>
+												<a href="{% url 'thread' user.second.username %}">
+													{% if user.second.account_type == '2' %}
+														<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.second.buyer.image}}" alt="" /></div>
+													{% elif user.second.account_type == '3' %}
+														<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.second.seller.image}}" alt="" /></div>
+													{% endif %}
+													<div class="message-by">
+														<div class="message-by-headline">
+															<h5>{{user.second.username}}</h5>
+															<p> {{user.get_last_message}} </p>
+															<span>{{user.get_time_message}}</span>
+														</div>
+													</div>
+												</a>
+											</li>
+										{% elif request.user.username == user.second.username %}
+											<li>
+												<a href="{% url 'thread' user.first.username %}">
+													{% if user.first.account_type == '2' %}
+														<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.first.buyer.image}}" alt="" /></div>
+													{% elif user.first.account_type == '3' %}
+														<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.first.seller.image}}" alt="" /></div>
+													{% endif %}
+													<div class="message-by">
+														<div class="message-by-headline">
+															<h5>{{user.first.username}}</h5>
+															<p> {{user.get_last_message}} </p>
+															<span>{{user.get_time_message}}</span>
+														</div>
+													</div>
+												</a>
+											</li>
+										{% endif %}
+										{% endfor %}
+									</ul>
+
+								</div>
+								<!-- Messages / End -->
+							<!-- </div> -->
 						</div>
-						<!-- Messages / End -->
-					<!-- </div> -->
+					</div>
 				</div>
 			<!-- Messages Container / End -->
 
@@ -88,7 +111,7 @@
 	<!-- Dashboard Container -->
 	<div class="dashboard-container">
 
-		{% include 'user_templates/buyer_sidebar.html' with reviews=reviews %}
+		{% include 'user_templates/buyer_sidebar.html' %}
 
 		<!-- Dashboard Content
 		================================================== -->
@@ -108,35 +131,60 @@
 						</ul>
 					</nav>
 				</div>
-		
-				<div class="messages-container margin-top-0">
-					<!-- Messages -->
-					<div class="messages-inbox">
-						<div class="messages-headline">
-							<div class="input-with-icon">
-									<input id="autocomplete-input" type="text" placeholder="Search">
-								<i class="icon-material-outline-search"></i>
-							</div>
-						</div>
-
-						<ul>
-							{% for user in users %}
-							<li>
-								<a href="{% url 'thread' user.username %}">
-									<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.seller.image}}" alt="" /></div>
-									<div class="message-by">
-										<div class="message-by-headline">
-											<h5>{{user.username}}</h5>
-											<p> {{user.get_last_message}} </p>
-											<span>{{user.timestamp2|timesince}} ago</span>
-										</div>
+				<div class = "row">
+					<div class = "col-8">
+						<div class="messages-container margin-top-0">
+							<!-- Messages -->
+							<div class="messages-inbox">
+								<div class="messages-headline">
+									<div class="input-with-icon">
+											<input id="autocomplete-input" type="text" placeholder="Search">
+										<i class="icon-material-outline-search"></i>
 									</div>
-								</a>
-							</li>
-							{% endfor %}							
-						</ul>
+								</div>
+								<ul>
+									{% for user in users %}
+									{% if request.user.username == user.first.username %}
+										<li>
+											<a href="{% url 'thread' user.second.username %}">
+												{% if user.second.account_type == '2' %}
+													<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.second.buyer.image}}" alt="" /></div>
+												{% elif user.second.account_type == '3' %}
+													<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.second.seller.image}}" alt="" /></div>
+												{% endif %}
+												<div class="message-by">
+													<div class="message-by-headline">
+														<h5>{{user.second.username}}</h5>
+														<p> {{user.get_last_message}} </p>
+														<span>{{user.get_time_message}}</span>
+													</div>
+												</div>
+											</a>
+										</li>
+									{% elif request.user.username == user.second.username %}
+										<li>
+											<a href="{% url 'thread' user.first.username %}">
+												{% if user.first.account_type == '2' %}
+													<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.first.buyer.image}}" alt="" /></div>
+												{% elif user.first.account_type == '3' %}
+													<div class="message-avatar"><i class="status-icon status-online"></i><img src="{{user.first.seller.image}}" alt="" /></div>
+												{% endif %}
+												<div class="message-by">
+													<div class="message-by-headline">
+														<h5>{{user.first.username}}</h5>
+														<p> {{user.get_last_message}} </p>
+														<span>{{user.get_time_message}}</span>
+													</div>
+												</div>
+											</a>
+										</li>
+									{% endif %}
+									{% endfor %}
+								</ul>
+							</div>
+							<!-- Messages / End -->
+						</div>
 					</div>
-					<!-- Messages / End -->
 				</div>
 				<!-- Messages Container / End -->
 

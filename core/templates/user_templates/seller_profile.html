@@ -172,19 +172,14 @@
 					<div class="overview-item"><strong>{{reviewss}}</strong><span>Reviews</span></div>
 				</div>
 
-
+				<br>
 				<!-- Widget -->
 				<div class="sidebar-widget">
-					<h3>Skills</h3>
+					<h3>Added - Skills</h3>
 					<div class="task-tags">
-						<span>iOS</span>
-						<span>Android</span>
-						<span>mobile apps</span>
-						<span>design</span>
-						<span>Python</span>
-						<span>Flask</span>
-						<span>PHP</span>
-						<span>WordPress</span>
+						{% for skill in skill_names %}
+						<span> {{skill.skill_name}} </span>
+						{% endfor %}
 					</div>
 				</div>
 

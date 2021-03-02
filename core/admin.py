@@ -31,5 +31,6 @@ admin.site.register(Reply_notifications)
 admin.site.register(Order_notifications)
 admin.site.register(Review_notifications)
 admin.site.register(NewsLetter)
+admin.site.register(Added_skills)
 
 

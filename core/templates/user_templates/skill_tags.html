@@ -1,0 +1,130 @@
+{% extends 'user_templates/base3.html' %}
+{% load static %}
+
+{% block app_title %}
+    #Skills
+{% endblock app_title %}
+
+
+{% block content %}
+
+{% if request.user.account_type == "3" %}
+
+	<!-- Dashboard Container -->
+	<div class="dashboard-container">
+
+        {% include 'user_templates/seller_sidebar.html' with reviews=reviews %}
+
+
+        <!-- Dashboard Content
+        ================================================== -->
+        <div class="dashboard-content-container" data-simplebar>
+            <div class="dashboard-content-inner">
+                
+                <!-- Dashboard Headline -->
+                <div class="dashboard-headline">
+                    <h3>Skills</h3>
+
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs" class="dark">
+                        <ul>
+                            <li><a href="{% url 'smart_home' %}">Home</a></li>
+                            <li><a href="{% url 'user_profile' %}">Dashboard</a></li>
+                            <li><a href = "{% url 'update_profile_seller' %}">Settings</a></li>
+                            <li>Skills</a></li>
+                        </ul>
+                    </nav>
+                </div>
+        
+                <!-- Row -->
+                {% if skill_count >= 4 %}
+                    <div class = "row">
+                        <div class="col-xl-12">
+                            <div class="dashboard-box margin-top-0 margin-bottom-100">
+                                <div class="headline">
+                                    <h3 class="text-danger"> Sorry You Can't Add Anymore Skills </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br><br><br>
+                {% else %}
+                <form class="row" method = "POST" action = "{% url 'save_skills' %}"> 
+                {% csrf_token %}
+
+                    <!-- Dashboard Box -->
+                    <div class="col-xl-12">
+                        <div class="dashboard-box margin-top-0">
+
+                            <!-- Headline -->
+                            <div class="headline">
+                                <h3><i class="icon-material-outline-account-circle"></i>Add More Skill</h3>
+                            </div>
+
+                            <div class="content with-padding padding-bottom-0">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-xl-8">
+                                                <div class="submit-field">
+                                                    <h5>Add Skill Tag</h5>
+                                                    <small class = 'text-muted'> You can add up to four Skills</small>
+                                                    <input type="text" class="with-border" name = "skill_name" required>
+                                                    <input type = "hidden" name = "user_id" value = "{{ seller.admin.id }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class = "row">
+                        {% if messages %}
+                            <div class = "col-xl-12">
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <div class = "alert alert-danger mt-4 ml-3 text-dark" style = "width:100%;">
+                                            {{message}}
+                                        </div>
+                                    {% endif %}
+                                    {% if message.tags == 'success' %}
+                                        <div class = "alert alert-success ml-3 mt-4 text-dark" style = "width:100%;">
+                                            {{message}}
+                                        </div>
+                                    {% endif %}
+                                {%endfor %}
+                            </div>              
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Button -->
+                    <div class="col-xl-12">
+                        <button type = "submit" class="button ripple-effect big margin-top-30">Add Skill</button>
+                    </div>
+
+                </form>
+                {% endif %}
+                <!-- Row / End -->
+
+                {% include 'user_templates/footer_dashboard.html'%}
+
+            </div>
+        </div>
+        <!-- Dashboard Content / End -->
+
+	
+	</div>
+	<!-- Dashboard Container / End -->
+
+{% endif %}
+
+{% endblock content %}
+
+
+
+
+{% block custom_js %}
+
+{% endblock custom_js %}

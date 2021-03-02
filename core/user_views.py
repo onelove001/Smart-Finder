@@ -1,6 +1,7 @@
 from django.shortcuts import *
 from django.http import *
 from core.models import *
+from chat.models import *
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import FileSystemStorage
@@ -25,6 +26,7 @@ def smart_home(request):
     buyers_count = Buyer.objects.all().count()
     sellers_count = Seller.objects.all().count()
     requestsss = Requests.objects.all().count()
+        
     requestss = Requests.objects.all()
     requestsssss = Requests.objects.all().count()
     services_count = Service.objects.all().count()
@@ -78,6 +80,7 @@ def smart_home(request):
             "requestsssss":requestsssss,
             "reply_notifications":reply_notifications,
             "notifications":notifications,
+            # "message_box":message_box,
         }
 
     return render(request, 'user_templates/home_content.html', context)
@@ -736,6 +739,8 @@ def seller_profile(request, seller_id):
     requestsssss = Requests.objects.all().count()
     reply_notifications = Reply_notifications.objects.filter(user = user)
     notifications = Reply_notifications.objects.filter(user = user).count()
+    skill_names = Added_skills.objects.filter(seller = seller)
+
 
     
     paginator = Paginator(reviews, 3)
@@ -764,6 +769,7 @@ def seller_profile(request, seller_id):
             "notificationsss":notificationsss,
             "review_notifications":review_notifications,
             "notifications3":notifications3,
+            "skill_names":skill_names,
         }
     else:
         context = {
@@ -775,6 +781,7 @@ def seller_profile(request, seller_id):
             "requestsssss":requestsssss,
             "reply_notifications":reply_notifications,
             "notifications":notifications,
+            "skill_names":skill_names,
         }
     return render(request, "user_templates/seller_profile.html", context)
 
@@ -1790,6 +1797,109 @@ def wallet(request):
         "notifications3":notifications3,
     }
     return render(request, "user_templates/wallet.html", context)
+
+
+def save_skills(request):
+    if request.method == "POST":
+        user = request.POST.get("user_id")
+        skill_name = request.POST.get("skill_name")
+        seller = Seller.objects.get(admin = user)
+        try:
+            skill = Added_skills(seller = seller, skill_name = skill_name)
+            skill.save()
+            messages.success(request, "Skill Submited")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+        except:
+            messages.error(request, "Skill Submission Failed")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+    return redirect("page_404")
+
+
+def save_skills_service(request):
+    if request.method == "POST":
+        service = request.POST.get("service_id")
+        seller = request.POST.get("user_id")
+        skill_name = request.POST.get("skill_name")
+        service = Service.objects.get(id = service)
+        try:
+            skill = Added_skills_service(service = service, seller = seller, skill_name = skill_name)
+            skill.save()
+            messages.success(request, "Skill Submited")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+        except:
+            messages.error(request, "Skill Submission Failed")
+            return redirect(request.META.get("HTTP_REFERER"))
+
+    return redirect("page_404")
+            
+
+def add_skills_service(request):
+
+    user = request.user.id
+    userr = request.user
+    seller = Seller.objects.get(admin = user)
+    requestsssss = Requests.objects.all().count()
+    reviews = Reviews.objects.filter(seller_id = seller.id).count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
+    # skill_count = Added_skills.objects.filter(seller = seller).count()
+
+
+    context = {
+        "requestsssss":requestsssss, 
+        "seller":seller, 
+        "reviews":reviews, 
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+        # "skill_count":skill_count,
+    }
+    return render(request, "user_templates/skill_tags_service.html", context)
+
+
+def add_skills(request):
+
+    user = request.user.id
+    userr = request.user
+    seller = Seller.objects.get(admin = user)
+    requestsssss = Requests.objects.all().count()
+    reviews = Reviews.objects.filter(seller_id = seller.id).count()
+    reply_notifications = Reply_notifications.objects.filter(user = user)
+    notifications = Reply_notifications.objects.filter(user = user).count()
+    order_notifications = Order_notifications.objects.filter(user = userr.seller.id)
+    notifications2 = Order_notifications.objects.filter(user = userr.seller.id).count()
+    review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
+    notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
+    notificationsss = notifications + notifications2 + notifications3
+    skill_count = Added_skills.objects.filter(seller = seller).count()
+
+
+    context = {
+        "requestsssss":requestsssss, 
+        "seller":seller, 
+        "reviews":reviews, 
+        "reply_notifications":reply_notifications,
+        "notifications":notifications,
+        "order_notifications":order_notifications,
+        "notifications2":notifications2,
+        "notificationsss":notificationsss,
+        "review_notifications":review_notifications,
+        "notifications3":notifications3,
+        "skill_count":skill_count,
+    }
+    return render(request, "user_templates/skill_tags.html", context)
 
 
 def blog(request):
