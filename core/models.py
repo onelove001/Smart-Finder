@@ -220,14 +220,13 @@ class Added_skills(models.Model):
 
 
 
-# class Added_skills_service(models.Model):
-#     id = models.AutoField(primary_key = True)
-#     service = models.ForeignKey(Service, on_delete = models.CASCADE)
-#     seller = models.ForeignKey(Seller, on_delete = models.CASCADE)
-#     skill_name = models.CharField(max_length=50)
+class Added_skills_service(models.Model):
+    id = models.AutoField(primary_key = True)
+    service = models.ForeignKey(Service, on_delete = models.CASCADE)
+    skill_name = models.CharField(max_length=50)
 
-#     def __str__(self):
-#         return f"{self.service.title} {self.skill_name}"
+    def __str__(self):
+        return f"{self.service.title} - {self.skill_name}"
 
 
 

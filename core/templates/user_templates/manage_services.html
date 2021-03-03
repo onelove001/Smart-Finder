@@ -89,6 +89,7 @@
                                 <!-- Buttons -->
                                 <div class="buttons-to-right always-visible">
                                     <a href="{% url 'service_detail' service.id %}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i>View Service</a>
+                                    <a href="{% url 'add_skills_service' service.id %}" class="button ripple-effect">Add Tags</a>
                                     <a href="{% url 'edit_service' service.id %}" class="button gray ripple-effect ico" title="Update" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
                                     <a href="{% url 'delete_service' service.id %}" class="button gray ripple-effect ico" title="Delete" data-tippy-placement="top"><i class="icon-feather-trash-2"></i></a>
                                 </div>

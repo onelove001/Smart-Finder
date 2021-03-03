@@ -89,6 +89,8 @@ def smart_home(request):
 def freelancers_page(request, category_idd):
     categories = Category.objects.all()
     services = Service.objects.filter(category = category_idd)
+    for service in services:
+        skills = Added_skills_service.objects.filter(service = service)    
     serv = Service.objects.filter(category = category_idd).count()
     freelancers = Seller.objects.filter(category = category_idd).count()
     requestsssss = Requests.objects.all().count()
@@ -122,6 +124,7 @@ def freelancers_page(request, category_idd):
         "notificationsss":notificationsss,
         "review_notifications":review_notifications,
         "notifications3":notifications3,
+        "skills":skills,
     }
 
     else: 
@@ -134,7 +137,8 @@ def freelancers_page(request, category_idd):
             "serv":serv,
             "freelancers":freelancers,
             "pages":pages,
-            "requestsssss":requestsssss
+            "requestsssss":requestsssss,
+            "skills":skills,
         }
     return render(request, 'user_templates/freelancers.html', context)
 
@@ -1817,26 +1821,25 @@ def save_skills(request):
     return redirect("page_404")
 
 
-def save_skills_service(request):
+def add_skills_service_save(request):
     if request.method == "POST":
         service = request.POST.get("service_id")
-        seller = request.POST.get("user_id")
         skill_name = request.POST.get("skill_name")
         service = Service.objects.get(id = service)
         try:
-            skill = Added_skills_service(service = service, seller = seller, skill_name = skill_name)
+            skill = Added_skills_service(service = service, skill_name = skill_name)
             skill.save()
-            messages.success(request, "Skill Submited")
+            messages.success(request, "Tag Submited")
             return redirect(request.META.get("HTTP_REFERER"))
 
         except:
-            messages.error(request, "Skill Submission Failed")
+            messages.error(request, "Tag Submission Failed")
             return redirect(request.META.get("HTTP_REFERER"))
 
     return redirect("page_404")
             
 
-def add_skills_service(request):
+def add_skills_service(request, service_id):
 
     user = request.user.id
     userr = request.user
@@ -1850,7 +1853,8 @@ def add_skills_service(request):
     review_notifications = Review_notifications.objects.filter(user = userr.seller.id)
     notifications3 = Review_notifications.objects.filter(user = userr.seller.id).count()
     notificationsss = notifications + notifications2 + notifications3
-    # skill_count = Added_skills.objects.filter(seller = seller).count()
+    service = Service.objects.get(id = service_id)
+    skill_count = Added_skills_service.objects.filter(service = service).count()
 
 
     context = {
@@ -1864,7 +1868,8 @@ def add_skills_service(request):
         "notificationsss":notificationsss,
         "review_notifications":review_notifications,
         "notifications3":notifications3,
-        # "skill_count":skill_count,
+        "service":service,
+        "skill_count":skill_count,
     }
     return render(request, "user_templates/skill_tags_service.html", context)
 

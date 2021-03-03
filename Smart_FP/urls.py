@@ -121,8 +121,9 @@ urlpatterns = [
     path('blog', blog, name = 'blog'),
     path('save_skills', save_skills, name = 'save_skills'),
     path('add_skills', add_skills, name = 'add_skills'),
-    path('add_skills_service', add_skills_service, name = 'add_skills_service'),
-    path('save_skills_service', save_skills_service, name = 'save_skills_service'),
+    path('add_skills_service/<str:service_id>', add_skills_service, name = 'add_skills_service'),
+    path('add_skills_service_save', add_skills_service_save, name = 'add_skills_service_save'),
+    
     
 
 

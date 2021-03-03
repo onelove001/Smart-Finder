@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block app_title %}
-    #Skills
+    #Tags
 {% endblock app_title %}
 
 
@@ -30,8 +30,8 @@
                         <ul>
                             <li><a href="{% url 'smart_home' %}">Home</a></li>
                             <li><a href="{% url 'user_profile' %}">Dashboard</a></li>
-                            <li><a href = "{% url 'update_profile_seller' %}">Settings</a></li>
-                            <li>Skills</a></li>
+                            <li><a href = "{% url 'manage_services' %}">Manage Service</a></li>
+                            <li>Tags</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -49,7 +49,7 @@
                     </div>
                     <br><br><br><br>
                 {% else %}
-                <form class="row" method = "POST" action = "{% url 'save_skills' %}"> 
+                <form class="row" method = "POST" action = "{% url 'add_skills_service_save' %}"> 
                 {% csrf_token %}
 
                     <!-- Dashboard Box -->
@@ -58,7 +58,7 @@
 
                             <!-- Headline -->
                             <div class="headline">
-                                <h3><i class="icon-material-outline-account-circle"></i>Add More Skill</h3>
+                                <h3><i class="icon-material-outline-account-circle"></i>Add More Tags</h3>
                             </div>
 
                             <div class="content with-padding padding-bottom-0">
@@ -67,10 +67,11 @@
                                         <div class="row">
                                             <div class="col-xl-8">
                                                 <div class="submit-field">
-                                                    <h5>Add Skill Tag</h5>
-                                                    <small class = 'text-muted'> You can add up to four Skills</small>
+                                                    <h5>Add Tags</h5>
+                                                    <small class = 'text-muted'> You can add up to four Tags</small>
                                                     <input type="text" class="with-border" name = "skill_name" required>
-                                                    <input type = "hidden" name = "user_id" value = "{{seller.admin.id}}">
+                                                    <input type = "hidden" name = "service_id" value = "{{service.id}}">
+                                                    <input type = "hidden" name = "user_id" value = "{{service.seller.admin.id}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +102,7 @@
                     
                     <!-- Button -->
                     <div class="col-xl-12">
-                        <button type = "submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"> </i>Add Skill</button>
+                        <button type = "submit" class="button ripple-effect big margin-top-30"> <i class="icon-feather-plus"> </i> Add Skill</button>
                     </div>
 
                 </form>

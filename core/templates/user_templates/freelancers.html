@@ -117,12 +117,11 @@
 									<li><i class="icon-material-outline-access-time"></i> {{service.created|timesince}} ago</li>
 								</ul>
 								<p class="task-listing-text">{{service.description}}.</p>
-								<!-- <div class="task-tags">
-									<span>iOS</span>
-									<span>Android</span>
-									<span>mobile apps</span>
-									<span>design</span>
-								</div> -->
+								<div class="task-tags">
+									{% for skill in skills %}
+										<span>{{skill.skill_name}}</span>
+									{% endfor %}
+								</div>
 							</div>
 
 						</div>
