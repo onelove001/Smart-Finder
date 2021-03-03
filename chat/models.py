@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
-from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 from core.models import customUser
@@ -56,9 +55,7 @@ class Thread(models.Model):
     
     objects      = ThreadManager()
 
-    def __str__(self):
-        return f"{self.first.username} to {self.second.username}"
-
+   
     @property
     def room_group_name(self):
         return f'chat_{self.id}'
