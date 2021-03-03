@@ -15,6 +15,7 @@ from django.conf import settings
 
 
 
+
 def calcEpochSec(dt):
     epochZero = datetime.datetime(1970,1,1,tzinfo = dt.tzinfo)
     return (dt - epochZero).total_seconds()
