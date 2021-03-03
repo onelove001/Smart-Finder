@@ -56,34 +56,34 @@ class Thread(models.Model):
     
     objects      = ThreadManager()
 
+    def __str__(self):
+        return f"{self.first.username} to {self.second.username}"
 
     @property
     def room_group_name(self):
         return f'chat_{self.id}'
 
     def get_last_message(self):
-        pass
-        # messages = []
-        # for chat in self.chatmessage_set.all():
-        #     messages.append(chat.message)
-        # return str(messages[-1:]).strip("['']")
+        messages = []
+        for chat in self.chatmessage_set.all():
+            messages.append(chat.message)
+        return str(messages[-1:]).strip("['']")
 
     def get_time_message(self):
-        pass
-        # time = []
-        # for chat in self.chatmessage_set.all():
-        #     t = (calcEpochSec(datetime.datetime.now()) - calcEpochSec(chat.timestamp2))
-        #     if t < 3600:
-        #         a = int(t/60)
-        #         z = (str(a) + " minutes ago").strip("-")
-        #         time.append(z)
+        time = []
+        for chat in self.chatmessage_set.all():
+            t = (calcEpochSec(datetime.datetime.now()) - calcEpochSec(chat.timestamp2))
+            if t < 3600:
+                a = int(t/60)
+                z = (str(a) + " minutes ago").strip("-")
+                time.append(z)
 
-        #     elif t > 3600:
-        #         a = int(t/60/60)
-        #         z = (str(a) + " hours ago").strip("-")
-        #         time.append(z)
+            elif t > 3600:
+                a = int(t/60/60)
+                z = (str(a) + " hours ago").strip("-")
+                time.append(z)
 
-        # return str(time[-1:]).strip("['']")
+        return str(time[-1:]).strip("['']")
 
 
     def broadcast(self, msg=None):
