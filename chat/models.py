@@ -48,7 +48,7 @@ class ThreadManager(models.Manager):
 
 class Thread(models.Model):
     first        = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_thread_first')
-    second       = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_thread_second')
+    second       = models.ForeignKey(customUser, on_delete=models.CASCADE, related_name='chat_thread_second')
     updated      = models.DateTimeField(auto_now=True)
     timestamp    = models.DateTimeField(auto_now_add=True)
     timestamp2   = models.DateTimeField(default=timezone.now)
