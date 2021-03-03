@@ -206,7 +206,11 @@ class Service(models.Model):
 
 
     def get_number_orders(self):
-        return self.order_set.all().filter(status = "ordered").count()
+        return self.order_set.all().filter(status = "paid").count()
+
+
+    def get_service_added(self):
+        return self.added_skills_service_set.all()
 
 
 

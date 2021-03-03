@@ -138,12 +138,11 @@
 								<li>Job Success <strong>95%</strong></li>
 							</ul>
 						</div>
-						<a href="{% url 'seller_profile' seller.id %}" class="button button-sliding-icon ripple-effect">View Profile <i class="icon-material-outline-arrow-right-alt"></i></a>
+						<a href="{% url 'seller_profile' seller.id %}" class="button button-sliding-icon ripple-effect">View Profile<i class="icon-material-outline-arrow-right-alt"></i></a>
 					</div>
         		</div>
         		{% endfor %}
 				<!-- Freelancer / End -->
-	
 			</div>
 			<!-- Freelancers Container / End -->
 
@@ -151,46 +150,44 @@
 			<!-- Pagination -->
 			<div class="clearfix"></div>
 			<div class="row">
-        <div class="col-md-12">
-          <div class="pagination-container margin-top-60 margin-bottom-60">
-            <nav class="pagination">
-              <ul>
-              {% if pages.has_previous %}
-              <li class="pagination-arrow">
-                <a href="?page={{pages.previous_page_number}}" class="ripple-effect">
-                  <i class="icon-material-outline-keyboard-arrow-left"></i>
-                </a>
-              </li>
-              {% endif %}
-  
-              {% for page in pages.paginator.page_range %}
-                {% if pages.number == page %}
-                <li><a href="?page={{page}}" class="current-page ripple-effect"> {{ page }}</a></li>
-  
-                {% else %}
-                <li><a href="?page={{page}}" class="ripple-effect">{{page}}</a></li>
-                
-                {% endif %}
-              {% endfor %}
-              
-              {% if pages.has_next %}
-              <li class="pagination-arrow">
-                <a href="?page={{pages.next_page_number}}" class="ripple-effect">
-                  <i class="icon-material-outline-keyboard-arrow-right"></i>
-                </a>
-              </li>
-              {% endif %}
-              </ul>
-            </nav>
-          </div>
-        </div>
-      	</div>
+				<div class="col-md-12">
+					<div class="pagination-container margin-top-60 margin-bottom-60">
+						<nav class="pagination">
+							<ul>
+							{% if pages.has_previous %}
+							<li class="pagination-arrow">
+								<a href="?page={{pages.previous_page_number}}" class="ripple-effect">
+								<i class="icon-material-outline-keyboard-arrow-left"></i>
+								</a>
+							</li>
+							{% endif %}
+				
+							{% for page in pages.paginator.page_range %}
+								{% if pages.number == page %}
+								<li><a href="?page={{page}}" class="current-page ripple-effect"> {{ page }}</a></li>
+				
+								{% else %}
+								<li><a href="?page={{page}}" class="ripple-effect">{{page}}</a></li>
+								
+								{% endif %}
+							{% endfor %}
+							
+							{% if pages.has_next %}
+							<li class="pagination-arrow">
+								<a href="?page={{pages.next_page_number}}" class="ripple-effect">
+								<i class="icon-material-outline-keyboard-arrow-right"></i>
+								</a>
+							</li>
+							{% endif %}
+							</ul>
+						</nav>
+					</div>
+				</div>
+      		</div>
 			<!-- Pagination / End -->
-
 		</div>
 	</div>
 </div>
-
 
 
 {% endblock content %}

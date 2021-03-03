@@ -201,6 +201,17 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- Widget -->
+				<div class="sidebar-widget">
+					<h3>Added - Tags</h3>
+					<div class="task-tags">
+						{% for skill in skills %}
+							<span> {{skill.skill_name}} </span>
+						{% endfor %}
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>

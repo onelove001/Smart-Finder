@@ -90,8 +90,6 @@ def smart_home(request):
 def freelancers_page(request, category_idd):
     categories = Category.objects.all()
     services = Service.objects.filter(category = category_idd)
-    for service in services:
-        skills = Added_skills_service.objects.filter(service = service)    
     serv = Service.objects.filter(category = category_idd).count()
     freelancers = Seller.objects.filter(category = category_idd).count()
     requestsssss = Requests.objects.all().count()
@@ -125,7 +123,7 @@ def freelancers_page(request, category_idd):
         "notificationsss":notificationsss,
         "review_notifications":review_notifications,
         "notifications3":notifications3,
-        "skills":skills,
+
     }
 
     else: 
@@ -139,7 +137,6 @@ def freelancers_page(request, category_idd):
             "freelancers":freelancers,
             "pages":pages,
             "requestsssss":requestsssss,
-            "skills":skills,
         }
     return render(request, 'user_templates/freelancers.html', context)
 
@@ -251,7 +248,7 @@ def become_seller_save(request):
             seller.save()
             buyer = Buyer.objects.get(admin = user)
             buyer.delete()
-            return redirect("user_profile")
+            return redirect("add_skills")
 
         except:
             messages.error(request, "Failed To Create")
@@ -534,7 +531,7 @@ def create_service_save(request):
             service = Service(owner=seller, days = days_obj, description=description, charge=charge, title=title,  plan = plan_obj, category=cat_obj, sub_category=sub_cat_obj, image1=image1_url, image2=image2_url, image3=image3_url)
             service.save()
             messages.success(request, "Service Created Successfully")
-            return redirect(request.META.get("HTTP_REFERER"))
+            return redirect("add_skills_service/"+str(service.id))
 
         except:
             messages.error(request, "Failed To Create Service")
@@ -548,6 +545,7 @@ def service_detail(request, service_id):
     user = request.user.id
     service = Service.objects.get(id = service_id)
     ratings = star_rating.objects.all()
+    skills = Added_skills_service.objects.filter(service = service_id)
     reviews = Reviews.objects.filter(seller_id = service.owner.id).count()
     requestsssss = Requests.objects.all().count()
     reply_notifications = Reply_notifications.objects.filter(user = user)
@@ -573,6 +571,7 @@ def service_detail(request, service_id):
             "notificationsss":notificationsss,
             "review_notifications":review_notifications,
             "notifications3":notifications3,
+            "skills":skills,
         }
     else:
         context = {
@@ -582,6 +581,7 @@ def service_detail(request, service_id):
         "requestsssss":requestsssss,
         "reply_notifications":reply_notifications,
         "notifications":notifications,
+        "skills":skills,
     }
 
     return render(request, "user_templates/service_detail.html", context)
@@ -1813,11 +1813,11 @@ def save_skills(request):
             skill = Added_skills(seller = seller, skill_name = skill_name)
             skill.save()
             messages.success(request, "Skill Submited")
-            return redirect(request.META.get("HTTP_REFERER"))
+            return redirect("add_skills")
 
         except:
             messages.error(request, "Skill Submission Failed")
-            return redirect(request.META.get("HTTP_REFERER"))
+            return redirect("add_skills")
 
     return redirect("page_404")
 

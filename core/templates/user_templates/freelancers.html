@@ -118,7 +118,7 @@
 								</ul>
 								<p class="task-listing-text">{{service.description}}.</p>
 								<div class="task-tags">
-									{% for skill in skills %}
+									{% for skill in service.get_service_added %}
 										<span>{{skill.skill_name}}</span>
 									{% endfor %}
 								</div>
@@ -189,7 +189,6 @@
 <!-- page content ends -->
 
 {% endblock content %}
-
 
 {% block custom_js %}
 
