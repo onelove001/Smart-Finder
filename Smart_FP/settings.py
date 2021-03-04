@@ -13,7 +13,7 @@ SECRET_KEY = '_9t4h)m56nsf58*rrp(*p((2_dmv*h@j1fo$y$cs2zv!ty%n2c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://smartfinder234.herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["smartfinder234.herokuapp.com", "127.0.0.1"]
 
 AUTH_USER_MODEL = "core.customUser"
 # Application definition
