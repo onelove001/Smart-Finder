@@ -891,11 +891,6 @@ $('#snackbar-user-status label').click(function() {
 		var password = $("#id_password").val();  
 		if(username == "" || email == "" || password == ""){
 			alert(" Smart says please ensure you fill in all Fields ");
-		//   Swal.fire({
-		// 	title: 'Error!',
-		// 	text: 'Please Ensure You Fill In All Fields',
-		// 	footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
-		//   })
 		 }
 		else {
   
@@ -910,21 +905,11 @@ $('#snackbar-user-status label').click(function() {
 			$("#myform")[0].reset(); 
 		  } else {
 			  alert(" Smart could not created your account ");
-			// Swal.fire({
-			//   title: 'Error!',
-			//   text: 'Account Creation Failed',
-			//   footer: "<h3> <a href = '{% url 'landing_page' %}'> Why do i have this issue </a></h3>"
-			// });
 		  }
 			
 		})
 		.fail(function(){
 			alert(" Smart says please ensure you fill in all Fields ");
-		//   Swal.fire({
-		// 	title: 'Error!',
-		// 	text: 'Please Ensure You Fill All Fields',
-		// 	footer: "<h3><a href = '{% url 'landing_page' %}'> Why do i have this issue? </a></h3>"
-		//   });
 		})
 	   }
 	  });
@@ -940,29 +925,6 @@ $('#snackbar-user-status label').click(function() {
 		alert(" Please Fill All Fields! ");
 
 	  } 
-
-	//   $.ajax({
-	// 	  url:"{% url 'login_user' %}",
-	// 	  type:"POST",
-	// 	  data:{email:email, password:password}
-	//   })
-	//   .done(function(response){
-	// 	  if(response == "False"){
-	// 	  alert(" Incorrect Email or Password ");
-
-	//    } else {
-	// 	Swal.fire({
-	// 	  title: "<a href = {% url 'smart_home' %}> Press Enter To Proceed! <br> </a>",
-	// 	  text: 'You are logged in',
-	// 	//   footer:"<a href = {% url 'smart_home' %}> Enter Home </a>"
-	// 	});
-	//    }
-	//   })
-	//   .fail(function(){
-	// 	alert(" Incorrect Email or Password ");
-	//   })
-	//   }
-	//   
 	});
 
 
